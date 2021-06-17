@@ -34,6 +34,12 @@ android {
     dataBinding {
         enabled = true
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFileName = "five_${variant.name}-${variant.versionCode}-${variant.versionName}.apk"
+        }
+    }
 }
 
 dependencies {
