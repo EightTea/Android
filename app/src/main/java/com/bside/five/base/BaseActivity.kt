@@ -1,7 +1,6 @@
 package com.bside.five.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -17,8 +16,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     abstract val viewModelClass: Class<VM>
     lateinit var disposables: AutoClearedDisposable
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResourceId)
         viewModel = ViewModelProvider(this).get(viewModelClass)
         binding.also {
@@ -27,5 +26,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
         disposables = AutoClearedDisposable(this, false, CompositeDisposable())
         lifecycle.addObserver(disposables)
+    }
+
+    override fun onDestroy() {
+        disposables.detachSelf()
+        super.onDestroy()
     }
 }
