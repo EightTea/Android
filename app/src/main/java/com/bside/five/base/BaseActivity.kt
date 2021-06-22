@@ -29,9 +29,4 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         disposables = AutoClearedDisposable(this, false, CompositeDisposable())
         lifecycle.addObserver(disposables)
     }
-
-    override fun onDestroy() {
-        disposables.detachSelf()
-        super.onDestroy()
-    }
 }
