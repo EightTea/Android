@@ -11,152 +11,146 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/qrBtn"
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/mainToolbar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="26dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="QR 코드 찍기"
-            android:textStyle="bold"
-            android:textColor="#6F6F6F"
-            android:background="@drawable/border_gray_rect"
-            android:onClick="@{(v) -> viewModel.onClickListener(v)}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            layout="@layout/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/contentTop"
+            android:id="@+id/mainTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
-            android:text="소중한 의견이 모이는 곳"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="무엇이든 물어보세요!"
             android:textColor="#222222"
-            android:textSize="22dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qrBtn" />
-
-        <TextView
-            android:id="@+id/contentBottom"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
-            android:text="무엇이든 물어보세요"
-            android:textColor="#222222"
-            android:textSize="22dp"
+            android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contentTop" />
+            app:layout_constraintTop_toBottomOf="@+id/mainToolbar" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/newSurveyBtn"
+            android:id="@+id/mainNoticeBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="55dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/border_gray_rect"
             android:onClick="@{(v) -> viewModel.onClickListener(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contentBottom">
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle">
 
             <TextView
                 android:id="@+id/newSurveyTopText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
-                android:layout_marginBottom="2dp"
-                android:text="궁금한 것을 물어보세요"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="앱 서비스에 관련된 \n공지사항 및 소개페이지"
+                android:textColor="@color/content_text"
                 android:textSize="16dp"
-                android:textColor="#6F6F6F"
-                app:layout_constraintBottom_toTopOf="@+id/newSurveyBottomText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/newSurveyBottomText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="52dp"
-                android:text="질문 만들기"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#6F6F6F"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/newSurveyTopText" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:src="@drawable/ic_chevron_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/SurveyResultBtn"
+        <TextView
+            android:id="@+id/mainSurveyTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="55dp"
-            android:layout_marginEnd="28dp"
-            android:background="@drawable/border_gray_rect"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="내 질문 리스트"
+            android:textColor="@color/content_text"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainNoticeBtn" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            app:setSurveyList="@{viewModel.items}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainSurveyTitle"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainAddSurveyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/border_progress_rect"
             android:onClick="@{(v) -> viewModel.onClickListener(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newSurveyBtn"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/SurveyResultTopText"
+            <ImageView
+                android:id="@+id/mainAddText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
-                android:layout_marginBottom="2dp"
-                android:text="어떤 답변이 있는지 확인해보세요"
-                android:textSize="16dp"
-                android:textColor="#6F6F6F"
-                app:layout_constraintBottom_toTopOf="@+id/SurveyResultBottomText"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="@+id/textView" />
 
             <TextView
-                android:id="@+id/SurveyResultBottomText"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="52dp"
-                android:text="내 질문 답변보기"
-                android:textSize="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="17dp"
+                android:text="질문 만들기"
+                android:textColor="@color/white"
+                android:textSize="17dp"
                 android:textStyle="bold"
-                android:textColor="#6F6F6F"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/SurveyResultTopText" />
+                app:layout_constraintStart_toEndOf="@+id/mainAddText"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
