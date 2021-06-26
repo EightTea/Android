@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Five</string>
+
+    <!--menu-->
+    <string name="menu_qr_code">QR Code</string>
+    <!--menu-->
+
+    <string name="answer_count">현재 답변 %d명</string>
+    <string name="survey_state_before">수정중</string>
+    <string name="survey_state_ing">진행중</string>
+    <string name="survey_state_end">완료됨</string>
 </resources>
