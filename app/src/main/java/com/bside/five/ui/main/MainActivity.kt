@@ -24,7 +24,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         initToolbar()
         initRecyclerView()
-        viewModel.requestMainApi()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

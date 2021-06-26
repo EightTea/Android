@@ -18,6 +18,7 @@ class MainViewModel : BaseViewModel() {
         when (view.id) {
             R.id.mainNoticeBtn -> {
                 Log.d(TAG, "onClickListener - mainNoticeBtn")
+                requestMainApi()
             }
             R.id.mainAddSurveyBtn -> {
                 Log.d(TAG, "onClickListener - mainAddSurveyBtn")
