@@ -1,11 +1,14 @@
 package com.bside.five.ui.main
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableArrayList
 import com.bside.five.R
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.Survey
+import com.bside.five.ui.survey.NewSurveyActivity
 
 class MainViewModel : BaseViewModel() {
 
@@ -22,6 +25,10 @@ class MainViewModel : BaseViewModel() {
             }
             R.id.mainAddSurveyBtn -> {
                 Log.d(TAG, "onClickListener - mainAddSurveyBtn")
+                val activity = (view.context as AppCompatActivity)
+
+                val intent = Intent(activity, NewSurveyActivity::class.java)
+                activity.startActivity(intent)
             }
 
         }
