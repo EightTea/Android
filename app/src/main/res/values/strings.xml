@@ -4,6 +4,7 @@
     <!--menu-->
     <string name="menu_qr_code">QR Code</string>
     <string name="menu_preview">Preview</string>
+    <string name="menu_delete">Delete</string>
     <!--menu-->
 
     <string name="answer_count">현재 답변 %d명</string>
@@ -13,4 +14,5 @@
 
     <string name="add_question">다른 질문 작성하기</string>
     <string name="finish_question">작성완료</string>
+    <string name="question_no">Q%d.</string>
 </resources>

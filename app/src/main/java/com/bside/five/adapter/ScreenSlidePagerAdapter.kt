@@ -16,6 +16,10 @@ class ScreenSlidePagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
 
     override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance(fragmentInfo[position])
 
+    fun getItem(position: Int): SurveyFragmentInfo {
+        return fragmentInfo[position]
+    }
+
     fun replaceFragment(list: ArrayList<SurveyFragmentInfo>) {
         fragmentInfo.apply {
             clear()

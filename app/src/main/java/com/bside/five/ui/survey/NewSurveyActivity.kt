@@ -32,8 +32,13 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         viewModel.pagePositionLive.observe(this, Observer<Int?> { position ->
             position?.let {
                 binding.newSurveyPager.currentItem = it
+                invalidateOptionsMenu()
             }
         })
+
+        viewModel.contentSizeLive.observe(this, Observer<Int?> { invalidateOptionsMenu() })
+
+        viewModel.createParentId()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -47,12 +52,24 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                 Toast.makeText(this, "action_preview", Toast.LENGTH_LONG).show()
                 return true
             }
+            R.id.action_delete -> {
+                viewModel.deleteQuestionInfo()
+                return true
+            }
         }
         return false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.question, menu)
+        menu?.findItem(R.id.action_preview)?.let {
+            it.isEnabled = !viewModel.content.get().isNullOrEmpty()
+        }
+        menu?.findItem(R.id.action_delete)?.let {
+            it.isEnabled = viewModel.adapter.itemCount > 1
+        }
+
         return true
     }
 
