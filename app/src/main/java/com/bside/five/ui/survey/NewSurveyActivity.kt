@@ -1,16 +1,18 @@
 package com.bside.five.ui.survey
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
-import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseActivity
+import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityNewSurveyBinding
 
 class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewModel>() {
@@ -71,6 +73,31 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         }
 
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.REQUEST_CODE_GALLERY) {
+                data?.getParcelableExtra<Uri>("key")?.let {
+                    viewModel.imgPath.set(it)
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                // Permission granted
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show()
+            } else {
+                // Permission denied or canceled
+                Toast.makeText(this, "Permission denied or canceled", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun initToolbar() {

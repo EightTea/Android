@@ -1,9 +1,14 @@
 package com.bside.five.ui.survey
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
@@ -11,6 +16,7 @@ import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.QuestionInfo
 import com.bside.five.model.SurveyFragmentInfo
+import com.bside.five.util.ActivityUtil
 
 class NewSurveyViewModel : BaseViewModel() {
 
@@ -19,7 +25,7 @@ class NewSurveyViewModel : BaseViewModel() {
     var contentSizeLive: MutableLiveData<Int> = MutableLiveData()
     var questionNo = 1
     var content = ObservableField<String>("")
-    var imgPath = ""
+    var imgPath = ObservableField<Uri>(Uri.EMPTY)
     private val questionInfoList = ArrayList<QuestionInfo>()
     lateinit var adapter: ScreenSlidePagerAdapter
     var parentId = -1
@@ -44,9 +50,18 @@ class NewSurveyViewModel : BaseViewModel() {
 
                 // QR 구현 및 완료 화면 출력
             }
+            R.id.questionImageContainer -> {
+                val activity = view.context as AppCompatActivity
+
+                if (checkStoragePermission(activity)) {
+                    ActivityUtil.startGalleryActivity(activity)
+                }
+            }
+            R.id.questionImgRemoveBtn -> {
+                imgPath.set(Uri.EMPTY)
+            }
         }
     }
-
 
     fun init(activity: AppCompatActivity) {
         adapter = ScreenSlidePagerAdapter(activity.supportFragmentManager, activity.lifecycle)
@@ -74,10 +89,10 @@ class NewSurveyViewModel : BaseViewModel() {
     }
 
     private fun saveQuestionInfo() {
-        questionInfoList.add(QuestionInfo(questionNo, content.get() ?: "", imgPath))
+        questionInfoList.add(QuestionInfo(questionNo, content.get() ?: "", imgPath.get()))
 
         content.set("")
-        imgPath = ""
+        imgPath.set(Uri.EMPTY)
         questionNo += 1
     }
 
@@ -85,7 +100,7 @@ class NewSurveyViewModel : BaseViewModel() {
         val position: Int = questionInfoList.lastIndex
         questionInfoList.removeAt(position).let {
             content.set(it.content)
-            imgPath = it.ImageUri
+            imgPath.set(it.ImageUri)
             questionNo = it.no
         }
 
@@ -95,5 +110,17 @@ class NewSurveyViewModel : BaseViewModel() {
     private fun deletePage(position: Int) {
         val item = adapter.getItem(position + 1)
         adapter.removeFragment(item)
+    }
+
+
+    private fun checkStoragePermission(activity: AppCompatActivity): Boolean {
+        val permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+            return false
+        }
+
+        return true
     }
 }

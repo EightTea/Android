@@ -1,3 +1,5 @@
 package com.bside.five.model
 
-data class QuestionInfo(var no: Int, var content: String, var ImageUri: String)
+import android.net.Uri
+
+data class QuestionInfo(var no: Int, var content: String, var ImageUri: Uri?)
