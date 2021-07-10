@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -22,6 +23,8 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
     override val viewModelClass: Class<NewSurveyViewModel>
         get() = NewSurveyViewModel::class.java
 
+    private var textCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,14 +36,18 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
 
         viewModel.pagePositionLive.observe(this, Observer<Int?> { position ->
             position?.let {
+                textCount = viewModel.content.length
                 binding.newSurveyPager.currentItem = it
                 invalidateOptionsMenu()
             }
         })
 
-        viewModel.contentSizeLive.observe(this, Observer<Int?> { invalidateOptionsMenu() })
+        viewModel.contentSizeLive.observe(this, Observer<Int?> {
+            textCount = it ?: 0
+            invalidateOptionsMenu()
+        })
 
-        viewModel.createParentId()
+        viewModel.createPage()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -52,10 +59,15 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
             }
             R.id.action_preview -> {
                 Toast.makeText(this, "action_preview", Toast.LENGTH_LONG).show()
+                for (d in viewModel.questionInfoList) {
+                    Log.d("tag", "kch action_preview no ${d.no}")
+                    Log.d("tag", "kch action_preview content ${d.content}")
+                    Log.d("tag", "kch action_preview imageUri ${d.imageUri}")
+                }
                 return true
             }
             R.id.action_delete -> {
-                viewModel.deleteQuestionInfo()
+                viewModel.deletePage()
                 return true
             }
         }
@@ -66,7 +78,9 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.question, menu)
         menu?.findItem(R.id.action_preview)?.let {
-            it.isEnabled = !viewModel.content.get().isNullOrEmpty()
+            it.isEnabled = textCount != 0
+            binding.newSurveyAddQuestionBtn.isEnabled = textCount != 0
+            binding.newSurveyFinishQuestionBtn.isEnabled = textCount != 0
         }
         menu?.findItem(R.id.action_delete)?.let {
             it.isEnabled = viewModel.adapter.itemCount > 1
@@ -75,17 +89,17 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Constants.REQUEST_CODE_GALLERY) {
-                data?.getParcelableExtra<Uri>("key")?.let {
-                    viewModel.imgPath.set(it)
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == Constants.REQUEST_CODE_GALLERY) {
+//                data?.getParcelableExtra<Uri>("key")?.let {
+//                    viewModel.imgPath.set(it)
+//                }
+//            }
+//        } else {
+//            super.onActivityResult(requestCode, resultCode, data)
+//        }
+//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

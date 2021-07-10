@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
 import com.bside.five.adapter.ScreenSlidePagerAdapter
@@ -23,95 +24,90 @@ class NewSurveyViewModel : BaseViewModel() {
     private val tag = NewSurveyViewModel::class.java.simpleName
     var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
     var contentSizeLive: MutableLiveData<Int> = MutableLiveData()
+    var clearImageLive: MutableLiveData<Int> = MutableLiveData()
     var questionNo = 1
-    var content = ObservableField<String>("")
-    var imgPath = ObservableField<Uri>(Uri.EMPTY)
-    private val questionInfoList = ArrayList<QuestionInfo>()
+    var content = ""
+    var imgPath: Uri = Uri.EMPTY
+    val questionInfoList = ArrayList<QuestionInfo>()
     lateinit var adapter: ScreenSlidePagerAdapter
-    var parentId = -1
 
     override fun onClickListener(view: View) {
         when (view.id) {
             R.id.newSurveyAddQuestionBtn -> {
-                Toast.makeText(view.context, "newSurveyAddQuestionBtn", Toast.LENGTH_LONG).show()
-                saveQuestionInfo()
-                createChildId()
+                updateQuestionInfo()
+                createPage()
             }
             R.id.newSurveyFinishQuestionBtn -> {
                 Toast.makeText(view.context, "newSurveyFinishQuestionBtn", Toast.LENGTH_LONG).show()
 
-                saveQuestionInfo()
+                updateQuestionInfo()
 
                 for (item in questionInfoList) {
                     Log.d(tag, "kch item.no : ${item.no}")
                     Log.d(tag, "kch item.content : ${item.content}")
-                    Log.d(tag, "kch item.ImageUri : ${item.ImageUri}")
+                    Log.d(tag, "kch item.ImageUri : ${item.imageUri}")
                 }
 
                 // QR 구현 및 완료 화면 출력
             }
             R.id.questionImageContainer -> {
                 val activity = view.context as AppCompatActivity
+                val fragment = activity.supportFragmentManager.fragments.last()
 
                 if (checkStoragePermission(activity)) {
-                    ActivityUtil.startGalleryActivity(activity)
+                    ActivityUtil.startGalleryActivity(activity, fragment)
                 }
             }
             R.id.questionImgRemoveBtn -> {
-                imgPath.set(Uri.EMPTY)
+                imgPath = Uri.EMPTY
+                clearImageLive.postValue(questionNo - 1)
             }
         }
     }
 
     fun init(activity: AppCompatActivity) {
         adapter = ScreenSlidePagerAdapter(activity.supportFragmentManager, activity.lifecycle)
-//        createParentId()
     }
 
-    fun createParentId() {
-        val getParentId = 1
-        parentId = getParentId
-        createChildId()
-    }
+    fun createPage() {
+        addQuestionInfo()
 
-    private fun createChildId() {
-//        if (parentId == -1) {
-//            Log.d(tag, "ParentId create fail")
-//            return
-//        }
-
-        // FIXME: 원래 자식 DB 아이디를 넣어서 표기해야하나 DB는 마지막에 구현하기 때문에 질문번호로 대체함
-        val getChildId = questionNo
-//        val getChildId = 1
-        adapter.addFragment(SurveyFragmentInfo(parentId, getChildId))
-
+        adapter.addFragment(SurveyFragmentInfo(1, questionNo))
         pagePositionLive.postValue(adapter.itemCount - 1)
-    }
-
-    private fun saveQuestionInfo() {
-        questionInfoList.add(QuestionInfo(questionNo, content.get() ?: "", imgPath.get()))
-
-        content.set("")
-        imgPath.set(Uri.EMPTY)
         questionNo += 1
     }
 
-    fun deleteQuestionInfo() {
+    fun deletePage() {
         val position: Int = questionInfoList.lastIndex
-        questionInfoList.removeAt(position).let {
-            content.set(it.content)
-            imgPath.set(it.ImageUri)
-            questionNo = it.no
+
+        deleteQuestionInfo(position)
+
+        val item = adapter.getItem(position)
+        adapter.removeFragment(item)
+        pagePositionLive.postValue(adapter.itemCount - 1)
+        questionNo -= 1
+    }
+
+    private fun addQuestionInfo() {
+        questionInfoList.add(QuestionInfo(questionNo, "", Uri.EMPTY))
+        imgPath = Uri.EMPTY
+    }
+
+    private fun updateQuestionInfo() {
+        questionInfoList.last().let {
+            it.content = content
+            it.imageUri = imgPath
+        }
+    }
+
+    private fun deleteQuestionInfo(position: Int) {
+        questionInfoList[position - 1].let {
+            content = it.content
+            imgPath = it.imageUri
         }
 
-        deletePage(position)
+        questionInfoList.removeAt(position)
     }
-
-    private fun deletePage(position: Int) {
-        val item = adapter.getItem(position + 1)
-        adapter.removeFragment(item)
-    }
-
 
     private fun checkStoragePermission(activity: AppCompatActivity): Boolean {
         val permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)

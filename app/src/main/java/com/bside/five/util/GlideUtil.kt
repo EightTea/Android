@@ -11,17 +11,17 @@ import com.bumptech.glide.request.RequestListener
 
 object GlideUtil {
 
-    fun loadImage(imageView: ImageView, res: Int) {
+    fun loadImage(imageView: ImageView, res: Int?) {
         getRequestBuilder(imageView.context, res)
             .into(imageView)
     }
 
-    fun loadImage(imageView: ImageView, drawable: Drawable) {
+    fun loadImage(imageView: ImageView, drawable: Drawable?) {
         getRequestBuilder(imageView.context, drawable)
             .into(imageView)
     }
 
-    fun loadImage(imageView: ImageView, uri: Uri) {
+    fun loadImage(imageView: ImageView, uri: Uri?) {
         getRequestBuilder(imageView.context, uri)
             .into(imageView)
     }
