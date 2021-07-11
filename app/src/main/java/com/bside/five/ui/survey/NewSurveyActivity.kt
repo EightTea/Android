@@ -1,9 +1,6 @@
 package com.bside.five.ui.survey
 
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,8 +10,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
-import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityNewSurveyBinding
+import com.bside.five.util.ActivityUtil
 
 class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewModel>() {
 
@@ -64,6 +61,11 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                     Log.d("tag", "kch action_preview content ${d.content}")
                     Log.d("tag", "kch action_preview imageUri ${d.imageUri}")
                 }
+
+                viewModel.questionInfoList.last().let {
+                    ActivityUtil.startPreviewActivity(this, it.no, viewModel.content, viewModel.imgPath)
+                }
+
                 return true
             }
             R.id.action_delete -> {
@@ -88,18 +90,6 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
 
         return true
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == Constants.REQUEST_CODE_GALLERY) {
-//                data?.getParcelableExtra<Uri>("key")?.let {
-//                    viewModel.imgPath.set(it)
-//                }
-//            }
-//        } else {
-//            super.onActivityResult(requestCode, resultCode, data)
-//        }
-//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

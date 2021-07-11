@@ -18,4 +18,5 @@
     <color name="disable_add_question_bg">#BDBDBD</color>
     <color name="disable_finish_question_bg">#EAEAEA</color>
     <color name="disable_finish_question_text">#BDBDBD</color>
+    <color name="rect_radius">#BFBFBF</color>
 </resources>

@@ -25,10 +25,13 @@
             android:name=".ui.survey.NewSurveyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.gallery.GalleryActivity"
+        <activity
+            android:name=".ui.gallery.GalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".ui.preview.PreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
