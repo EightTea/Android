@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <include
             android:id="@+id/newSurveyToolbar"
@@ -48,7 +49,7 @@
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:textStyle="bold"
-                android:background="@color/black"
+                android:background="@drawable/selector_add_question_bg"
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.onClickListener(v)}"
                 app:layout_constraintTop_toTopOf="parent"
@@ -61,10 +62,10 @@
                 android:layout_width="0dp"
                 android:layout_height="64dp"
                 android:text="@string/finish_question"
-                android:textColor="@color/white"
+                android:textColor="@color/selector_finish_question_text"
                 android:textSize="17dp"
                 android:textStyle="bold"
-                android:background="@color/primary"
+                android:background="@drawable/selector_finish_question_bg"
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.onClickListener(v)}"
                 app:layout_constraintTop_toTopOf="parent"

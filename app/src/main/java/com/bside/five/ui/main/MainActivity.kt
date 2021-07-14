@@ -1,16 +1,19 @@
 package com.bside.five.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.bside.five.R
 import com.bside.five.adapter.SurveyAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.databinding.ActivityMainBinding
+import com.bside.five.ui.scanner.QrScannerActivity
+import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
@@ -33,6 +36,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 overridePendingTransition(0, 0)
                 return true
             }
+            R.id.action_scanner -> {
+                showQrScanner()
+                return true
+            }
         }
         return false
     }
@@ -40,6 +47,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        result?.contents?.let {
+            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        } ?: super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun initToolbar() {
@@ -62,5 +77,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         binding.mainRecyclerView.addItemDecoration(itemDivider)
         binding.mainRecyclerView.adapter = adapter
+    }
+
+    private fun showQrScanner() {
+        val intentIntegrator = IntentIntegrator(this)
+        intentIntegrator.setBeepEnabled(false)
+        intentIntegrator.captureActivity = QrScannerActivity::class.java
+        intentIntegrator.initiateScan()
     }
 }

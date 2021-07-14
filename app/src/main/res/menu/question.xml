@@ -4,7 +4,13 @@
 
     <item
         android:id="@+id/action_preview"
-        android:icon="@drawable/ic_nav_preview"
+        android:icon="@drawable/selector_menu_preview"
         android:title="@string/menu_preview"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/selector_menu_delete"
+        android:title="@string/menu_delete"
         app:showAsAction="ifRoom"/>
 </menu>
