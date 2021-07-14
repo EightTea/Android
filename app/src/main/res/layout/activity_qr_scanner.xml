@@ -14,27 +14,27 @@
             android:id="@+id/scannerBarcodeView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="40dp"
-            app:zxing_scanner_layout="@layout/custom_barcode_scanner"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/scannerGuide" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:zxing_scanner_layout="@layout/custom_barcode_scanner" />
 
         <TextView
             android:id="@+id/scannerGuide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
             android:text="QR코드를 찍고\n소중한 의견을 작성해주세요"
-            android:textStyle="bold"
-            android:textSize="20dp"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/scannerBarcodeView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/scannerBarcodeView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
