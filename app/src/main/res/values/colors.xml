@@ -10,6 +10,7 @@
     <color name="red">#FFFF0000</color>
 
     <color name="primary">#339AF0</color>
+    <color name="download_bg">#1C7ED6</color>
     <color name="border_gray">#F7F7F7</color>
     <color name="title_text">#282828</color>
     <color name="content_text">#757575</color>

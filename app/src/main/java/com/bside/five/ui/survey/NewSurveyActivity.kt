@@ -91,18 +91,18 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 100) {
-            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                // Permission granted
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show()
-            } else {
-                // Permission denied or canceled
-                Toast.makeText(this, "Permission denied or canceled", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == 100) {
+//            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+//                // Permission granted
+//                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show()
+//            } else {
+//                // Permission denied or canceled
+//                Toast.makeText(this, "Permission denied or canceled", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 
     private fun initToolbar() {
         setSupportActionBar(binding.newSurveyToolbar as Toolbar)

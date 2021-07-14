@@ -18,6 +18,7 @@ import com.bside.five.base.BaseViewModel
 import com.bside.five.model.QuestionInfo
 import com.bside.five.model.SurveyFragmentInfo
 import com.bside.five.util.ActivityUtil
+import com.bside.five.util.CommonUtil
 
 class NewSurveyViewModel : BaseViewModel() {
 
@@ -48,13 +49,15 @@ class NewSurveyViewModel : BaseViewModel() {
                     Log.d(tag, "kch item.ImageUri : ${item.imageUri}")
                 }
 
+                ActivityUtil.startQrCodeActivity(view.context as AppCompatActivity, "https://www.naver.com/")
+
                 // QR 구현 및 완료 화면 출력
             }
             R.id.questionImageContainer -> {
                 val activity = view.context as AppCompatActivity
                 val fragment = activity.supportFragmentManager.fragments.last()
 
-                if (checkStoragePermission(activity)) {
+                if (CommonUtil.checkStoragePermission(activity)) {
                     ActivityUtil.startGalleryActivity(activity, fragment)
                 }
             }
@@ -107,16 +110,5 @@ class NewSurveyViewModel : BaseViewModel() {
         }
 
         questionInfoList.removeAt(position)
-    }
-
-    private fun checkStoragePermission(activity: AppCompatActivity): Boolean {
-        val permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
-            return false
-        }
-
-        return true
     }
 }

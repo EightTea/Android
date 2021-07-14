@@ -23,6 +23,12 @@ object CommonBindingAdapter {
         view.isVisible = isVisible
     }
 
+    @BindingAdapter("isSelected")
+    @JvmStatic
+    fun isSelected(view: View, isSelected: Boolean) {
+        view.isSelected = isSelected
+    }
+
     @BindingAdapter("setImage")
     @JvmStatic
     fun setImage(view: ImageView, any: Any?) {

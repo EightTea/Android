@@ -5,4 +5,5 @@ object Constants {
     const val EXTRA_NO = "no"
     const val EXTRA_CONTENT = "content"
     const val EXTRA_IMAGE = "image"
+    const val EXTRA_URL = "url"
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
 import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.preview.PreviewActivity
+import com.bside.five.ui.result.QrCodeActivity
 
 object ActivityUtil {
 
@@ -24,6 +25,13 @@ object ActivityUtil {
             putExtra(Constants.EXTRA_NO, no)
             putExtra(Constants.EXTRA_CONTENT, content)
             putExtra(Constants.EXTRA_IMAGE, imageUri)
+            activity.startActivity(this)
+        }
+    }
+
+    fun startQrCodeActivity(activity: Activity, surveyUrl: String) {
+        Intent(activity, QrCodeActivity::class.java).run {
+            putExtra(Constants.EXTRA_URL, surveyUrl)
             activity.startActivity(this)
         }
     }
