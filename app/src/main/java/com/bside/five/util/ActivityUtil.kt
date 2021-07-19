@@ -8,6 +8,7 @@ import com.bside.five.constants.Constants
 import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
+import com.bside.five.ui.sample.SampleActivity
 
 object ActivityUtil {
 
@@ -32,6 +33,14 @@ object ActivityUtil {
     fun startQrCodeActivity(activity: Activity, surveyUrl: String) {
         Intent(activity, QrCodeActivity::class.java).run {
             putExtra(Constants.EXTRA_URL, surveyUrl)
+            activity.startActivity(this)
+        }
+    }
+
+    fun startSampleActivity(activity: Activity, title: String? = null, content: String? = null) {
+        Intent(activity, SampleActivity::class.java).run {
+            putExtra(Constants.EXTRA_TITLE, title)
+            putExtra(Constants.EXTRA_CONTENT, content)
             activity.startActivity(this)
         }
     }

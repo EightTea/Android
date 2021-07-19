@@ -75,7 +75,7 @@ class NewSurveyViewModel : BaseViewModel() {
                 clearImageLive.postValue(questionNo - 1)
             }
             R.id.surveyInfoSampleBtn -> {
-                Log.d(tag, "kch surveyInfoSampleBtn")
+                ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
             }
         }
     }

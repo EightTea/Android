@@ -3,6 +3,7 @@ package com.bside.five.ui.survey
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
@@ -41,6 +42,11 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                 return true
             }
             R.id.action_preview -> {
+                if (viewModel.adapter.getQuestionItemCount() == 0) {
+                    ActivityUtil.startSampleActivity(this, viewModel.surveyTitle, viewModel.surveyContent)
+                    return true
+                }
+
                 viewModel.questionInfoList.last().let {
                     ActivityUtil.startPreviewActivity(this, it.no, viewModel.content, viewModel.imgPath)
                 }
