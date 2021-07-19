@@ -12,12 +12,14 @@ import com.bside.five.util.ActivityUtil
 
 class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewModel>() {
 
+    private val tag = NewSurveyActivity::class.java.simpleName
+    private var textCount = 0
+
     override val layoutResourceId: Int
         get() = R.layout.activity_new_survey
     override val viewModelClass: Class<NewSurveyViewModel>
         get() = NewSurveyViewModel::class.java
 
-    private var textCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,7 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
 
         menu?.findItem(R.id.action_preview)?.let {
             it.isEnabled = textCount != 0
-            binding.newSurveyAddQuestionBtn.isEnabled = textCount != 0
+            binding.newSurveyAddQuestionBtn.isEnabled = (textCount != 0) && viewModel.questionInfoList.size < NewSurveyViewModel.QUESTION_SIZE_MAX
             binding.newSurveyFinishQuestionBtn.isEnabled = textCount != 0
         }
 

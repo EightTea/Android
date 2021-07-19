@@ -20,15 +20,6 @@ import com.bside.five.util.GlideUtil
 
 class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewModel>() {
 
-    override val layoutResourceId: Int
-        get() = R.layout.fragment_question
-    override val viewModelClass: Class<NewSurveyViewModel>
-        get() = NewSurveyViewModel::class.java
-    override val owner: ViewModelStoreOwner
-        get() = requireActivity()
-
-    var fragmentInfo: SurveyFragmentInfo? = null
-
     companion object {
         private const val KEY = "fragment_info"
 
@@ -38,6 +29,15 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewMode
             return QuestionFragment().apply { arguments = args }
         }
     }
+
+    var fragmentInfo: SurveyFragmentInfo? = null
+
+    override val layoutResourceId: Int
+        get() = R.layout.fragment_question
+    override val viewModelClass: Class<NewSurveyViewModel>
+        get() = NewSurveyViewModel::class.java
+    override val owner: ViewModelStoreOwner
+        get() = requireActivity()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

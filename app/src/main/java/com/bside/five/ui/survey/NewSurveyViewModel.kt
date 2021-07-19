@@ -17,6 +17,10 @@ import com.bside.five.util.CommonUtil
 
 class NewSurveyViewModel : BaseViewModel() {
 
+    companion object {
+        const val QUESTION_SIZE_MAX = 10
+    }
+
     private val tag = NewSurveyViewModel::class.java.simpleName
     var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
     var contentSizeLive: MutableLiveData<Int> = MutableLiveData()
@@ -38,8 +42,10 @@ class NewSurveyViewModel : BaseViewModel() {
                 isSurvey.set(false)
             }
             R.id.newSurveyAddQuestionBtn -> {
-                updateQuestionInfo()
-                createPage()
+                if (questionInfoList.size < QUESTION_SIZE_MAX) {
+                    updateQuestionInfo()
+                    createPage()
+                }
             }
             R.id.newSurveyFinishQuestionBtn -> {
                 val activity = view.context as AppCompatActivity
