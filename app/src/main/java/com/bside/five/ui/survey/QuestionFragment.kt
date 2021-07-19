@@ -62,7 +62,7 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewMode
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.content = s?.toString() ?: ""
-                viewModel.contentSizeLive.postValue(s?.length)
+                viewModel.contentSizeLive.postValue(s?.length ?: 0)
             }
         })
 

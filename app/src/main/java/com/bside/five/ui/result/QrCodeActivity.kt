@@ -76,11 +76,6 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> {
-                finish()
-                overridePendingTransition(0, 0)
-                return true
-            }
             R.id.action_share -> {
                 if (CommonUtil.checkStoragePermission(this)) {
                     val fileName = System.currentTimeMillis().toString() + "_${ImageUtil.TEMP_FILE_NAME}"
@@ -114,7 +109,7 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         setSupportActionBar(binding.qrCodeToolbar as Toolbar)
         supportActionBar?.run {
             setDisplayShowCustomEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
             setDisplayShowTitleEnabled(false)
         }
     }

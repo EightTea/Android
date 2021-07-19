@@ -19,4 +19,7 @@
     <string name="add_question">다른 질문 작성하기</string>
     <string name="finish_question">작성완료</string>
     <string name="question_no">Q%d.</string>
+
+    <string name="toolbar_preview">미리보기</string>
+    <string name="toolbar_add_survey">질문 만들기</string>
 </resources>
