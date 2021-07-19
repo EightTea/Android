@@ -6,19 +6,28 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bside.five.model.SurveyFragmentInfo
 import com.bside.five.ui.survey.QuestionFragment
+import com.bside.five.ui.survey.SurveyInfoFragment
 
 class ScreenSlidePagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private val fragmentInfo = ArrayList<SurveyFragmentInfo>()
 
-    override fun getItemCount(): Int = fragmentInfo.size
+    override fun getItemCount(): Int = fragmentInfo.size + 1
 
-    override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance(fragmentInfo[position])
+    override fun createFragment(position: Int): Fragment {
+        if (position == 0) {
+            return SurveyInfoFragment.newInstance()
+        }
 
-    fun getItem(position: Int): SurveyFragmentInfo {
-        return fragmentInfo[position]
+        return QuestionFragment.newInstance(fragmentInfo[position - 1])
     }
+
+    fun getItem(questionItemPosition: Int): SurveyFragmentInfo {
+        return fragmentInfo[questionItemPosition]
+    }
+
+    fun getQuestionItemCount(): Int = fragmentInfo.size
 
     fun replaceFragment(list: ArrayList<SurveyFragmentInfo>) {
         fragmentInfo.apply {

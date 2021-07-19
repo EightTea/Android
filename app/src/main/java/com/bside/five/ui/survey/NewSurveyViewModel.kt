@@ -1,16 +1,11 @@
 package com.bside.five.ui.survey
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
 import com.bside.five.adapter.ScreenSlidePagerAdapter
@@ -26,6 +21,10 @@ class NewSurveyViewModel : BaseViewModel() {
     var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
     var contentSizeLive: MutableLiveData<Int> = MutableLiveData()
     var clearImageLive: MutableLiveData<Int> = MutableLiveData()
+    var isSurvey = ObservableField<Boolean>(true)
+    var isEnableStartSurvey = ObservableField<Boolean>(false)
+    var surveyTitle = ""
+    var surveyContent = ""
     var questionNo = 1
     var content = ""
     var imgPath: Uri = Uri.EMPTY
@@ -34,11 +33,16 @@ class NewSurveyViewModel : BaseViewModel() {
 
     override fun onClickListener(view: View) {
         when (view.id) {
+            R.id.newSurveyStartBtn -> {
+                createPage()
+                isSurvey.set(false)
+            }
             R.id.newSurveyAddQuestionBtn -> {
                 updateQuestionInfo()
                 createPage()
             }
             R.id.newSurveyFinishQuestionBtn -> {
+                val activity = view.context as AppCompatActivity
                 Toast.makeText(view.context, "newSurveyFinishQuestionBtn", Toast.LENGTH_LONG).show()
 
                 updateQuestionInfo()
@@ -49,9 +53,8 @@ class NewSurveyViewModel : BaseViewModel() {
                     Log.d(tag, "kch item.ImageUri : ${item.imageUri}")
                 }
 
-                ActivityUtil.startQrCodeActivity(view.context as AppCompatActivity, "https://www.naver.com/")
-
-                // QR 구현 및 완료 화면 출력
+                ActivityUtil.startQrCodeActivity(activity, "https://www.naver.com/")
+                activity.finish()
             }
             R.id.questionImageContainer -> {
                 val activity = view.context as AppCompatActivity
@@ -64,6 +67,9 @@ class NewSurveyViewModel : BaseViewModel() {
             R.id.questionImgRemoveBtn -> {
                 imgPath = Uri.EMPTY
                 clearImageLive.postValue(questionNo - 1)
+            }
+            R.id.surveyInfoSampleBtn -> {
+                Log.d(tag, "kch surveyInfoSampleBtn")
             }
         }
     }

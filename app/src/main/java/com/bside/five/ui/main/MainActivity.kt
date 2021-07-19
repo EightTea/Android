@@ -32,7 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                finish()
+//                finish()
                 overridePendingTransition(0, 0)
                 return true
             }

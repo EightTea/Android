@@ -54,7 +54,7 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding, PreviewViewModel>()
         supportActionBar?.run {
             setDisplayShowCustomEnabled(true)
             setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
+            setTitle(R.string.toolbar_preview)
         }
     }
 
