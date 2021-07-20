@@ -10,12 +10,6 @@ import com.bside.five.base.BaseFragment
 import com.bside.five.databinding.FragmentSurveyInfoBinding
 
 class SurveyInfoFragment : BaseFragment<FragmentSurveyInfoBinding, NewSurveyViewModel>() {
-    override val layoutResourceId: Int
-        get() = R.layout.fragment_survey_info
-    override val viewModelClass: Class<NewSurveyViewModel>
-        get() = NewSurveyViewModel::class.java
-    override val owner: ViewModelStoreOwner
-        get() = requireActivity()
 
     companion object {
         fun newInstance(): SurveyInfoFragment {
@@ -23,6 +17,13 @@ class SurveyInfoFragment : BaseFragment<FragmentSurveyInfoBinding, NewSurveyView
             return SurveyInfoFragment().apply { arguments = args }
         }
     }
+
+    override val layoutResourceId: Int
+        get() = R.layout.fragment_survey_info
+    override val viewModelClass: Class<NewSurveyViewModel>
+        get() = NewSurveyViewModel::class.java
+    override val owner: ViewModelStoreOwner
+        get() = requireActivity()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

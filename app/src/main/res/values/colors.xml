@@ -21,4 +21,7 @@
     <color name="disable_start_survey_bg">#EAEAEA</color>
     <color name="disable_finish_question_text">#BDBDBD</color>
     <color name="rect_radius">#BFBFBF</color>
+    <color name="warning_color">#FF222E</color>
+    <color name="cancel_color_bg">#F1F1F1</color>
+    <color name="cancel_color_text">#354044</color>
 </resources>

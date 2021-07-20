@@ -3,6 +3,7 @@ package com.bside.five.ui.survey
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
@@ -12,12 +13,14 @@ import com.bside.five.util.ActivityUtil
 
 class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewModel>() {
 
+    private val tag = NewSurveyActivity::class.java.simpleName
+    private var textCount = 0
+
     override val layoutResourceId: Int
         get() = R.layout.activity_new_survey
     override val viewModelClass: Class<NewSurveyViewModel>
         get() = NewSurveyViewModel::class.java
 
-    private var textCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,11 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                 return true
             }
             R.id.action_preview -> {
+                if (viewModel.adapter.getQuestionItemCount() == 0) {
+                    ActivityUtil.startSampleActivity(this, viewModel.surveyTitle, viewModel.surveyContent)
+                    return true
+                }
+
                 viewModel.questionInfoList.last().let {
                     ActivityUtil.startPreviewActivity(this, it.no, viewModel.content, viewModel.imgPath)
                 }
@@ -63,7 +71,7 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
 
         menu?.findItem(R.id.action_preview)?.let {
             it.isEnabled = textCount != 0
-            binding.newSurveyAddQuestionBtn.isEnabled = textCount != 0
+            binding.newSurveyAddQuestionBtn.isEnabled = (textCount != 0) && viewModel.questionInfoList.size < NewSurveyViewModel.QUESTION_SIZE_MAX
             binding.newSurveyFinishQuestionBtn.isEnabled = textCount != 0
         }
 

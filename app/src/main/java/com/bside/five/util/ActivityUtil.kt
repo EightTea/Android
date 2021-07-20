@@ -8,6 +8,8 @@ import com.bside.five.constants.Constants
 import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
+import com.bside.five.ui.sample.SampleActivity
+import com.bside.five.ui.setting.SettingActivity
 
 object ActivityUtil {
 
@@ -35,4 +37,19 @@ object ActivityUtil {
             activity.startActivity(this)
         }
     }
+
+    fun startSampleActivity(activity: Activity, title: String? = null, content: String? = null) {
+        Intent(activity, SampleActivity::class.java).run {
+            putExtra(Constants.EXTRA_TITLE, title)
+            putExtra(Constants.EXTRA_CONTENT, content)
+            activity.startActivity(this)
+        }
+    }
+
+    fun startSettingActivity(activity: Activity) {
+        Intent(activity, SettingActivity::class.java).run {
+            activity.startActivity(this)
+        }
+    }
+
 }

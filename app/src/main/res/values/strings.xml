@@ -9,6 +9,7 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_share">Share</string>
     <string name="menu_done">확인</string>
+    <string name="menu_more">더보기</string>
     <!--menu-->
 
     <string name="answer_count">현재 답변 %d명</string>
@@ -22,4 +23,10 @@
 
     <string name="toolbar_preview">미리보기</string>
     <string name="toolbar_add_survey">질문 만들기</string>
+    <string name="toolbar_sample">샘플보기</string>
+
+    <!--sample-->
+    <string name="sample_title">우리 가게 방문 이유 확인</string>
+    <string name="sample_content">저희 카페에 방문하는 이유가 무엇인지 손님분들의 이야기를 듣고자합니다. 성심성의껏 답변해주신 내용으로 더더욱 발전하는 카페가 될게요.</string>
+    <!--sample-->
 </resources>

@@ -13,6 +13,7 @@ import com.bside.five.adapter.SurveyAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.databinding.ActivityMainBinding
 import com.bside.five.ui.scanner.QrScannerActivity
+import com.bside.five.util.ActivityUtil
 import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -32,7 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-//                finish()
+                ActivityUtil.startSettingActivity(this)
                 overridePendingTransition(0, 0)
                 return true
             }
