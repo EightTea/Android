@@ -9,6 +9,7 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_share">Share</string>
     <string name="menu_done">확인</string>
+    <string name="menu_more">더보기</string>
     <!--menu-->
 
     <string name="answer_count">현재 답변 %d명</string>

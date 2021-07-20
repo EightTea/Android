@@ -9,6 +9,7 @@ import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
 import com.bside.five.ui.sample.SampleActivity
+import com.bside.five.ui.setting.SettingActivity
 
 object ActivityUtil {
 
@@ -44,4 +45,11 @@ object ActivityUtil {
             activity.startActivity(this)
         }
     }
+
+    fun startSettingActivity(activity: Activity) {
+        Intent(activity, SettingActivity::class.java).run {
+            activity.startActivity(this)
+        }
+    }
+
 }
