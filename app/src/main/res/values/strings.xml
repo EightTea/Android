@@ -27,6 +27,6 @@
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
-    <string name="sample_content">저희 카페에 방문하는 이유가 무엇인지 손님분들의 이야기를 듣고자합니다. 성심성의껏 답변해주신 내용으로 더더욱 발전하는 카페가 될게요.</string>
+    <string name="sample_contents">저희 카페에 방문하는 이유가 무엇인지 손님분들의 이야기를 듣고자합니다. 성심성의껏 답변해주신 내용으로 더더욱 발전하는 카페가 될게요.</string>
     <!--sample-->
 </resources>

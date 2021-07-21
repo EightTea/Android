@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -47,22 +46,22 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewMode
         fragmentInfo?.childId?.let {
             viewModel.questionInfoList[it - 1].let { info ->
                 binding.questionNo.text = getString(R.string.question_no, info.no)
-                binding.questionContent.setText(info.content)
+                binding.questionContents.setText(info.contents)
                 binding.questionImageContainer.isVisible = info.imageUri == Uri.EMPTY
                 binding.questionImageVisibleContainer.isVisible = info.imageUri != Uri.EMPTY
                 GlideUtil.loadImage(binding.questionImg, info.imageUri)
-                viewModel.contentSizeLive.postValue(info.content.length)
+                viewModel.contentsSizeLive.postValue(info.contents.length)
             }
         }
 
-        binding.questionContent.addTextChangedListener(object : TextWatcher {
+        binding.questionContents.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.content = s?.toString() ?: ""
-                viewModel.contentSizeLive.postValue(s?.length ?: 0)
+                viewModel.contents = s?.toString() ?: ""
+                viewModel.contentsSizeLive.postValue(s?.length ?: 0)
             }
         })
 

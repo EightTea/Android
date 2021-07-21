@@ -23,14 +23,14 @@ class NewSurveyViewModel : BaseViewModel() {
 
     private val tag = NewSurveyViewModel::class.java.simpleName
     var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
-    var contentSizeLive: MutableLiveData<Int> = MutableLiveData()
+    var contentsSizeLive: MutableLiveData<Int> = MutableLiveData()
     var clearImageLive: MutableLiveData<Int> = MutableLiveData()
     var isSurvey = ObservableField<Boolean>(true)
     var isEnableStartSurvey = ObservableField<Boolean>(false)
     var surveyTitle = ""
-    var surveyContent = ""
+    var surveyContents = ""
     var questionNo = 1
-    var content = ""
+    var contents = ""
     var imgPath: Uri = Uri.EMPTY
     val questionInfoList = ArrayList<QuestionInfo>()
     lateinit var adapter: ScreenSlidePagerAdapter
@@ -55,7 +55,7 @@ class NewSurveyViewModel : BaseViewModel() {
 
                 for (item in questionInfoList) {
                     Log.d(tag, "kch item.no : ${item.no}")
-                    Log.d(tag, "kch item.content : ${item.content}")
+                    Log.d(tag, "kch item.content : ${item.contents}")
                     Log.d(tag, "kch item.ImageUri : ${item.imageUri}")
                 }
 
@@ -110,14 +110,14 @@ class NewSurveyViewModel : BaseViewModel() {
 
     private fun updateQuestionInfo() {
         questionInfoList.last().let {
-            it.content = content
+            it.contents = contents
             it.imageUri = imgPath
         }
     }
 
     private fun deleteQuestionInfo(position: Int) {
         questionInfoList[position - 1].let {
-            content = it.content
+            contents = it.contents
             imgPath = it.imageUri
         }
 

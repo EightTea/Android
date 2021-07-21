@@ -31,14 +31,14 @@ class SettingViewModel : BaseViewModel() {
     private fun showContactEmail(context: Context) {
         val nickName = "admin"
         val title = "(귀쫑끗) "
-        val content = "Nickname : $nickName \n" +
+        val contents = "Nickname : $nickName \n" +
                 "App Version : ${BuildConfig.VERSION_NAME}\n" +
                 "OS Version : ${Build.VERSION.RELEASE}\n\n"
 
         Intent(Intent.ACTION_SEND).let {
             it.putExtra(Intent.EXTRA_EMAIL, Constants.EMAIL_ADDRESS)
             it.putExtra(Intent.EXTRA_SUBJECT, title)
-            it.putExtra(Intent.EXTRA_TEXT, content)
+            it.putExtra(Intent.EXTRA_TEXT, contents)
             it.type = "message/rfc822"
             context.startActivity(Intent.createChooser(it, "Choose Email"))
         }

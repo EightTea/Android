@@ -3,15 +3,11 @@ package com.bside.five.ui.preview
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
 import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityPreviewBinding
-import com.bside.five.util.GlideUtil
 
 class PreviewActivity : BaseActivity<ActivityPreviewBinding, PreviewViewModel>() {
 
@@ -27,8 +23,8 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding, PreviewViewModel>()
             viewModel.no.set(getString(R.string.question_no, it))
         }
 
-        intent.getStringExtra(Constants.EXTRA_CONTENT)?.let {
-            viewModel.content.set(it)
+        intent.getStringExtra(Constants.EXTRA_CONTENTS)?.let {
+            viewModel.contents.set(it)
         }
 
         intent.getParcelableExtra<Uri>(Constants.EXTRA_IMAGE).let {

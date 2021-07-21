@@ -10,7 +10,7 @@ import com.bside.five.custom.dialog.DialogPreview
 class PreviewViewModel : BaseViewModel() {
 
     val no = ObservableField<String>("")
-    val content = ObservableField<String>("")
+    val contents = ObservableField<String>("")
     val image = ObservableField<Uri>()
 
     override fun onClickListener(view: View) {

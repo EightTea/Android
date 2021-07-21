@@ -51,7 +51,7 @@ object ImageUtil {
     }
 
     fun deleteImage(context: Context, fileName: String) {
-        val contentUri: ArrayList<Uri> = ArrayList()
+        val deleteList: ArrayList<Uri> = ArrayList()
 
         val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
@@ -79,11 +79,11 @@ object ImageUtil {
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
-                contentUri.add(Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toString()))
+                deleteList.add(Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toString()))
             }
         }
 
-        contentUri.forEach {
+        deleteList.forEach {
             deleteImage(context, it)
         }
     }

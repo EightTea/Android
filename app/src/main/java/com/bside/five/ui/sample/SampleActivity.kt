@@ -25,8 +25,8 @@ class SampleActivity : AppCompatActivity() {
             isSample = false
         }
 
-        intent.getStringExtra(Constants.EXTRA_CONTENT)?.let {
-            binding.sampleContent.text = it
+        intent.getStringExtra(Constants.EXTRA_CONTENTS)?.let {
+            binding.sampleContents.text = it
         }
 
         initToolbar()

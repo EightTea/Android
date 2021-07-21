@@ -42,7 +42,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="170dp"
                 android:text="우리 가게 고객, 비어 있는 상가에 대한 동네 사람들의 의견 등 질문을 만들어보세요!"
-                android:textColor="@color/content_text"
+                android:textColor="@color/contents_text"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

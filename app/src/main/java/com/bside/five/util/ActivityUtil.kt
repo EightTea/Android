@@ -22,10 +22,10 @@ object ActivityUtil {
         }
     }
 
-    fun startPreviewActivity(activity: Activity, no: Int, content: String, imageUri: Uri) {
+    fun startPreviewActivity(activity: Activity, no: Int, contents: String, imageUri: Uri) {
         Intent(activity, PreviewActivity::class.java).run {
             putExtra(Constants.EXTRA_NO, no)
-            putExtra(Constants.EXTRA_CONTENT, content)
+            putExtra(Constants.EXTRA_CONTENTS, contents)
             putExtra(Constants.EXTRA_IMAGE, imageUri)
             activity.startActivity(this)
         }
@@ -38,10 +38,10 @@ object ActivityUtil {
         }
     }
 
-    fun startSampleActivity(activity: Activity, title: String? = null, content: String? = null) {
+    fun startSampleActivity(activity: Activity, title: String? = null, contents: String? = null) {
         Intent(activity, SampleActivity::class.java).run {
             putExtra(Constants.EXTRA_TITLE, title)
-            putExtra(Constants.EXTRA_CONTENT, content)
+            putExtra(Constants.EXTRA_CONTENTS, contents)
             activity.startActivity(this)
         }
     }

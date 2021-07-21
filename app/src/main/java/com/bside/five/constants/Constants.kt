@@ -6,7 +6,7 @@ object Constants {
     const val REQUEST_CODE_GALLERY = 1000
     const val EXTRA_NO = "no"
     const val EXTRA_TITLE = "title"
-    const val EXTRA_CONTENT = "content"
+    const val EXTRA_CONTENTS = "contents"
     const val EXTRA_IMAGE = "image"
     const val EXTRA_URL = "url"
 }

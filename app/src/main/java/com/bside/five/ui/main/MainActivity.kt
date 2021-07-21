@@ -27,7 +27,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
-        initRecyclerView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -66,18 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             setDisplayShowTitleEnabled(false)
             setHomeAsUpIndicator(R.drawable.ic_nav_menu)
         }
-    }
-
-    private fun initRecyclerView() {
-        val adapter = SurveyAdapter()
-
-        val itemDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        ContextCompat.getDrawable(this, R.drawable.divider_white)?.let {
-            itemDivider.setDrawable(it)
-        }
-
-        binding.mainRecyclerView.addItemDecoration(itemDivider)
-        binding.mainRecyclerView.adapter = adapter
     }
 
     private fun showQrScanner() {

@@ -33,7 +33,7 @@
                 tools:text="Q1."/>
 
             <EditText
-                android:id="@+id/questionContent"
+                android:id="@+id/questionContents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -63,7 +63,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/border_gray_rect"
                 android:onClick="@{(v) -> viewModel.onClickListener(v)}"
-                app:layout_constraintTop_toBottomOf="@+id/questionContent"
+                app:layout_constraintTop_toBottomOf="@+id/questionContents"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textSize="12dp"
-                    android:textColor="@color/content_text"
+                    android:textColor="@color/contents_text"
                     android:textStyle="bold"
                     android:text="이미지 첨부하기"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/questionContent"
+                app:layout_constraintTop_toBottomOf="@+id/questionContents"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:visibility="gone">
 

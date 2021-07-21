@@ -43,7 +43,7 @@
                 tools:text="Q1."/>
 
             <TextView
-                android:id="@+id/previewContent"
+                android:id="@+id/previewContents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -52,7 +52,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:text="@{viewModel.content}"
+                android:text="@{viewModel.contents}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/previewNo" />
@@ -73,7 +73,7 @@
                 app:isVisible="@{viewModel.image.scheme != null}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/previewContent" />
+                app:layout_constraintTop_toBottomOf="@+id/previewContents" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/previewAnswer"
