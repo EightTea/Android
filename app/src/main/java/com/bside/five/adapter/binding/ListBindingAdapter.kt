@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.adapter.SurveyStateAdapter
 import com.bside.five.model.Survey
 
-object MainBindingAdapter {
+object ListBindingAdapter {
 
     @BindingAdapter("setSurveyList")
     @JvmStatic
