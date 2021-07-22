@@ -9,6 +9,7 @@ import com.bside.five.R
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.Survey
 import com.bside.five.ui.survey.NewSurveyActivity
+import com.bside.five.util.ActivityUtil
 
 class MainViewModel : BaseViewModel() {
 
@@ -24,7 +25,7 @@ class MainViewModel : BaseViewModel() {
                 activity.startActivity(intent)
             }
             R.id.mainMySurveyBtn -> {
-                Log.d(TAG, "onClickListener - mainMySurveyBtn")
+                ActivityUtil.startMySurveyActivity(view.context as AppCompatActivity)
             }
         }
     }

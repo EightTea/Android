@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
 import com.bside.five.ui.gallery.GalleryActivity
+import com.bside.five.ui.my.MySurveyActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
 import com.bside.five.ui.sample.SampleActivity
@@ -48,6 +49,12 @@ object ActivityUtil {
 
     fun startSettingActivity(activity: Activity) {
         Intent(activity, SettingActivity::class.java).run {
+            activity.startActivity(this)
+        }
+    }
+
+    fun startMySurveyActivity(activity: Activity) {
+        Intent(activity, MySurveyActivity::class.java).run {
             activity.startActivity(this)
         }
     }

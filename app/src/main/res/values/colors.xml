@@ -25,4 +25,6 @@
     <color name="warning_color">#FF222E</color>
     <color name="cancel_color_bg">#F1F1F1</color>
     <color name="cancel_color_text">#354044</color>
+    <color name="btn_bg">#F2F2F2</color>
+    <color name="date_color_text">#A0A0A0</color>
 </resources>
