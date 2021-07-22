@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
 import com.bside.five.ui.gallery.GalleryActivity
+import com.bside.five.ui.my.MySurveyActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
 import com.bside.five.ui.sample.SampleActivity
@@ -22,10 +23,10 @@ object ActivityUtil {
         }
     }
 
-    fun startPreviewActivity(activity: Activity, no: Int, content: String, imageUri: Uri) {
+    fun startPreviewActivity(activity: Activity, no: Int, contents: String, imageUri: Uri) {
         Intent(activity, PreviewActivity::class.java).run {
             putExtra(Constants.EXTRA_NO, no)
-            putExtra(Constants.EXTRA_CONTENT, content)
+            putExtra(Constants.EXTRA_CONTENTS, contents)
             putExtra(Constants.EXTRA_IMAGE, imageUri)
             activity.startActivity(this)
         }
@@ -38,16 +39,22 @@ object ActivityUtil {
         }
     }
 
-    fun startSampleActivity(activity: Activity, title: String? = null, content: String? = null) {
+    fun startSampleActivity(activity: Activity, title: String? = null, contents: String? = null) {
         Intent(activity, SampleActivity::class.java).run {
             putExtra(Constants.EXTRA_TITLE, title)
-            putExtra(Constants.EXTRA_CONTENT, content)
+            putExtra(Constants.EXTRA_CONTENTS, contents)
             activity.startActivity(this)
         }
     }
 
     fun startSettingActivity(activity: Activity) {
         Intent(activity, SettingActivity::class.java).run {
+            activity.startActivity(this)
+        }
+    }
+
+    fun startMySurveyActivity(activity: Activity) {
+        Intent(activity, MySurveyActivity::class.java).run {
             activity.startActivity(this)
         }
     }

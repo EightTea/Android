@@ -3,7 +3,6 @@ package com.bside.five.ui.survey
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
@@ -43,12 +42,12 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
             }
             R.id.action_preview -> {
                 if (viewModel.adapter.getQuestionItemCount() == 0) {
-                    ActivityUtil.startSampleActivity(this, viewModel.surveyTitle, viewModel.surveyContent)
+                    ActivityUtil.startSampleActivity(this, viewModel.surveyTitle, viewModel.surveyContents)
                     return true
                 }
 
                 viewModel.questionInfoList.last().let {
-                    ActivityUtil.startPreviewActivity(this, it.no, viewModel.content, viewModel.imgPath)
+                    ActivityUtil.startPreviewActivity(this, it.no, viewModel.contents, viewModel.imgPath)
                 }
 
                 return true
@@ -92,13 +91,13 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
     private fun subscribe() {
         viewModel.pagePositionLive.observe(this, Observer<Int?> { position ->
             position?.let {
-                textCount = viewModel.content.length
+                textCount = viewModel.contents.length
                 binding.newSurveyPager.currentItem = it
                 invalidateOptionsMenu()
             }
         })
 
-        viewModel.contentSizeLive.observe(this, Observer<Int?> {
+        viewModel.contentsSizeLive.observe(this, Observer<Int?> {
             textCount = it ?: 0
             invalidateOptionsMenu()
         })

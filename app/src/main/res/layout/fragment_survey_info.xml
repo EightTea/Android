@@ -90,7 +90,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="top"
                 android:textStyle="bold"
-                android:textColor="@color/content_text"
+                android:textColor="@color/contents_text"
                 android:textSize="16dp"
                 android:hint="어떤 질문인지 간단한 설명을 적어주세요."
                 android:textColorHint="#DCDCDC"

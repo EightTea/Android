@@ -1,3 +1,7 @@
 package com.bside.five.model
 
-data class Survey(var title: String?, var answerCount: Int?, var state: String?)
+sealed class Survey {
+    class Under(val underSurvey: SurveyInfo) : Survey()
+    class Incomplete(val underSurvey: SurveyInfo) : Survey()
+    class End(val underSurvey: SurveyInfo) : Survey()
+}

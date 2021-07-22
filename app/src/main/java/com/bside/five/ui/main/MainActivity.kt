@@ -6,10 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.bside.five.R
-import com.bside.five.adapter.SurveyAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.databinding.ActivityMainBinding
 import com.bside.five.ui.scanner.QrScannerActivity
@@ -27,7 +24,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
-        initRecyclerView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -66,18 +62,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             setDisplayShowTitleEnabled(false)
             setHomeAsUpIndicator(R.drawable.ic_nav_menu)
         }
-    }
-
-    private fun initRecyclerView() {
-        val adapter = SurveyAdapter()
-
-        val itemDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        ContextCompat.getDrawable(this, R.drawable.divider_white)?.let {
-            itemDivider.setDrawable(it)
-        }
-
-        binding.mainRecyclerView.addItemDecoration(itemDivider)
-        binding.mainRecyclerView.adapter = adapter
     }
 
     private fun showQrScanner() {

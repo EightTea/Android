@@ -88,7 +88,7 @@
                 android:textColor="@color/title_text"
                 android:textSize="24dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/qrCodeContent"
+                app:layout_constraintBottom_toTopOf="@+id/qrCodeContents"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <EditText
-                android:id="@+id/qrCodeContent"
+                android:id="@+id/qrCodeContents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -124,7 +124,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/qrCodeContent"
+                app:layout_constraintTop_toBottomOf="@+id/qrCodeContents"
                 app:layout_constraintVertical_bias="0.6">
 
                 <ImageView
