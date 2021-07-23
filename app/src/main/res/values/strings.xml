@@ -26,6 +26,7 @@
     <string name="toolbar_add_survey">질문 만들기</string>
     <string name="toolbar_sample">샘플보기</string>
     <string name="toolbar_my_survey">내 질문 리스트</string>
+    <string name="toolbar_answer">답변 보기</string>
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>

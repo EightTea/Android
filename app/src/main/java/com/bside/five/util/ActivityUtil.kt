@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
+import com.bside.five.ui.answer.AnswerActivity
 import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.my.MySurveyActivity
 import com.bside.five.ui.preview.PreviewActivity
@@ -59,4 +60,9 @@ object ActivityUtil {
         }
     }
 
+    fun startAnswerActivity(activity: Activity) {
+        Intent(activity, AnswerActivity::class.java).run {
+            activity.startActivity(this)
+        }
+    }
 }
