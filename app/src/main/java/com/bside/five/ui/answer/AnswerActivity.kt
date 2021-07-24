@@ -1,6 +1,5 @@
 package com.bside.five.ui.answer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +18,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
+        viewModel.requestAnswerAPI()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

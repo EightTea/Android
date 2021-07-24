@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.databinding.LayoutAnswerLowBinding
 import com.bside.five.databinding.LayoutQuestionLowBinding
@@ -55,7 +56,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(item: Question) {
             binding.apply {
-                questionLowNo.text = item.no.toString()
+                questionLowNo.text = "Q${item.no}"
                 questionLowTitle.text = item.title
             }
         }
@@ -66,13 +67,50 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(item: Answer) {
             binding.apply {
                 answerLowContents.text = item.answer
-                answerLowDate.text = "${item.date} 답변"
-                answerLowMoreContainer.isVisible = item.isLast
+//                answerLowDate.text = "${item.date} 답변"
+                answerLowDate.text = "2021.03.12 답변"
+                answerLowMoreContainer.isVisible = item.isMore
 
                 answerLowMoreBtn.setOnClickListener {
                     Toast.makeText(it.context, "answerLowMoreBtn api call", Toast.LENGTH_LONG).show()
                 }
             }
         }
+    }
+
+    private class AnswerDiff(private val oldItems: List<SurveyResult>, private val newItems: List<SurveyResult>) :
+        DiffUtil.Callback() {
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldItems[oldItemPosition]
+            val newItem = newItems[newItemPosition]
+
+            return if (oldItem is SurveyResult.QuestionUI && newItem is SurveyResult.QuestionUI) {
+                oldItem.question.no == newItem.question.no
+            } else if (oldItem is SurveyResult.AnswerUI && newItem is SurveyResult.AnswerUI) {
+                oldItem.answer.questionNo == newItem.answer.questionNo
+            } else {
+                oldItem == newItem
+            }
+        }
+
+        override fun getOldListSize(): Int = oldItems.size
+
+        override fun getNewListSize(): Int = newItems.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldItems[oldItemPosition]
+            val newItem = newItems[newItemPosition]
+
+            return oldItem == newItem
+        }
+    }
+
+    fun replaceAll(list: ArrayList<SurveyResult>) {
+        val diff = AnswerDiff(items, list)
+        val diffResult = DiffUtil.calculateDiff(diff)
+        items.clear()
+        items.addAll(list)
+        diffResult.dispatchUpdatesTo(this)
     }
 }
