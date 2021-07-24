@@ -3,25 +3,39 @@ package com.bside.five.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bside.five.databinding.LayoutAnswerEmptyLowBinding
 import com.bside.five.databinding.LayoutAnswerLowBinding
+import com.bside.five.databinding.LayoutAnswerQrBtnBinding
 import com.bside.five.databinding.LayoutQuestionLowBinding
 import com.bside.five.model.Answer
 import com.bside.five.model.Question
 import com.bside.five.model.SurveyResult
+import com.bside.five.util.ActivityUtil
 
 class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_QUESTION = 1
         const val TYPE_ANSWER = 2
+        const val TYPE_HEADER = 3
+        const val TYPE_FOOTER = 4
     }
 
     private val items = ArrayList<SurveyResult>()
 
     override fun getItemViewType(position: Int): Int {
+        if (items.isEmpty()) {
+            return TYPE_HEADER
+        }
+
+        if (position == items.size) {
+            return TYPE_FOOTER
+        }
+
         return when (items[position]) {
             is SurveyResult.QuestionUI -> TYPE_QUESTION
             is SurveyResult.AnswerUI -> TYPE_ANSWER
@@ -38,17 +52,29 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = LayoutAnswerLowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 return AnswerViewModel(binding)
             }
+            TYPE_FOOTER -> {
+                val binding = LayoutAnswerQrBtnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return FooterViewHolder(binding)
+            }
+            TYPE_HEADER -> {
+                val binding = LayoutAnswerEmptyLowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return HeaderViewHolder(binding)
+            }
         }
 
         return super.createViewHolder(parent, viewType)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int {
+        return items.size + 1
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is QuestionViewModel -> holder.bind((items[position] as SurveyResult.QuestionUI).question)
             is AnswerViewModel -> holder.bind((items[position] as SurveyResult.AnswerUI).answer)
+            is HeaderViewHolder -> holder.bind()
+            is FooterViewHolder -> holder.bind()
         }
     }
 
@@ -74,6 +100,22 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 answerLowMoreBtn.setOnClickListener {
                     Toast.makeText(it.context, "answerLowMoreBtn api call", Toast.LENGTH_LONG).show()
                 }
+            }
+        }
+    }
+
+    inner class FooterViewHolder(val binding: LayoutAnswerQrBtnBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind() {
+            binding.newSurveyStartBtn.setOnClickListener {
+                ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+            }
+        }
+    }
+
+    inner class HeaderViewHolder(val binding: LayoutAnswerEmptyLowBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind() {
+            binding.answerEmptyStartBtn.setOnClickListener {
+                ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
             }
         }
     }

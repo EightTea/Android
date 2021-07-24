@@ -22,7 +22,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
-        viewModel.requestAnswerAPI()
+//        viewModel.requestAnswerAPI()
 
         binding.answerContainer.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}

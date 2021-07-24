@@ -36,4 +36,8 @@
     <!--my survey-->
     <string name="my_survey_count">등록된 질문 %d건</string>
     <!--my survey-->
+
+    <!--answer-->
+    <string name="answer_qr_text">질문 QR코드 보기</string>
+    <!--answer-->
 </resources>
