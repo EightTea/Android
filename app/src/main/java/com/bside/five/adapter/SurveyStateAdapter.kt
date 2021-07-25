@@ -1,6 +1,5 @@
 package com.bside.five.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -83,6 +82,9 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     Toast.makeText(it.context, "surveyUnderComplete", Toast.LENGTH_LONG).show()
                 }
 
+                root.setOnClickListener {
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                }
             }
         }
     }
@@ -94,6 +96,10 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 surveyEndAnswerCount.text = root.resources.getString(R.string.answer_count, item.answerCount ?: 0)
                 val dateStr = "${item.start_date ?: ""} ~ ${item.end_date ?: ""}"
                 surveyEndDate.text = dateStr
+
+                root.setOnClickListener {
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                }
             }
         }
     }
@@ -104,6 +110,10 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 surveyIncompleteTitle.text = item.title
                 surveyIncompleteDeleteBtn.setOnClickListener {
                     Toast.makeText(it.context, "surveyIncompleteDeleteBtn", Toast.LENGTH_LONG).show()
+                }
+
+                root.setOnClickListener {
+                    Toast.makeText(it.context, "구현중인 질문 표시", Toast.LENGTH_LONG).show()
                 }
             }
         }
