@@ -28,4 +28,5 @@
     <color name="btn_bg">#F2F2F2</color>
     <color name="date_color_text">#A0A0A0</color>
     <color name="divider_color">#EDEDED</color>
+    <color name="kakao_color">#FFE500</color>
 </resources>

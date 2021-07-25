@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
 import com.bside.five.ui.answer.AnswerActivity
 import com.bside.five.ui.gallery.GalleryActivity
+import com.bside.five.ui.main.MainActivity
 import com.bside.five.ui.my.MySurveyActivity
 import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
@@ -14,6 +15,13 @@ import com.bside.five.ui.sample.SampleActivity
 import com.bside.five.ui.setting.SettingActivity
 
 object ActivityUtil {
+
+    fun startMainActivity(activity: Activity) {
+        Intent(activity, MainActivity::class.java).run {
+            activity.startActivity(this)
+            activity.overridePendingTransition(0, 0)
+        }
+    }
 
     fun startGalleryActivity(activity: Activity, fragment: Fragment? = null) {
         Intent(activity, GalleryActivity::class.java).run {

@@ -39,5 +39,10 @@
 
     <!--answer-->
     <string name="answer_qr_text">질문 QR코드 보기</string>
+
     <!--answer-->
+
+    <!--kakao-->
+    <string name="kakao_btn_text">카카오톡 간편 시작</string>
+    <!--kakao-->
 </resources>
