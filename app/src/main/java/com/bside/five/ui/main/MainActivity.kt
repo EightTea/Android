@@ -2,18 +2,23 @@ package com.bside.five.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
+import com.bside.five.base.FiveApp
 import com.bside.five.databinding.ActivityMainBinding
 import com.bside.five.ui.scanner.QrScannerActivity
 import com.bside.five.util.ActivityUtil
+import com.bside.five.util.FivePreference
 import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+
+    private val tag = this::class.java.simpleName
 
     override val layoutResourceId: Int
         get() = R.layout.activity_main
@@ -24,6 +29,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
+
+        Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken(this)}")
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
