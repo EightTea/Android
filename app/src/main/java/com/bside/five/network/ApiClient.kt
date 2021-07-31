@@ -2,7 +2,6 @@ package com.bside.five.network
 
 import com.bside.five.BuildConfig
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -34,13 +33,6 @@ object ApiClient {
 
     private fun getOkHttpClient(): OkHttpClient {
         return okHttpClient ?: OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val original: Request = chain.request()
-                val authorized: Request = original.newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .build()
-                chain.proceed(authorized)
-            }
             .addInterceptor(getLoggingInterceptor())
             .connectTimeout(TIMEOUT_CONNECT.toLong(), TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_READ.toLong(), TimeUnit.SECONDS)
