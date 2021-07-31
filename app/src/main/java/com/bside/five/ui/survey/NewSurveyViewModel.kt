@@ -1,6 +1,7 @@
 package com.bside.five.ui.survey
 
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -12,8 +13,18 @@ import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.QuestionInfo
 import com.bside.five.model.SurveyFragmentInfo
+import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.util.ActivityUtil
 import com.bside.five.util.CommonUtil
+import com.bside.five.util.FivePreference
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
+import okio.Okio
+
 
 class NewSurveyViewModel : BaseViewModel() {
 
@@ -49,18 +60,46 @@ class NewSurveyViewModel : BaseViewModel() {
             }
             R.id.newSurveyFinishQuestionBtn -> {
                 val activity = view.context as AppCompatActivity
-                Toast.makeText(view.context, "newSurveyFinishQuestionBtn", Toast.LENGTH_LONG).show()
-
                 updateQuestionInfo()
 
+                val contentsList = ArrayList<MultipartBody.Part>()
+                val imgList = ArrayList<MultipartBody.Part>()
+
                 for (item in questionInfoList) {
-                    Log.d(tag, "kch item.no : ${item.no}")
-                    Log.d(tag, "kch item.content : ${item.contents}")
-                    Log.d(tag, "kch item.ImageUri : ${item.imageUri}")
+                    if (item.imageUri != Uri.EMPTY) {
+                        getMultipartBody(view, item.imageUri)?.let {
+                            imgList.add(it)
+                        }
+                    } else {
+                        val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", "")
+                        imgList.add(emptyPart)
+                    }
+
+                    contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
                 }
 
-                ActivityUtil.startQrCodeActivity(activity, "https://www.naver.com/")
-                activity.finish()
+                Log.d(tag, "kch contentsList size : ${contentsList.size}")
+                Log.d(tag, "kch imgList size : ${imgList.size}")
+
+                disposables.add(
+                    SurveyRepository().createSurvey(
+                        FivePreference.getAccessToken(view.context),
+                        surveyTitle,
+                        surveyContents,
+                        contentsList,
+                        imgList
+                    )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ response ->
+                            if (response.isSuccess()) {
+                                ActivityUtil.startQrCodeActivity(activity, response.data.qrcode_url)
+                                activity.finish()
+                            }
+
+                            Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
+                        }, { t: Throwable? -> t?.printStackTrace() })
+                )
             }
             R.id.questionImageContainer -> {
                 val activity = view.context as AppCompatActivity
@@ -76,6 +115,32 @@ class NewSurveyViewModel : BaseViewModel() {
             }
             R.id.surveyInfoSampleBtn -> {
                 ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
+            }
+        }
+    }
+
+    private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {
+        val name = "questionFileList"
+
+        return view.context.contentResolver.query(imageUri, null, null, null, null)?.let {
+            if (it.moveToNext()) {
+                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                val requestBody = object : RequestBody() {
+                    override fun contentType(): MediaType? {
+                        return view.context.contentResolver.getType(imageUri)
+                            ?.let { type -> MediaType.parse(type) }
+                    }
+
+                    override fun writeTo(sink: BufferedSink) {
+                        sink.writeAll(Okio.source(view.context.contentResolver.openInputStream(imageUri)))
+                    }
+                }
+                it.close()
+
+                MultipartBody.Part.createFormData(name, displayName, requestBody)
+            } else {
+                it.close()
+                null
             }
         }
     }
