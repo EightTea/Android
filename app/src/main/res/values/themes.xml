@@ -14,6 +14,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--Toolbar-->
+    <style name="Theme.Custom.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/primary</item>
+    </style>
+    <!--Toolbar-->
+
+    <!--BottomSheetDialog-->
     <style name="RadiusBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/RadiusModalStyle</item>
     </style>
@@ -21,4 +28,5 @@
     <style name="RadiusModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_white_radius_16dp</item>
     </style>
+    <!--BottomSheetDialog-->
 </resources>

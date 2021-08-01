@@ -1,6 +1,7 @@
 package com.bside.five.network
 
 import com.bside.five.network.response.BaseResponse
+import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.network.response.SurveyResponse
 import com.bside.five.network.response.UserResponse
 import io.reactivex.Single
@@ -22,6 +23,7 @@ interface RetrofitService {
     /**
      * 회원 탈퇴
      */
+    @Headers("Content-Type: application/json")
     @DELETE("/user/{id}")
     fun requestUserDelete(
         @Path("id") id: String
@@ -31,11 +33,17 @@ interface RetrofitService {
      * 설문 조사 생성
      */
     @Multipart
-    @POST("/survey")
+    @POST("api/survey")
     fun createSurvey(
         @Header("Authorization") accessToken: String,
         @PartMap params: HashMap<String, RequestBody>,
         @Part questionContentList: ArrayList<MultipartBody.Part>,
         @Part questionFileList: ArrayList<MultipartBody.Part>
     ): Single<SurveyResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("api/survey")
+    fun requestSurveyList(
+        @Header("Authorization") accessToken: String
+    ): Single<MySurveyListResponse>
 }

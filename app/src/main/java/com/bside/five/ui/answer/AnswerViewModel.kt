@@ -1,10 +1,15 @@
 package com.bside.five.ui.answer
 
+import android.content.Context
 import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.*
+import com.bside.five.network.repository.SurveyRepository
+import com.bside.five.util.FivePreference
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class AnswerViewModel : BaseViewModel() {
 
@@ -13,7 +18,7 @@ class AnswerViewModel : BaseViewModel() {
 
     override fun onClickListener(view: View) {}
 
-    fun requestAnswerAPI() {
+    fun requestAnswerAPI(context: Context) {
 
         val responseList = ArrayList<Question>()
 

@@ -106,16 +106,29 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class FooterViewHolder(val binding: LayoutAnswerQrBtnBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.newSurveyStartBtn.setOnClickListener {
-                ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+            binding.apply {
+                qrCodeBtn.setOnClickListener {
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+                }
+
+                customerSurveyBtn.setOnClickListener {
+                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
 
     inner class HeaderViewHolder(val binding: LayoutAnswerEmptyLowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.answerEmptyStartBtn.setOnClickListener {
-                ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+            binding.apply {
+                answerEmptyQrCodeBtn.setOnClickListener {
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+
+                }
+
+                answerEmptySurveyBtn.setOnClickListener {
+                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

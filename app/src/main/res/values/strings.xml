@@ -4,7 +4,7 @@
     <string name="close">닫기</string>
 
     <!--menu-->
-    <string name="menu_qr_code">QR Code</string>
+    <string name="menu_qr_code">QR스캔</string>
     <string name="menu_preview">Preview</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_share">Share</string>
@@ -39,6 +39,7 @@
 
     <!--answer-->
     <string name="answer_qr_text">질문 QR코드 보기</string>
+    <string name="customer_survey_text">설문 보러 가기</string>
 
     <!--answer-->
 

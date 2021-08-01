@@ -3,10 +3,7 @@ package com.bside.five.ui.my
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.bside.five.R
-import com.bside.five.adapter.SurveyStateAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.databinding.ActivityMySurveyBinding
 
@@ -21,7 +18,7 @@ class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel
         super.onCreate(savedInstanceState)
 
         initToolbar()
-        viewModel.requestSurvey()
+        viewModel.requestSurvey(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

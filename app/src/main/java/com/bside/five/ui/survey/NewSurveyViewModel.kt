@@ -78,6 +78,8 @@ class NewSurveyViewModel : BaseViewModel() {
                     contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
                 }
 
+                // FIXME : 질문 내용과 이미지 인덱스를 맞추기 위해 빈값을 무엇을 넣을지 찾아봐야함
+
                 Log.d(tag, "kch contentsList size : ${contentsList.size}")
                 Log.d(tag, "kch imgList size : ${imgList.size}")
 
@@ -115,32 +117,6 @@ class NewSurveyViewModel : BaseViewModel() {
             }
             R.id.surveyInfoSampleBtn -> {
                 ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
-            }
-        }
-    }
-
-    private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {
-        val name = "questionFileList"
-
-        return view.context.contentResolver.query(imageUri, null, null, null, null)?.let {
-            if (it.moveToNext()) {
-                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                val requestBody = object : RequestBody() {
-                    override fun contentType(): MediaType? {
-                        return view.context.contentResolver.getType(imageUri)
-                            ?.let { type -> MediaType.parse(type) }
-                    }
-
-                    override fun writeTo(sink: BufferedSink) {
-                        sink.writeAll(Okio.source(view.context.contentResolver.openInputStream(imageUri)))
-                    }
-                }
-                it.close()
-
-                MultipartBody.Part.createFormData(name, displayName, requestBody)
-            } else {
-                it.close()
-                null
             }
         }
     }
@@ -187,5 +163,31 @@ class NewSurveyViewModel : BaseViewModel() {
         }
 
         questionInfoList.removeAt(position)
+    }
+
+    private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {
+        val name = "questionFileList"
+
+        return view.context.contentResolver.query(imageUri, null, null, null, null)?.let {
+            if (it.moveToNext()) {
+                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                val requestBody = object : RequestBody() {
+                    override fun contentType(): MediaType? {
+                        return view.context.contentResolver.getType(imageUri)
+                            ?.let { type -> MediaType.parse(type) }
+                    }
+
+                    override fun writeTo(sink: BufferedSink) {
+                        sink.writeAll(Okio.source(view.context.contentResolver.openInputStream(imageUri)))
+                    }
+                }
+                it.close()
+
+                MultipartBody.Part.createFormData(name, displayName, requestBody)
+            } else {
+                it.close()
+                null
+            }
+        }
     }
 }
