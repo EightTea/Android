@@ -1,11 +1,16 @@
 package com.bside.five.ui.my
 
+import android.content.Context
 import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.Survey
 import com.bside.five.model.SurveyInfo
+import com.bside.five.network.repository.SurveyRepository
+import com.bside.five.util.FivePreference
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MySurveyViewModel : BaseViewModel() {
 
@@ -13,10 +18,23 @@ class MySurveyViewModel : BaseViewModel() {
     var items = ObservableArrayList<Survey>()
 
     override fun onClickListener(view: View) {
-        TODO("Not yet implemented")
+        // FIXME : 필터 추가 예정
     }
 
-    fun requestSurvey() {
+    fun requestSurvey(context: Context) {
+        disposables.add(
+            SurveyRepository().requestSurveyList(FivePreference.getAccessToken(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.isSuccess()) {
+                        // FIXME : 호출 확인 데이터가 안나옴
+
+                    }
+
+                }, { t: Throwable? -> t?.printStackTrace() })
+        )
+
         val responseList = ArrayList<SurveyInfo>()
 
         responseList.add(SurveyInfo("우리 가게 방문 이유 확인하고 싶어요!", 123, 123, "i", 15))

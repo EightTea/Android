@@ -1,5 +1,6 @@
 package com.bside.five.network.repository
 
+import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.network.response.SurveyResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -20,5 +21,9 @@ class SurveyRepository : BaseRepository() {
         param["content"] = toRequestBody(content)
 
         return service.createSurvey(accessToken, param, questionContentList, questionFileList)
+    }
+
+    fun requestSurveyList(accessToken: String): Single<MySurveyListResponse> {
+        return service.requestSurveyList(accessToken)
     }
 }
