@@ -11,7 +11,6 @@ import com.bside.five.util.ImageUtil
 class QrCodeViewModel : BaseViewModel() {
 
     var imageSaveLive: MutableLiveData<String> = MutableLiveData()
-    var editTextFocusLive: MutableLiveData<String> = MutableLiveData()
     val qrDrawable = ObservableField<Drawable>()
     val isDownloadQr = ObservableField<Boolean>(false)
 
@@ -21,9 +20,6 @@ class QrCodeViewModel : BaseViewModel() {
                 isDownloadQr.set(true)
                 val fileName = System.currentTimeMillis().toString() + "_${ImageUtil.TEMP_FILE_NAME}"
                 imageSaveLive.postValue(fileName)
-            }
-            R.id.qrCodeEditBtn -> {
-                editTextFocusLive.postValue("")
             }
         }
     }

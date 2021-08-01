@@ -54,17 +54,15 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
 
         initToolbar()
 
+        binding.qrCodeTitle.showKeyboard()
+//        binding.qrCodeTitle.requestFocus()
+
         viewModel.imageSaveLive.observe(this, Observer<String?> { fileName ->
             fileName?.let {
                 saveQrCodeImage(it)
                 viewModel.isDownloadQr.set(false)
                 GlideUtil.loadImage(binding.qrCodeSaveIcon, R.drawable.ic_download_done)
             }
-        })
-
-        viewModel.editTextFocusLive.observe(this, Observer<String?> {
-            binding.qrCodeTitle.requestFocus()
-            binding.qrCodeTitle.showKeyboard()
         })
     }
 
@@ -121,15 +119,11 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
 
     private fun saveQrCodeImage(fileName: String): Uri {
 
-        binding.qrCodeEditBtn.visibility = View.GONE
-
         val bitmap = getBitmapFromView(
             binding.qrCodeContainer,
             binding.qrCodeContainer.width,
             binding.qrCodeContainer.height
         )
-
-        binding.qrCodeEditBtn.visibility = View.VISIBLE
 
         return ImageUtil.insertImage(this, bitmap, fileName, "image/*")
     }
