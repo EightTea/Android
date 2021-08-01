@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bside.five.R
 import com.bside.five.databinding.LayoutGalleryLowBinding
 import com.bside.five.model.GalleryInfo
 import com.bside.five.util.GlideUtil
@@ -37,7 +38,12 @@ class GalleryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(item: GalleryInfo, listener: ActionListener?) {
             binding.apply {
                 GlideUtil.loadImage(imageView, item.uri)
-                imgCheck.isVisible = item.isCheck
+
+                if (item.isCheck) {
+                    GlideUtil.loadImage(imgCheck, R.drawable.ic_check_selected)
+                } else {
+                    GlideUtil.loadImage(imgCheck, R.drawable.ic_check_enabled)
+                }
 
                 root.setOnClickListener {
                     items[beforePointer].isCheck = false
