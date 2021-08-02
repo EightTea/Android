@@ -46,4 +46,9 @@
     <!--kakao-->
     <string name="kakao_btn_text">카카오톡 간편 시작</string>
     <!--kakao-->
+
+    <!--Login-->
+    <string name="welcome_text">귀쫑긋에 오신걸\n환영합니다.</string>
+    <!--Login-->
+
 </resources>
