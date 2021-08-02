@@ -30,6 +30,10 @@ class SampleActivity : AppCompatActivity() {
         }
 
         initToolbar()
+
+        binding.sampleBtn.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
