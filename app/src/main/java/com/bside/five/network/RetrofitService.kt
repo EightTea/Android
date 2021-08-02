@@ -33,7 +33,7 @@ interface RetrofitService {
      * 설문 조사 생성
      */
     @Multipart
-    @POST("api/survey")
+    @POST("survey")
     fun createSurvey(
         @Header("Authorization") accessToken: String,
         @PartMap params: HashMap<String, RequestBody>,
@@ -42,7 +42,7 @@ interface RetrofitService {
     ): Single<SurveyResponse>
 
     @Headers("Content-Type: application/json")
-    @GET("api/survey")
+    @GET("survey")
     fun requestSurveyList(
         @Header("Authorization") accessToken: String
     ): Single<MySurveyListResponse>
