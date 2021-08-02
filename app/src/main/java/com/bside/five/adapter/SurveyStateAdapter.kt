@@ -10,7 +10,7 @@ import com.bside.five.databinding.LayoutSurveyEndBinding
 import com.bside.five.databinding.LayoutSurveyIncompleteBinding
 import com.bside.five.databinding.LayoutSurveyUnderBinding
 import com.bside.five.model.Survey
-import com.bside.five.model.SurveyInfo
+import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.util.ActivityUtil
 
 class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -67,10 +67,10 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class UnderViewHolder(val binding: LayoutSurveyUnderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SurveyInfo) {
+        fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyUnderTitle.text = item.title
-                surveyUnderAnswerCount.text = root.resources.getString(R.string.answer_now_count, item.answerCount ?: 0)
+                surveyUnderAnswerCount.text = root.resources.getString(R.string.answer_now_count, item.answer_cnt ?: 0)
                 val dateStr = "${item.start_date ?: ""} ~ ${item.end_date ?: ""}"
                 surveyUnderDate.text = dateStr
 
@@ -90,10 +90,10 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class EndViewHolder(val binding: LayoutSurveyEndBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SurveyInfo) {
+        fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyEndTitle.text = item.title
-                surveyEndAnswerCount.text = root.resources.getString(R.string.answer_count, item.answerCount ?: 0)
+                surveyEndAnswerCount.text = root.resources.getString(R.string.answer_count, item.answer_cnt ?: 0)
                 val dateStr = "${item.start_date ?: ""} ~ ${item.end_date ?: ""}"
                 surveyEndDate.text = dateStr
 
@@ -105,7 +105,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class IncompleteViewHolder(val binding: LayoutSurveyIncompleteBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SurveyInfo) {
+        fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyIncompleteTitle.text = item.title
                 surveyIncompleteDeleteBtn.setOnClickListener {
