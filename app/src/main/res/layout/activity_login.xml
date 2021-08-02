@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/welcome_text"
-            android:textColor="#222222"
+            android:textColor="@color/comment_text"
             android:textSize="24dp"
             app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
