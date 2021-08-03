@@ -1,9 +1,6 @@
 package com.bside.five.network
 
-import com.bside.five.network.response.BaseResponse
-import com.bside.five.network.response.MySurveyListResponse
-import com.bside.five.network.response.SurveyResponse
-import com.bside.five.network.response.UserResponse
+import com.bside.five.network.response.*
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -41,9 +38,30 @@ interface RetrofitService {
         @Part questionFileList: ArrayList<MultipartBody.Part>
     ): Single<SurveyResponse>
 
+    /**
+     * 내 설문 조사 리스트
+     */
     @Headers("Content-Type: application/json")
     @GET("survey")
     fun requestSurveyList(
         @Header("Authorization") accessToken: String
     ): Single<MySurveyListResponse>
+
+    /**
+     * 설문 조사 질문 리스트
+     */
+    @Headers("Content-Type: application/json")
+    @GET("survey/{survey_id}")
+    fun requestSurveyDetail(
+        @Header("Authorization") accessToken: String,
+        @Path("survey_id") surveyId: String
+    ): Single<MySurveyDetailResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("survey/{survey_id}/{question_id}")
+    fun requestSurveyAnswer(
+        @Header("Authorization") accessToken: String,
+        @Path("survey_id") surveyId: String,
+        @Path("question_id") questionId: String
+    ): Single<AnswerListResponse>
 }

@@ -83,7 +83,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id)
                 }
             }
         }
@@ -98,7 +98,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 surveyEndDate.text = dateStr
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id)
                 }
             }
         }

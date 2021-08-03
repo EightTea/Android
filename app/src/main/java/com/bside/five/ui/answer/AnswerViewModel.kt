@@ -15,10 +15,29 @@ class AnswerViewModel : BaseViewModel() {
 
     private val tag = this::class.java.simpleName
     val items = ObservableArrayList<SurveyResult>()
+    var surveyId = ""
 
     override fun onClickListener(view: View) {}
 
     fun requestAnswerAPI(context: Context) {
+
+        disposables.add(
+            SurveyRepository().requestSurveyDetail(FivePreference.getAccessToken(context), surveyId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.isSuccess()) {
+                        response.data.qrcode_url
+
+                        val questionId = response.data.question.first().question_id
+
+                        requestAnswer(context, questionId, 0)
+
+                    }
+                }, { t: Throwable? ->
+                    t?.printStackTrace()
+                })
+        )
 
         val responseList = ArrayList<Question>()
 
@@ -61,5 +80,22 @@ class AnswerViewModel : BaseViewModel() {
         items.addAll(resultList)
 
 
+    }
+
+    private fun requestAnswer(context: Context, questionId: String, position: Int) {
+        disposables.add(
+            SurveyRepository().requestSurveyAnswer(
+                FivePreference.getAccessToken(context),
+                surveyId,
+                questionId
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.isSuccess()) {
+
+                    }
+                }, { t: Throwable? -> t?.printStackTrace() })
+        )
     }
 }

@@ -1,5 +1,7 @@
 package com.bside.five.network.repository
 
+import com.bside.five.network.response.AnswerListResponse
+import com.bside.five.network.response.MySurveyDetailResponse
 import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.network.response.SurveyResponse
 import io.reactivex.Single
@@ -25,5 +27,13 @@ class SurveyRepository : BaseRepository() {
 
     fun requestSurveyList(accessToken: String): Single<MySurveyListResponse> {
         return service.requestSurveyList(accessToken)
+    }
+
+    fun requestSurveyDetail(accessToken: String, surveyId: String): Single<MySurveyDetailResponse> {
+        return service.requestSurveyDetail(accessToken, surveyId)
+    }
+
+    fun requestSurveyAnswer(accessToken: String, surveyId: String, answer: String): Single<AnswerListResponse> {
+        return service.requestSurveyAnswer(accessToken, surveyId, answer)
     }
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
+import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityAnswerBinding
 
 class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
@@ -20,6 +21,8 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.surveyId = intent.getStringExtra(Constants.EXTRA_SURVEY_ID) ?: ""
 
         initToolbar()
         viewModel.requestAnswerAPI(this)
