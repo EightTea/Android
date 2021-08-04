@@ -16,10 +16,7 @@ class MainViewModel : BaseViewModel() {
 
         when (view.id) {
             R.id.mainAddSurveyBtn -> {
-                val activity = (view.context as AppCompatActivity)
-
-                val intent = Intent(activity, NewSurveyActivity::class.java)
-                activity.startActivity(intent)
+                ActivityUtil.startNewSurveyActivity(view.context as AppCompatActivity)
             }
             R.id.mainMySurveyBtn -> {
                 ActivityUtil.startMySurveyActivity(view.context as AppCompatActivity)

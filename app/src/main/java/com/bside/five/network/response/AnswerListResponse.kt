@@ -8,6 +8,7 @@ data class AnswerListResponse(val data: Data) : BaseResponse() {
         val answer_id: String,
         val answer_no: String,
         val comment: String,
-        val date: Timestamp
+        val date: String,
+        var isMore: Boolean = false
     )
 }

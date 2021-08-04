@@ -50,7 +50,7 @@ class DeleteAccountDialog(context: Context) : Dialog(context, R.style.Theme_AppC
     }
 
     override fun dismiss() {
-        disposable.clear()
+        disposable.dispose()
         super.dismiss()
     }
 }

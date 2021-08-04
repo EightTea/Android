@@ -24,6 +24,7 @@
 
     <string name="toolbar_preview">미리보기</string>
     <string name="toolbar_add_survey">질문 만들기</string>
+
     <string name="toolbar_sample">샘플보기</string>
     <string name="toolbar_my_survey">내 질문 리스트</string>
     <string name="toolbar_answer">답변 보기</string>
@@ -37,11 +38,16 @@
 
     <!--my survey-->
     <string name="my_survey_count">등록된 질문 %d건</string>
+    <string name="my_survey_empty_btn_title">질문 만들기</string>
+    <string name="my_survey_empty_title">작성한 질문이 없네요. 궁금한 질문을 만들어서 물어보세요!</string>
+    <string name="my_survey_empty_contents">우리 가게 고객, 비어 있는 상가에 대한 동네 사람들의 의견 등</string>
     <!--my survey-->
 
     <!--answer-->
     <string name="answer_qr_text">질문 QR코드 보기</string>
     <string name="customer_survey_text">설문 보러 가기</string>
+    <string name="survey_no">Q%s</string>
+    <string name="survey_answer_date">%s 답변</string>
 
     <!--answer-->
 

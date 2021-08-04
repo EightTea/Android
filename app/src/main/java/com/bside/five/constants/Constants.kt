@@ -10,4 +10,5 @@ object Constants {
     const val EXTRA_IMAGE = "image"
     const val EXTRA_URL = "url"
     const val EXTRA_SURVEY_ID = "survey_id"
+    const val EXTRA_ANSWER_COUNT = "answer_count"
 }

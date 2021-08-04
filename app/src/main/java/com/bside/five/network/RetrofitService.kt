@@ -57,6 +57,9 @@ interface RetrofitService {
         @Path("survey_id") surveyId: String
     ): Single<MySurveyDetailResponse>
 
+    /**
+     * 설문 조사 질문별 답변 리스트
+     */
     @Headers("Content-Type: application/json")
     @GET("survey/{survey_id}/{question_id}")
     fun requestSurveyAnswer(
@@ -64,4 +67,14 @@ interface RetrofitService {
         @Path("survey_id") surveyId: String,
         @Path("question_id") questionId: String
     ): Single<AnswerListResponse>
+
+    /**
+     * 설문 조사 질문 URL 요청
+     */
+    @Headers("Content-Type: application/json")
+    @GET("survey/{survey_id}/qrcodeUrl")
+    fun requestSurveyQrUrl(
+        @Header("Authorization") accessToken: String,
+        @Path("survey_id") surveyId: String
+    ): Single<QrUrlResponse>
 }

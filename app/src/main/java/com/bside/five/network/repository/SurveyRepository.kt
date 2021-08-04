@@ -1,9 +1,6 @@
 package com.bside.five.network.repository
 
-import com.bside.five.network.response.AnswerListResponse
-import com.bside.five.network.response.MySurveyDetailResponse
-import com.bside.five.network.response.MySurveyListResponse
-import com.bside.five.network.response.SurveyResponse
+import com.bside.five.network.response.*
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -35,5 +32,9 @@ class SurveyRepository : BaseRepository() {
 
     fun requestSurveyAnswer(accessToken: String, surveyId: String, answer: String): Single<AnswerListResponse> {
         return service.requestSurveyAnswer(accessToken, surveyId, answer)
+    }
+
+    fun requestSurveyQrUrl(accessToken: String, surveyId: String): Single<QrUrlResponse> {
+        return service.requestSurveyQrUrl(accessToken, surveyId)
     }
 }
