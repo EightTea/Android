@@ -92,11 +92,12 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 surveyUnderDate.text = dateStr
 
                 surveyUnderQrBtn.setOnClickListener {
-                    requestQrUrl(it, item.survey_id)
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, item.survey_id)
                 }
 
                 surveyUnderComplete.setOnClickListener {
-                    Toast.makeText(it.context, "surveyUnderComplete", Toast.LENGTH_LONG).show()
+                    // FIXME : 질문 종료 팝업 ㄱ
+                    requestSurveyComplete(it, item.survey_id)
                 }
 
                 root.setOnClickListener {
@@ -104,6 +105,24 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
             }
         }
+    }
+
+    private fun requestSurveyComplete(
+        it: View,
+        surveyId: String
+    ) {
+        disposable.add(
+            SurveyRepository().requestSurveyStateChange(
+                FivePreference.getAccessToken(it.context),
+                surveyId,
+                "complete"
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    Toast.makeText(it.context, response.msg, Toast.LENGTH_LONG).show()
+                }, { t: Throwable? -> t?.printStackTrace() })
+        )
     }
 
     inner class EndViewHolder(val binding: LayoutSurveyEndBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -145,24 +164,5 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             addAll(list)
             notifyDataSetChanged()
         }
-    }
-
-    private fun requestQrUrl(it: View, surveyId: String) {
-        // FIXME : 400 에러 확인해야함
-        disposable.add(
-            SurveyRepository().requestSurveyQrUrl(FivePreference.getAccessToken(it.context), surveyId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response ->
-                    if (response.isSuccess()) {
-                        ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, response.data.qrcode_url)
-                    } else {
-                        Toast.makeText(it.context, "${response.msg}", Toast.LENGTH_LONG).show()
-                    }
-                }, { t: Throwable? ->
-                    t?.printStackTrace()
-                    Toast.makeText(it.context, "다시 시도 해주세요.", Toast.LENGTH_LONG).show()
-                })
-        )
     }
 }

@@ -95,7 +95,7 @@ class NewSurveyViewModel : BaseViewModel() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ response ->
                             if (response.isSuccess()) {
-                                ActivityUtil.startQrCodeActivity(activity, response.data.qrcode_url)
+                                ActivityUtil.startQrCodeActivity(activity, response.data.survey_id)
                                 activity.finish()
                             }
 

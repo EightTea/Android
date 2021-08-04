@@ -34,7 +34,10 @@ class SurveyRepository : BaseRepository() {
         return service.requestSurveyAnswer(accessToken, surveyId, answer)
     }
 
-    fun requestSurveyQrUrl(accessToken: String, surveyId: String): Single<QrUrlResponse> {
-        return service.requestSurveyQrUrl(accessToken, surveyId)
+    fun requestSurveyStateChange(accessToken: String, surveyId: String, status: String): Single<BaseResponse> {
+        val param: HashMap<String, String> = HashMap()
+        param["status"] = status
+
+        return service.requestSurveyStateChange(accessToken, surveyId, param)
     }
 }

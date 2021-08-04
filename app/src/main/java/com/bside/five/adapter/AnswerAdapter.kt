@@ -14,6 +14,7 @@ import com.bside.five.databinding.LayoutAnswerLowBinding
 import com.bside.five.databinding.LayoutAnswerQrBtnBinding
 import com.bside.five.databinding.LayoutQuestionLowBinding
 import com.bside.five.model.SurveyResult
+import com.bside.five.network.ApiClient
 import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.network.response.AnswerListResponse
 import com.bside.five.network.response.MySurveyDetailResponse
@@ -124,11 +125,12 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind() {
             binding.apply {
                 qrCodeBtn.setOnClickListener {
-                    requestQrUrl(it)
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
                 }
 
                 customerSurveyBtn.setOnClickListener {
-                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -138,12 +140,12 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind() {
             binding.apply {
                 answerEmptyQrCodeBtn.setOnClickListener {
-                    requestQrUrl(it)
-
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
                 }
 
                 answerEmptySurveyBtn.setOnClickListener {
-                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -187,24 +189,5 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setSurveyId(id: String) {
         surveyId = id
-    }
-
-    private fun requestQrUrl(it: View) {
-        // FIXME : 400 에러 확인해야함
-        disposable.add(
-            SurveyRepository().requestSurveyQrUrl(FivePreference.getAccessToken(it.context), surveyId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response ->
-                    if (response.isSuccess()) {
-                        ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, response.data.qrcode_url)
-                    } else {
-                        Toast.makeText(it.context, "${response.msg}", Toast.LENGTH_LONG).show()
-                    }
-                }, { t: Throwable? ->
-                    t?.printStackTrace()
-                    Toast.makeText(it.context, "다시 시도 해주세요.", Toast.LENGTH_LONG).show()
-                })
-        )
     }
 }

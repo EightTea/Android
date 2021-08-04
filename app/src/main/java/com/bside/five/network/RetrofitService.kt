@@ -69,12 +69,13 @@ interface RetrofitService {
     ): Single<AnswerListResponse>
 
     /**
-     * 설문 조사 질문 URL 요청
+     * 내 설문 조사 상태 변경 요청(ex. 설문 종료)
      */
     @Headers("Content-Type: application/json")
-    @GET("survey/{survey_id}/qrcodeUrl")
-    fun requestSurveyQrUrl(
+    @GET("survey/{survey_id}")
+    fun requestSurveyStateChange(
         @Header("Authorization") accessToken: String,
-        @Path("survey_id") surveyId: String
-    ): Single<QrUrlResponse>
+        @Path("survey_id") surveyId: String,
+        @Body body: Map<String, String>
+    ): Single<BaseResponse>
 }

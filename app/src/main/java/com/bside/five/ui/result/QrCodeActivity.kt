@@ -22,6 +22,7 @@ import com.bside.five.base.BaseActivity
 import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityQrCodeBinding
 import com.bside.five.extension.showKeyboard
+import com.bside.five.network.ApiClient
 import com.bside.five.util.CommonUtil
 import com.bside.five.util.GlideUtil
 import com.bside.five.util.ImageUtil
@@ -47,8 +48,10 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent.getStringExtra(Constants.EXTRA_URL)?.let {
-            val qrBitmap = createQrCode(it)
+        intent.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let {
+            // FIXME : aws 도메인을 받아서 BASE_URL 주소를 바꿔야함
+            val url = ApiClient.BASE_URL + it + "/view"
+            val qrBitmap = createQrCode(url)
             viewModel.qrDrawable.set(qrBitmap.toDrawable(resources))
         }
 
