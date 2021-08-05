@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
 import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseViewModel
+import com.bside.five.custom.dialog.CompleteCheckDialog
 import com.bside.five.model.QuestionInfo
 import com.bside.five.model.SurveyFragmentInfo
 import com.bside.five.network.repository.SurveyRepository
@@ -60,48 +61,12 @@ class NewSurveyViewModel : BaseViewModel() {
             }
             R.id.newSurveyFinishQuestionBtn -> {
                 val activity = view.context as AppCompatActivity
-                updateQuestionInfo()
+                val dialog = CompleteCheckDialog(view.context, View.OnClickListener {
+                    updateQuestionInfo()
+                    createSurvey(view, activity)
+                })
 
-                val contentsList = ArrayList<MultipartBody.Part>()
-                val imgList = ArrayList<MultipartBody.Part>()
-
-                for (item in questionInfoList) {
-                    if (item.imageUri != Uri.EMPTY) {
-                        getMultipartBody(view, item.imageUri)?.let {
-                            imgList.add(it)
-                        }
-                    } else {
-                        val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", "")
-                        imgList.add(emptyPart)
-                    }
-
-                    contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
-                }
-
-                // FIXME : 질문 내용과 이미지 인덱스를 맞추기 위해 빈값을 무엇을 넣을지 찾아봐야함
-
-                Log.d(tag, "kch contentsList size : ${contentsList.size}")
-                Log.d(tag, "kch imgList size : ${imgList.size}")
-
-                disposables.add(
-                    SurveyRepository().createSurvey(
-                        FivePreference.getAccessToken(view.context),
-                        surveyTitle,
-                        surveyContents,
-                        contentsList,
-                        imgList
-                    )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ response ->
-                            if (response.isSuccess()) {
-                                ActivityUtil.startQrCodeActivity(activity, response.data.survey_id)
-                                activity.finish()
-                            }
-
-                            Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
-                        }, { t: Throwable? -> t?.printStackTrace() })
-                )
+                dialog.show()
             }
             R.id.questionImageContainer -> {
                 val activity = view.context as AppCompatActivity
@@ -125,7 +90,7 @@ class NewSurveyViewModel : BaseViewModel() {
         adapter = ScreenSlidePagerAdapter(activity.supportFragmentManager, activity.lifecycle)
     }
 
-    fun createPage() {
+    private fun createPage() {
         addQuestionInfo()
 
         adapter.addFragment(SurveyFragmentInfo(1, questionNo))
@@ -163,6 +128,49 @@ class NewSurveyViewModel : BaseViewModel() {
         }
 
         questionInfoList.removeAt(position)
+    }
+
+    private fun createSurvey(view: View, activity: AppCompatActivity) {
+        val contentsList = ArrayList<MultipartBody.Part>()
+        val imgList = ArrayList<MultipartBody.Part>()
+
+        for (item in questionInfoList) {
+            if (item.imageUri != Uri.EMPTY) {
+                getMultipartBody(view, item.imageUri)?.let {
+                    imgList.add(it)
+                }
+            } else {
+                val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", "")
+                imgList.add(emptyPart)
+            }
+
+            contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
+        }
+
+        // FIXME : 질문 내용과 이미지 인덱스를 맞추기 위해 빈값을 무엇을 넣을지 찾아봐야함
+
+        Log.d(tag, "kch contentsList size : ${contentsList.size}")
+        Log.d(tag, "kch imgList size : ${imgList.size}")
+
+        disposables.add(
+            SurveyRepository().createSurvey(
+                FivePreference.getAccessToken(view.context),
+                surveyTitle,
+                surveyContents,
+                contentsList,
+                imgList
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.isSuccess()) {
+                        ActivityUtil.startQrCodeActivity(activity, response.data.survey_id)
+                        activity.finish()
+                    }
+
+                    Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
+                }, { t: Throwable? -> t?.printStackTrace() })
+        )
     }
 
     private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {

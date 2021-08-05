@@ -29,6 +29,10 @@
     <string name="toolbar_my_survey">내 질문 리스트</string>
     <string name="toolbar_answer">답변 보기</string>
 
+    <string name="no_text">아니요</string>
+    <string name="end_text">종료할게요</string>
+    <string name="delete_text">삭제할게요</string>
+
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
     <string name="sample_contents">저희 카페에 방문하는 이유가 무엇인지 손님분들의 이야기를 듣고자합니다. \n\n성심성의껏 답변해주신 내용으로 더더욱 발전하는 카페가 될게요.</string>
@@ -59,4 +63,23 @@
     <string name="welcome_text">귀쫑긋에 오신걸\n환영합니다.</string>
     <!--Login-->
 
+    <!--Dialog-->
+    <string name="deleteAccountTitle">회원탈퇴</string>
+    <string name="deleteAccountContents">등록했던 질문과 답변을 더이상 볼 수 없어요, 정말로 탈퇴하시겠어요?</string>
+    <string name="deleteAccountYes">탈퇴할게요</string>
+
+    <string name="questionCompleteTitle">질문 종료</string>
+    <string name="questionCompleteContents">종료하면 다시 시작할 수 없어요! 질문을 진짜로 종료할건가요?</string>
+
+    <string name="questionDeleteAllTitle">이 질문 전체삭제</string>
+    <string name="questionDeleteAllContents">삭제된 질문은 복구되지 않아요. 정말로 해당 질문을 삭제할건가요?</string>
+
+    <string name="questionDeleteTitle">이 질문 삭제</string>
+    <string name="questionDeleteContents">삭제된 질문은 복구되지 않아요. 정말로 해당 질문을 삭제할건가요?</string>
+
+    <string name="completeCheckTitle">잠깐!</string>
+    <string name="completeCheckContents">직접 질문에 답해보고 답변하는 사람 입장에서 질문지를 점검해보는 게 어떨까요?</string>
+    <string name="completeCheckCancel">점검해 볼게요</string>
+    <string name="completeCheckOk">완료할게요</string>
+    <!--Dialog-->
 </resources>

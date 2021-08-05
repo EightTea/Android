@@ -29,4 +29,32 @@
         <item name="android:background">@drawable/bg_white_radius_16dp</item>
     </style>
     <!--BottomSheetDialog-->
+
+    <style name="DefaultDialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:background">@android:color/white</item>
+
+        <!-- Dim(Activity 배경) -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">?attr/colorBackgroundFloating</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <!-- Dialog Center -->
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="ImageDialog">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="android:background">@android:color/white</item>
+
+        <!-- Dim(Activity 배경) -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">?attr/colorBackgroundFloating</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <!-- Dialog Center -->
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

@@ -7,17 +7,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bside.five.R
-import com.bside.five.databinding.DialogDeleteAccoutBinding
-import com.bside.five.network.repository.UserRepository
+import com.bside.five.databinding.DialogQuestionCompleteBinding
+import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.util.FivePreference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class DeleteAccountDialog(context: Context) : Dialog(context, R.style.DefaultDialog) {
+class QuestionCompleteDialog(context: Context, private val surveyId: String) : Dialog(context, R.style.DefaultDialog) {
 
-    private var binding: DialogDeleteAccoutBinding =
-        DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_delete_accout, null, false)
+    private var binding: DialogQuestionCompleteBinding =
+        DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_question_complete, null, false)
 
     private val disposable = CompositeDisposable()
 
@@ -26,12 +26,14 @@ class DeleteAccountDialog(context: Context) : Dialog(context, R.style.DefaultDia
     }
 
     override fun show() {
-        binding.deleteAccountOkBtn.setOnClickListener {
-            requestUserDelete(it)
-        }
+        binding.apply {
+            questionCompleteOkBtn.setOnClickListener {
+                requestSurveyComplete(it)
+            }
 
-        binding.deleteAccountCancelBtn.setOnClickListener {
-            dismiss()
+            questionCompleteCancelBtn.setOnClickListener {
+                dismiss()
+            }
         }
 
         super.show()
@@ -42,9 +44,13 @@ class DeleteAccountDialog(context: Context) : Dialog(context, R.style.DefaultDia
         super.dismiss()
     }
 
-    private fun requestUserDelete(view: View) {
+    private fun requestSurveyComplete(view: View) {
         disposable.add(
-            UserRepository().requestUserDelete(FivePreference.getUserId(view.context))
+            SurveyRepository().requestSurveyStateChange(
+                FivePreference.getAccessToken(view.context),
+                surveyId,
+                "complete"
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->

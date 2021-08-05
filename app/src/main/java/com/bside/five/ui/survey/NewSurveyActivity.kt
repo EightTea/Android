@@ -3,10 +3,12 @@ package com.bside.five.ui.survey
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
+import com.bside.five.custom.dialog.QuestionDeleteDialog
 import com.bside.five.databinding.ActivityNewSurveyBinding
 import com.bside.five.util.ActivityUtil
 
@@ -53,7 +55,10 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                 return true
             }
             R.id.action_delete -> {
-                viewModel.deletePage()
+                val dialog = QuestionDeleteDialog(this, View.OnClickListener {
+                    viewModel.deletePage()
+                })
+                dialog.show()
                 return true
             }
         }

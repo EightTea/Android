@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.R
+import com.bside.five.custom.dialog.QuestionCompleteDialog
 import com.bside.five.databinding.LayoutSurveyEndBinding
 import com.bside.five.databinding.LayoutSurveyIncompleteBinding
 import com.bside.five.databinding.LayoutSurveyUnderBinding
@@ -96,8 +97,8 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 surveyUnderComplete.setOnClickListener {
-                    // FIXME : 질문 종료 팝업 ㄱ
-                    requestSurveyComplete(it, item.survey_id)
+                    val dialog = QuestionCompleteDialog(it.context, item.survey_id)
+                    dialog.show()
                 }
 
                 root.setOnClickListener {
@@ -105,24 +106,6 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
             }
         }
-    }
-
-    private fun requestSurveyComplete(
-        it: View,
-        surveyId: String
-    ) {
-        disposable.add(
-            SurveyRepository().requestSurveyStateChange(
-                FivePreference.getAccessToken(it.context),
-                surveyId,
-                "complete"
-            )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response ->
-                    Toast.makeText(it.context, response.msg, Toast.LENGTH_LONG).show()
-                }, { t: Throwable? -> t?.printStackTrace() })
-        )
     }
 
     inner class EndViewHolder(val binding: LayoutSurveyEndBinding) : RecyclerView.ViewHolder(binding.root) {
