@@ -9,14 +9,14 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/deleteAccountTitle"
+            android:id="@+id/questionDeleteAllTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
             android:textSize="20dp"
             android:textColor="@color/title_text"
-            android:text="@string/deleteAccountTitle"
+            android:text="@string/questionDeleteAllTitle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -27,29 +27,29 @@
             android:layout_marginEnd="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:text="@string/deleteAccountContents"
+            android:text="@string/questionDeleteAllContents"
             android:textColor="@color/contents_text"
             android:textSize="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/deleteAccountOkBtn"
+            app:layout_constraintBottom_toTopOf="@+id/questionDeleteAllCancelBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deleteAccountTitle"
+            app:layout_constraintTop_toBottomOf="@+id/questionDeleteAllTitle"
             app:layout_constraintVertical_bias="0.30" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/deleteAccountOkBtn"
+            android:id="@+id/questionDeleteAllCancelBtn"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:background="@color/warning_color"
+            android:background="@color/cancel_color_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/deleteAccountCancelBtn">
+            app:layout_constraintEnd_toStartOf="@+id/questionDeleteAllOkBtn">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/deleteAccountYes"
-                android:textColor="@color/white"
+                android:text="@string/no_text"
+                android:textColor="@color/cancel_color_text"
                 android:textSize="16dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -59,19 +59,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/deleteAccountCancelBtn"
+            android:id="@+id/questionDeleteAllOkBtn"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:background="@color/cancel_color_bg"
+            android:background="@color/warning_color"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/deleteAccountOkBtn"
+            app:layout_constraintStart_toEndOf="@+id/questionDeleteAllCancelBtn"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_text"
-                android:textColor="@color/cancel_color_text"
+                android:text="@string/delete_text"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

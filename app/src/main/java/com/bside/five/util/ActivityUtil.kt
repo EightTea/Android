@@ -13,6 +13,7 @@ import com.bside.five.ui.preview.PreviewActivity
 import com.bside.five.ui.result.QrCodeActivity
 import com.bside.five.ui.sample.SampleActivity
 import com.bside.five.ui.setting.SettingActivity
+import com.bside.five.ui.survey.NewSurveyActivity
 
 object ActivityUtil {
 
@@ -20,6 +21,12 @@ object ActivityUtil {
         Intent(activity, MainActivity::class.java).run {
             activity.startActivity(this)
             activity.overridePendingTransition(0, 0)
+        }
+    }
+
+    fun startNewSurveyActivity(activity: Activity) {
+        Intent(activity, NewSurveyActivity::class.java).run {
+            activity.startActivity(this)
         }
     }
 
@@ -41,9 +48,10 @@ object ActivityUtil {
         }
     }
 
-    fun startQrCodeActivity(activity: Activity, surveyUrl: String) {
+    fun startQrCodeActivity(activity: Activity, surveyId: String, isCreateQr: Boolean = false) {
         Intent(activity, QrCodeActivity::class.java).run {
-            putExtra(Constants.EXTRA_URL, surveyUrl)
+            putExtra(Constants.EXTRA_SURVEY_ID, surveyId)
+            putExtra(Constants.EXTRA_IS_CREATE_QR, isCreateQr)
             activity.startActivity(this)
         }
     }
@@ -68,8 +76,11 @@ object ActivityUtil {
         }
     }
 
-    fun startAnswerActivity(activity: Activity) {
+    fun startAnswerActivity(activity: Activity, surveyId: String, title: String, count: Int) {
         Intent(activity, AnswerActivity::class.java).run {
+            putExtra(Constants.EXTRA_SURVEY_ID, surveyId)
+            putExtra(Constants.EXTRA_TITLE, title)
+            putExtra(Constants.EXTRA_ANSWER_COUNT, count)
             activity.startActivity(this)
         }
     }

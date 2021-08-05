@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import java.io.File
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 object CommonUtil {
 
@@ -55,5 +57,41 @@ object CommonUtil {
         }
 
         return true
+    }
+
+    fun convertFormat(covertData: String?, convertFormat: String): String {
+        return try {
+            covertData?.let {
+                var format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                format.parse(it)?.let {
+                    format = SimpleDateFormat(convertFormat, Locale.getDefault())
+                    format.format(it)
+                }
+            } ?: ""
+        } catch (e: Exception) {
+            covertData ?: ""
+        }
+    }
+
+    fun convertDateFormat(
+        formatDate: String?,
+        oriFormat: String?,
+        convertFormat: String?,
+        locale: Locale?
+    ): String? {
+        if (formatDate.isNullOrEmpty()) {
+            return ""
+        }
+
+        var result = ""
+        try {
+            var format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
+            val date = format.parse(formatDate)
+            format = SimpleDateFormat(convertFormat, locale)
+            result = format.format(date)
+        } catch (e: Exception) {
+            return formatDate
+        }
+        return result
     }
 }

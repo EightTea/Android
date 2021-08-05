@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{(v) -> viewModel.onClickListener(v)}"
             app:layout_constraintTop_toBottomOf="@+id/mySurveyToolbar"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -83,6 +84,88 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mySurveyEmptyView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:isVisible="@{viewModel.items.size() == 0}"
+            app:layout_constraintTop_toBottomOf="@+id/mySurveyToolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/mySurveyEmptyTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:textColor="@color/title_text"
+                android:textSize="24dp"
+                android:text="@string/my_survey_empty_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/mySurveyEmptyContents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textColor="#4E5968"
+                android:textSize="16dp"
+                android:text="@string/my_survey_empty_contents"
+                app:layout_constraintTop_toBottomOf="@+id/mySurveyEmptyTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shap_pink"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toBottomOf="@+id/mySurveyEmptyContents"
+                app:layout_constraintBottom_toTopOf="@+id/mySurveyEmptyBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/saly_6"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toBottomOf="@+id/mySurveyEmptyContents"
+                app:layout_constraintBottom_toTopOf="@+id/mySurveyEmptyBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/mySurveyEmptyBtn"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:text="@string/my_survey_empty_btn_title"
+                android:textSize="17dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@drawable/selector_press_btn_bg"
+                android:onClick="@{(v) -> viewModel.onClickListener(v)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

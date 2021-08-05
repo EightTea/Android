@@ -2,11 +2,14 @@ package com.bside.five.ui.my
 
 import android.content.Context
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
+import com.bside.five.R
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.Survey
 import com.bside.five.network.repository.SurveyRepository
+import com.bside.five.util.ActivityUtil
 import com.bside.five.util.FivePreference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,7 +26,16 @@ class MySurveyViewModel : BaseViewModel() {
     var items = ObservableArrayList<Survey>()
 
     override fun onClickListener(view: View) {
-        // FIXME : 필터 추가 예정
+        when (view.id) {
+            R.id.mySurveyFilterBtn -> {
+
+            }
+            R.id.mySurveyEmptyBtn -> {
+                val activity = view.context as AppCompatActivity
+                ActivityUtil.startNewSurveyActivity(activity)
+                activity.finish()
+            }
+        }
     }
 
     fun requestSurvey(context: Context) {

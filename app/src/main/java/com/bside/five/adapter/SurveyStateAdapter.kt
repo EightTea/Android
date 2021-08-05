@@ -1,17 +1,26 @@
 package com.bside.five.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.R
+import com.bside.five.custom.dialog.QuestionCompleteDialog
 import com.bside.five.databinding.LayoutSurveyEndBinding
 import com.bside.five.databinding.LayoutSurveyIncompleteBinding
 import com.bside.five.databinding.LayoutSurveyUnderBinding
 import com.bside.five.model.Survey
+import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.util.ActivityUtil
+import com.bside.five.util.CommonUtil
+import com.bside.five.util.FivePreference
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlin.collections.ArrayList
 
 class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,6 +32,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val tag = this::class.java.simpleName
     private val items = ArrayList<Survey>()
+    private val disposable = CompositeDisposable()
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
@@ -66,24 +76,33 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        disposable.dispose()
+    }
+
     inner class UnderViewHolder(val binding: LayoutSurveyUnderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyUnderTitle.text = item.title
                 surveyUnderAnswerCount.text = root.resources.getString(R.string.answer_now_count, item.answer_cnt ?: 0)
-                val dateStr = "${item.start_date ?: ""} ~ ${item.end_date ?: ""}"
+
+                val start = CommonUtil.convertFormat(item.start_date, "yyyy-MM-dd")
+                val end = CommonUtil.convertFormat(item.end_date, "yyyy-MM-dd")
+                val dateStr = "$start ~ $end"
                 surveyUnderDate.text = dateStr
 
                 surveyUnderQrBtn.setOnClickListener {
-                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, item.survey_id)
                 }
 
                 surveyUnderComplete.setOnClickListener {
-                    Toast.makeText(it.context, "surveyUnderComplete", Toast.LENGTH_LONG).show()
+                    val dialog = QuestionCompleteDialog(it.context, item.survey_id)
+                    dialog.show()
                 }
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id, item.title, item.answer_cnt)
                 }
             }
         }
@@ -94,11 +113,14 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.apply {
                 surveyEndTitle.text = item.title
                 surveyEndAnswerCount.text = root.resources.getString(R.string.answer_count, item.answer_cnt ?: 0)
-                val dateStr = "${item.start_date ?: ""} ~ ${item.end_date ?: ""}"
+
+                val start = CommonUtil.convertFormat(item.start_date, "yyyy-MM-dd")
+                val end = CommonUtil.convertFormat(item.end_date, "yyyy-MM-dd")
+                val dateStr = "$start ~ $end"
                 surveyEndDate.text = dateStr
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity)
+                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id, item.title, item.answer_cnt)
                 }
             }
         }

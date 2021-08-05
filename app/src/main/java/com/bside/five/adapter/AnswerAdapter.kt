@@ -1,20 +1,30 @@
 package com.bside.five.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bside.five.R
 import com.bside.five.databinding.LayoutAnswerEmptyLowBinding
 import com.bside.five.databinding.LayoutAnswerLowBinding
 import com.bside.five.databinding.LayoutAnswerQrBtnBinding
 import com.bside.five.databinding.LayoutQuestionLowBinding
-import com.bside.five.model.Answer
-import com.bside.five.model.Question
 import com.bside.five.model.SurveyResult
+import com.bside.five.network.ApiClient
+import com.bside.five.network.repository.SurveyRepository
+import com.bside.five.network.response.AnswerListResponse
+import com.bside.five.network.response.MySurveyDetailResponse
 import com.bside.five.util.ActivityUtil
+import com.bside.five.util.CommonUtil
+import com.bside.five.util.FivePreference
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlin.collections.ArrayList
 
 class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -26,6 +36,8 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private val items = ArrayList<SurveyResult>()
+    private var surveyId = ""
+    private val disposable = CompositeDisposable()
 
     override fun getItemViewType(position: Int): Int {
         if (items.isEmpty()) {
@@ -78,23 +90,28 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        disposable.dispose()
+    }
+
     inner class QuestionViewModel(val binding: LayoutQuestionLowBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Question) {
+        fun bind(item: MySurveyDetailResponse.Question) {
             binding.apply {
-                questionLowNo.text = "Q${item.no}"
-                questionLowTitle.text = item.title
+                questionLowNo.text = root.context.getString(R.string.survey_no, item.no)
+                questionLowTitle.text = item.content
             }
         }
     }
 
     inner class AnswerViewModel(val binding: LayoutAnswerLowBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Answer) {
+        fun bind(item: AnswerListResponse.Answer) {
             binding.apply {
-                answerLowContents.text = item.answer
-//                answerLowDate.text = "${item.date} 답변"
-                answerLowDate.text = "2021.03.12 답변"
+                answerLowContents.text = item.comment
+                val dateText = CommonUtil.convertFormat(item.date, "yyyy-MM-dd")
+                answerLowDate.text = root.context.getString(R.string.survey_answer_date, dateText)
                 answerLowMoreContainer.isVisible = item.isMore
 
                 answerLowMoreBtn.setOnClickListener {
@@ -108,11 +125,12 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind() {
             binding.apply {
                 qrCodeBtn.setOnClickListener {
-                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
                 }
 
                 customerSurveyBtn.setOnClickListener {
-                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -122,12 +140,12 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind() {
             binding.apply {
                 answerEmptyQrCodeBtn.setOnClickListener {
-                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, "https://www.naver.com/")
-
+                    ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
                 }
 
                 answerEmptySurveyBtn.setOnClickListener {
-                    Toast.makeText(it.context, "설문조사 링크", Toast.LENGTH_LONG).show()
+                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -143,7 +161,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return if (oldItem is SurveyResult.QuestionUI && newItem is SurveyResult.QuestionUI) {
                 oldItem.question.no == newItem.question.no
             } else if (oldItem is SurveyResult.AnswerUI && newItem is SurveyResult.AnswerUI) {
-                oldItem.answer.questionNo == newItem.answer.questionNo
+                oldItem.answer.answer_no == newItem.answer.answer_no
             } else {
                 oldItem == newItem
             }
@@ -167,5 +185,9 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         items.clear()
         items.addAll(list)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun setSurveyId(id: String) {
+        surveyId = id
     }
 }

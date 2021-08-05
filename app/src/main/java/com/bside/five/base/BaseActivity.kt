@@ -6,7 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.ViewModelProvider
+import com.bside.five.R
 import com.bside.five.util.AutoClearedDisposable
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
@@ -28,5 +30,16 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
         disposables = AutoClearedDisposable(this, false, CompositeDisposable())
         lifecycle.addObserver(disposables)
+    }
+
+    fun showSnackBar(res: Int) {
+        Snackbar.make(binding.root, res, Snackbar.LENGTH_SHORT)
+            .show()
+    }
+
+    fun showSnackBarAction(res: Int) {
+        Snackbar.make(binding.root, res, Snackbar.LENGTH_LONG)
+            .setAction(R.string.confirm_text, {  })
+            .show()
     }
 }

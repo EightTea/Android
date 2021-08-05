@@ -3,10 +3,12 @@ package com.bside.five.ui.survey
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
+import com.bside.five.custom.dialog.QuestionDeleteDialog
 import com.bside.five.databinding.ActivityNewSurveyBinding
 import com.bside.five.util.ActivityUtil
 
@@ -31,6 +33,7 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         binding.newSurveyPager.isUserInputEnabled = false
 
         subscribe()
+        showSnackBarAction(R.string.new_survey_title_guide)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -53,7 +56,15 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
                 return true
             }
             R.id.action_delete -> {
-                viewModel.deletePage()
+                if (viewModel.adapter.getQuestionItemCount() > 1) {
+                    val dialog = QuestionDeleteDialog(this, View.OnClickListener {
+                        viewModel.deletePage()
+                        showSnackBar(R.string.question_delete_complete_msg)
+                    })
+                    dialog.show()
+                } else {
+                    showSnackBar(R.string.question_first_delete_guide)
+                }
                 return true
             }
         }
@@ -64,8 +75,10 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.question, menu)
 
-        menu?.findItem(R.id.action_delete)?.let {
-            it.isEnabled = viewModel.adapter.getQuestionItemCount() > 1
+        if (viewModel.adapter.getQuestionItemCount() > 1) {
+            menu?.findItem(R.id.action_delete)?.setIcon(R.drawable.ic_nav_delete)
+        } else {
+            menu?.findItem(R.id.action_delete)?.setIcon(R.drawable.ic_nav_delete_disable)
         }
 
         menu?.findItem(R.id.action_preview)?.let {
@@ -100,6 +113,12 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         viewModel.contentsSizeLive.observe(this, Observer<Int?> {
             textCount = it ?: 0
             invalidateOptionsMenu()
+        })
+
+        viewModel.snackbarLive.observe(this, Observer<Int?> { msg ->
+            msg?.let {
+                showSnackBarAction(it)
+            }
         })
     }
 }

@@ -24,9 +24,15 @@
 
     <string name="toolbar_preview">미리보기</string>
     <string name="toolbar_add_survey">질문 만들기</string>
+
     <string name="toolbar_sample">샘플보기</string>
     <string name="toolbar_my_survey">내 질문 리스트</string>
     <string name="toolbar_answer">답변 보기</string>
+
+    <string name="no_text">아니요</string>
+    <string name="end_text">종료할게요</string>
+    <string name="delete_text">삭제할게요</string>
+    <string name="confirm_text">알겠습니다</string>
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
@@ -37,11 +43,16 @@
 
     <!--my survey-->
     <string name="my_survey_count">등록된 질문 %d건</string>
+    <string name="my_survey_empty_btn_title">질문 만들기</string>
+    <string name="my_survey_empty_title">작성한 질문이 없네요. 궁금한 질문을 만들어서 물어보세요!</string>
+    <string name="my_survey_empty_contents">우리 가게 고객, 비어 있는 상가에 대한 동네 사람들의 의견 등</string>
     <!--my survey-->
 
     <!--answer-->
     <string name="answer_qr_text">질문 QR코드 보기</string>
     <string name="customer_survey_text">설문 보러 가기</string>
+    <string name="survey_no">Q%s</string>
+    <string name="survey_answer_date">%s 답변</string>
 
     <!--answer-->
 
@@ -53,4 +64,32 @@
     <string name="welcome_text">귀쫑긋에 오신걸\n환영합니다.</string>
     <!--Login-->
 
+    <!--Dialog-->
+    <string name="deleteAccountTitle">회원탈퇴</string>
+    <string name="deleteAccountContents">등록했던 질문과 답변을 더이상 볼 수 없어요, 정말로 탈퇴하시겠어요?</string>
+    <string name="deleteAccountYes">탈퇴할게요</string>
+
+    <string name="questionCompleteTitle">질문 종료</string>
+    <string name="questionCompleteContents">종료하면 다시 시작할 수 없어요! 질문을 진짜로 종료할건가요?</string>
+
+    <string name="questionDeleteAllTitle">이 질문 전체삭제</string>
+    <string name="questionDeleteAllContents">삭제된 질문은 복구되지 않아요. 정말로 해당 질문을 삭제할건가요?</string>
+
+    <string name="questionDeleteTitle">이 질문 삭제</string>
+    <string name="questionDeleteContents">삭제된 질문은 복구되지 않아요. 정말로 해당 질문을 삭제할건가요?</string>
+
+    <string name="completeCheckTitle">잠깐!</string>
+    <string name="completeCheckContents">직접 질문에 답해보고 답변하는 사람 입장에서 질문지를 점검해보는 게 어떨까요?</string>
+    <string name="completeCheckCancel">점검해 볼게요</string>
+    <string name="completeCheckOk">완료할게요</string>
+    <!--Dialog-->
+
+    <!--SnackBar-->
+    <string name="login_complete_msg">로그인 되었습니다.</string>
+    <string name="new_survey_title_guide">간단한 설명이 있으면 답하는데 조금 수월해진답니다.</string>
+    <string name="new_question_title_guide">질문이 길면 지루해요. 질문은 3~4줄이 제일 적당하답니다.</string>
+    <string name="question_first_delete_guide">첫번째 질문은 삭제할 수 없어요.</string>
+    <string name="question_delete_complete_msg">해당 질문이 삭제되었습니다.</string>
+    <string name="survey_complete_msg">질문 작성이 완료되었습니다.</string>
+    <!--SnackBar-->
 </resources>

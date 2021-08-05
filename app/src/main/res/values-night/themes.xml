@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Five" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -14,17 +14,60 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+
+        <!-- Style to use for Snackbars in this theme. -->
+        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
+        <!-- Style to use for action button within a Snackbar in this theme. -->
+        <item name="snackbarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Snackbar</item>
+        <!-- Style to use for message text within a Snackbar in this theme. -->
+        <item name="snackbarTextViewStyle">@style/Widget.MaterialComponents.Snackbar.TextView</item>
+    </style>
+
     <!--Toolbar-->
     <style name="Theme.Custom.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="actionMenuTextColor">@color/primary</item>
     </style>
     <!--Toolbar-->
 
+    <!--BottomSheetDialog-->
     <style name="RadiusBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/RadiusModalStyle</item>
     </style>
 
     <style name="RadiusModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_white_radius_16dp</item>
+    </style>
+    <!--BottomSheetDialog-->
+
+    <style name="DefaultDialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:background">@android:color/white</item>
+
+        <!-- Dim(Activity 배경) -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">?attr/colorBackgroundFloating</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <!-- Dialog Center -->
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="ImageDialog">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="android:background">@android:color/white</item>
+
+        <!-- Dim(Activity 배경) -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">?attr/colorBackgroundFloating</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <!-- Dialog Center -->
+        <item name="android:windowIsFloating">true</item>
     </style>
 </resources>
