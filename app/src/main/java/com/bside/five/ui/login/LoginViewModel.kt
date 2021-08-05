@@ -46,9 +46,9 @@ class LoginViewModel : BaseViewModel() {
                         val activity = view.context as AppCompatActivity
                         ActivityUtil.startMainActivity(view.context as AppCompatActivity)
                         activity.finish()
+                    } else {
+                        Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
                     }
-
-                    Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
                 }, { t: Throwable? ->
                     t?.printStackTrace()
                 })

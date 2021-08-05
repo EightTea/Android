@@ -39,6 +39,7 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
     }
 
     private var uri: Uri = Uri.EMPTY
+    private var qrUrl: String = ""
 
     override val layoutResourceId: Int
         get() = R.layout.activity_qr_code
@@ -48,25 +49,14 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let {
-            // FIXME : aws 도메인을 받아서 BASE_URL 주소를 바꿔야함
-            val url = ApiClient.BASE_URL + it + "/view"
-            val qrBitmap = createQrCode(url)
-            viewModel.qrDrawable.set(qrBitmap.toDrawable(resources))
-        }
-
         initToolbar()
+        initIntent()
+        subscribe()
 
         binding.qrCodeTitle.showKeyboard()
 //        binding.qrCodeTitle.requestFocus()
 
-        viewModel.imageSaveLive.observe(this, Observer<String?> { fileName ->
-            fileName?.let {
-                saveQrCodeImage(it)
-                viewModel.isDownloadQr.set(false)
-                GlideUtil.loadImage(binding.qrCodeSaveIcon, R.drawable.ic_download_done)
-            }
-        })
+        viewModel.qrDrawable.set(createQrCode(qrUrl).toDrawable(resources))
     }
 
     override fun onResume() {
@@ -115,6 +105,21 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         }
     }
 
+    private fun initIntent() {
+        intent.let {
+            it.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let {
+                // FIXME : aws 도메인을 받아서 BASE_URL 주소를 바꿔야함
+                qrUrl = ApiClient.BASE_URL + it + "/view"
+            }
+
+            it.getBooleanExtra(Constants.EXTRA_IS_CREATE_QR, false).let { isCreate ->
+                if (isCreate) {
+                    showSnackBar(R.string.survey_complete_msg)
+                }
+            }
+        }
+    }
+
     private fun createQrCode(url: String): Bitmap {
         val barcodeEncoder = BarcodeEncoder()
         return barcodeEncoder.encodeBitmap(url, BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT)
@@ -140,5 +145,15 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         view.draw(canvas)
 
         return bitmap
+    }
+
+    private fun subscribe() {
+        viewModel.imageSaveLive.observe(this, Observer<String?> { fileName ->
+            fileName?.let {
+                saveQrCodeImage(it)
+                viewModel.isDownloadQr.set(false)
+                GlideUtil.loadImage(binding.qrCodeSaveIcon, R.drawable.ic_download_done)
+            }
+        })
     }
 }

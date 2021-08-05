@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
-import com.bside.five.base.FiveApp
 import com.bside.five.databinding.ActivityMainBinding
 import com.bside.five.ui.scanner.QrScannerActivity
 import com.bside.five.util.ActivityUtil
@@ -29,9 +28,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
+        showSnackBar(R.string.login_complete_msg)
 
         Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken(this)}")
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

@@ -37,6 +37,7 @@ class NewSurveyViewModel : BaseViewModel() {
     var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
     var contentsSizeLive: MutableLiveData<Int> = MutableLiveData()
     var clearImageLive: MutableLiveData<Int> = MutableLiveData()
+    var snackbarLive: MutableLiveData<Int> = MutableLiveData()
     var isSurvey = ObservableField<Boolean>(true)
     var isEnableStartSurvey = ObservableField<Boolean>(false)
     var surveyTitle = ""
@@ -52,6 +53,7 @@ class NewSurveyViewModel : BaseViewModel() {
             R.id.newSurveyStartBtn -> {
                 createPage()
                 isSurvey.set(false)
+                snackbarLive.postValue(R.string.new_question_title_guide)
             }
             R.id.newSurveyAddQuestionBtn -> {
                 if (questionInfoList.size < QUESTION_SIZE_MAX) {
@@ -164,7 +166,7 @@ class NewSurveyViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.isSuccess()) {
-                        ActivityUtil.startQrCodeActivity(activity, response.data.survey_id)
+                        ActivityUtil.startQrCodeActivity(activity, response.data.survey_id, true)
                         activity.finish()
                     }
 

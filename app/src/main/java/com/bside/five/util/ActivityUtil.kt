@@ -48,9 +48,10 @@ object ActivityUtil {
         }
     }
 
-    fun startQrCodeActivity(activity: Activity, surveyId: String) {
+    fun startQrCodeActivity(activity: Activity, surveyId: String, isCreateQr: Boolean = false) {
         Intent(activity, QrCodeActivity::class.java).run {
             putExtra(Constants.EXTRA_SURVEY_ID, surveyId)
+            putExtra(Constants.EXTRA_IS_CREATE_QR, isCreateQr)
             activity.startActivity(this)
         }
     }

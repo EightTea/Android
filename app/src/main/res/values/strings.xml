@@ -32,6 +32,7 @@
     <string name="no_text">아니요</string>
     <string name="end_text">종료할게요</string>
     <string name="delete_text">삭제할게요</string>
+    <string name="confirm_text">알겠습니다</string>
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
@@ -82,4 +83,13 @@
     <string name="completeCheckCancel">점검해 볼게요</string>
     <string name="completeCheckOk">완료할게요</string>
     <!--Dialog-->
+
+    <!--SnackBar-->
+    <string name="login_complete_msg">로그인 되었습니다.</string>
+    <string name="new_survey_title_guide">간단한 설명이 있으면 답하는데 조금 수월해진답니다.</string>
+    <string name="new_question_title_guide">질문이 길면 지루해요. 질문은 3~4줄이 제일 적당하답니다.</string>
+    <string name="question_first_delete_guide">첫번째 질문은 삭제할 수 없어요.</string>
+    <string name="question_delete_complete_msg">해당 질문이 삭제되었습니다.</string>
+    <string name="survey_complete_msg">질문 작성이 완료되었습니다.</string>
+    <!--SnackBar-->
 </resources>
