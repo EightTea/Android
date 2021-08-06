@@ -107,9 +107,8 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
 
     private fun initIntent() {
         intent.let {
-            it.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let {
-                // FIXME : aws 도메인을 받아서 BASE_URL 주소를 바꿔야함
-                qrUrl = ApiClient.BASE_URL + it + "/view"
+            it.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let { surveyId ->
+                qrUrl = ApiClient.BASE_URL + surveyId + "/view"
             }
 
             it.getBooleanExtra(Constants.EXTRA_IS_CREATE_QR, false).let { isCreate ->
