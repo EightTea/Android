@@ -33,6 +33,8 @@
     <string name="end_text">종료할게요</string>
     <string name="delete_text">삭제할게요</string>
     <string name="confirm_text">알겠습니다</string>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
