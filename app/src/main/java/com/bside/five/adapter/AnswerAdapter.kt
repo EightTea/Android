@@ -1,5 +1,7 @@
 package com.bside.five.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -130,8 +132,9 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                 customerSurveyBtn.setOnClickListener {
                     val url = ApiClient.BASE_URL + surveyId + "/view"
-                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
-                    // FIXME : 웹 으로 ㄱ
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    root.context.startActivity(i)
                 }
             }
         }
@@ -146,8 +149,9 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                 answerEmptySurveyBtn.setOnClickListener {
                     val url = ApiClient.BASE_URL + surveyId + "/view"
-                    Toast.makeText(it.context, "설문조사 링크 : $url", Toast.LENGTH_LONG).show()
-                    // FIXME : 웹 으로 ㄱ
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    root.context.startActivity(i)
                 }
             }
         }
