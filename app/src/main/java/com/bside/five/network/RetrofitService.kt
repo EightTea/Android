@@ -21,8 +21,9 @@ interface RetrofitService {
      * 회원 탈퇴
      */
     @Headers("Content-Type: application/json")
-    @DELETE("/user/{id}")
+    @DELETE("user/{id}")
     fun requestUserDelete(
+        @Header("Authorization") accessToken: String,
         @Path("id") id: String
     ): Single<BaseResponse>
 

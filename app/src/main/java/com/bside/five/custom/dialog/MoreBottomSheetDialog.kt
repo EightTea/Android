@@ -1,12 +1,16 @@
 package com.bside.five.custom.dialog
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bside.five.R
 import com.bside.five.databinding.DialogBottomSheetMoreBinding
+import com.bside.five.util.ActivityUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kakao.sdk.user.UserApiClient
+
 
 class MoreBottomSheetDialog(context: Context) : BottomSheetDialog(context, R.style.RadiusBottomSheetDialogTheme) {
 
@@ -21,15 +25,29 @@ class MoreBottomSheetDialog(context: Context) : BottomSheetDialog(context, R.sty
 
     override fun show() {
         binding.moreBottomSheetLogoutBtn.setOnClickListener {
-            Toast.makeText(context, "Logout", Toast.LENGTH_LONG).show()
+            logoutKakao()
         }
 
         binding.moreBottomSheetDeleteAccountBtn.setOnClickListener {
             val dialog = DeleteAccountDialog(context)
             dialog.show()
-            Toast.makeText(context, "Delete Account", Toast.LENGTH_LONG).show()
         }
 
         super.show()
+    }
+
+    /**
+     * 로그아웃
+     */
+    private fun logoutKakao() {
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e("TAG", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            } else {
+                Log.i("TAG", "로그아웃 성공. SDK에서 토큰 삭제됨")
+                dismiss()
+                ActivityUtil.startLoginActivity(context, context.getString(R.string.logout_msg))
+            }
+        }
     }
 }

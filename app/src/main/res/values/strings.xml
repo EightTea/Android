@@ -2,6 +2,12 @@
     <string name="app_name">Five</string>
 
     <string name="close">닫기</string>
+    <string name="no_text">아니요</string>
+    <string name="end_text">종료할게요</string>
+    <string name="delete_text">삭제할게요</string>
+    <string name="confirm_text">알겠습니다</string>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
 
     <!--menu-->
     <string name="menu_qr_code">QR스캔</string>
@@ -22,19 +28,13 @@
     <string name="finish_question">작성완료</string>
     <string name="question_no">Q%d.</string>
 
+    <!--toolbar-->
     <string name="toolbar_preview">미리보기</string>
     <string name="toolbar_add_survey">질문 만들기</string>
-
     <string name="toolbar_sample">샘플보기</string>
     <string name="toolbar_my_survey">내 질문 리스트</string>
     <string name="toolbar_answer">답변 보기</string>
-
-    <string name="no_text">아니요</string>
-    <string name="end_text">종료할게요</string>
-    <string name="delete_text">삭제할게요</string>
-    <string name="confirm_text">알겠습니다</string>
-    <string name="confirm">확인</string>
-    <string name="cancel">취소</string>
+    <!--toolbar-->
 
     <!--sample-->
     <string name="sample_title">우리 가게 방문 이유 확인</string>
@@ -93,5 +93,12 @@
     <string name="question_first_delete_guide">첫번째 질문은 삭제할 수 없어요.</string>
     <string name="question_delete_complete_msg">해당 질문이 삭제되었습니다.</string>
     <string name="survey_complete_msg">질문 작성이 완료되었습니다.</string>
+    <string name="survey_end_msg">진행중 질문이 종료되었습니다.</string>
+    <string name="logout_msg">정상적으로 로그아웃 되었습니다.</string>
+    <string name="user_delete_msg">회원탈퇴가 완료되었습니다.</string>
     <!--SnackBar-->
+
+    <!--Qr-->
+    <string name="qr_scanner_guide">QR코드를 찍고\n소중한 의견을 작성해주세요</string>
+    <!--Qr-->
 </resources>

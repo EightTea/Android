@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.R
 import com.bside.five.custom.dialog.QuestionCompleteDialog
+import com.bside.five.custom.dialog.QuestionDeleteAllDialog
 import com.bside.five.databinding.LayoutSurveyEndBinding
 import com.bside.five.databinding.LayoutSurveyIncompleteBinding
 import com.bside.five.databinding.LayoutSurveyUnderBinding
@@ -132,6 +133,9 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 surveyIncompleteTitle.text = item.title
                 surveyIncompleteDeleteBtn.setOnClickListener {
                     Toast.makeText(it.context, "surveyIncompleteDeleteBtn", Toast.LENGTH_LONG).show()
+
+                    val dialog = QuestionDeleteAllDialog(root.context, item.survey_id)
+                    dialog.show()
                 }
 
                 root.setOnClickListener {

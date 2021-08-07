@@ -8,25 +8,23 @@ import java.util.*
 class UserRepository : BaseRepository() {
 
     fun requestJoin(
-        id: Int,
+        id: String,
         nickName: String,
-        storeName: String,
         email: String,
         gender: Int,
-        year: Int
+        year: String
     ): Single<UserResponse> {
         val param: HashMap<String, String> = HashMap()
-        param["id"] = id.toString()
+        param["id"] = id
         param["nickname"] = nickName
-        param["store_name"] = storeName
         param["email"] = email
         param["gender"] = gender.toString()
-        param["year"] = year.toString()
+        param["year"] = year
 
         return service.requestJoin(param)
     }
 
-    fun requestUserDelete(id: String): Single<BaseResponse> {
-        return service.requestUserDelete(id)
+    fun requestUserDelete(accessToken: String, id: String): Single<BaseResponse> {
+        return service.requestUserDelete(accessToken, id)
     }
 }
