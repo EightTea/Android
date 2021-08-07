@@ -25,6 +25,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.Okio
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class NewSurveyViewModel : BaseViewModel() {
@@ -142,7 +146,20 @@ class NewSurveyViewModel : BaseViewModel() {
                     imgList.add(it)
                 }
             } else {
-                val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", "")
+                val emptyFileName = "empty.jpeg"
+                val cacheFile = File(view.context.cacheDir, emptyFileName)
+
+                var os: OutputStream? = null
+                try {
+                    os = BufferedOutputStream(FileOutputStream(cacheFile))
+                    os.write("".toByteArray())
+                    os.close()
+                } finally {
+                    os?.close()
+                }
+
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), cacheFile)
+                val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", emptyFileName, requestBody)
                 imgList.add(emptyPart)
             }
 

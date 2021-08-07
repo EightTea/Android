@@ -45,6 +45,7 @@ class QuestionCompleteDialog(context: Context, private val surveyId: String) : D
     }
 
     private fun requestSurveyComplete() {
+        // FIXME : 상태 키값을 모름
         disposable.add(
             SurveyRepository().requestSurveyStateChange(
                 FivePreference.getAccessToken(context),
