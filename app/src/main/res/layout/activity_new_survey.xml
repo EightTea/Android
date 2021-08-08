@@ -34,6 +34,45 @@
             app:layout_constraintBottom_toTopOf="@+id/newSurveyBtnContainer"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/newSurveySampleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border_gray_rect"
+            android:onClick="@{(v) -> viewModel.onClickListener(v)}"
+            app:isVisible="@{viewModel.isSurvey()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/newSurveyStartBtn">
+
+            <ImageView
+                android:id="@+id/newSurveySampleImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_chevron_right_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/newSurveySampleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="샘플 보기"
+                android:textColor="@color/primary"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/newSurveySampleImg"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/newSurveyBtnContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

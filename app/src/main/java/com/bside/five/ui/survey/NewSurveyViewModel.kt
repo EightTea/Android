@@ -86,7 +86,7 @@ class NewSurveyViewModel : BaseViewModel() {
                 imgPath = Uri.EMPTY
                 clearImageLive.postValue(questionNo - 1)
             }
-            R.id.surveyInfoSampleBtn -> {
+            R.id.newSurveySampleBtn -> {
                 ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
             }
         }
