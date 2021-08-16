@@ -3,9 +3,12 @@ package com.bside.five.custom.dialog
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bside.five.R
+import com.bside.five.constants.Constants
+import com.bside.five.custom.listener.OnSuccessListener
 import com.bside.five.databinding.DialogQuestionCompleteBinding
 import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.util.FivePreference
@@ -14,7 +17,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class QuestionCompleteDialog(context: Context, private val surveyId: String) : Dialog(context, R.style.DefaultDialog) {
+class QuestionCompleteDialog(context: Context, private val surveyId: String, val successListener: OnSuccessListener) :
+    Dialog(context, R.style.DefaultDialog) {
 
     private var binding: DialogQuestionCompleteBinding =
         DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_question_complete, null, false)
@@ -45,18 +49,18 @@ class QuestionCompleteDialog(context: Context, private val surveyId: String) : D
     }
 
     private fun requestSurveyComplete() {
-        // FIXME : 상태 키값을 모름
         disposable.add(
             SurveyRepository().requestSurveyStateChange(
                 FivePreference.getAccessToken(context),
                 surveyId,
-                "complete"
+                Constants.STATUS_END
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.isSuccess()) {
                         Snackbar.make(binding.root, R.string.survey_end_msg, Snackbar.LENGTH_SHORT).show()
+                        successListener.onSuccess()
                     } else {
                         Snackbar.make(binding.root, response.msg ?: "요청이 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
                     }

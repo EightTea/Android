@@ -7,6 +7,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import com.bside.five.R
 import com.bside.five.base.BaseViewModel
+import com.bside.five.constants.Constants
 import com.bside.five.model.Survey
 import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.network.response.MySurveyListResponse
@@ -18,12 +19,6 @@ import io.reactivex.schedulers.Schedulers
 
 class MySurveyViewModel : BaseViewModel() {
 
-    companion object {
-        const val STATUS_IN_PROGRESS = "IN_PROGRESS"
-        const val STATUS_PENDING = "PENDING"
-        const val STATUS_END = "END"
-    }
-
     private val tag = this::class.java.simpleName
     var items = ObservableArrayList<Survey>()
     var totalItems = ObservableArrayList<MySurveyListResponse.MySurveyInfo>()
@@ -32,9 +27,9 @@ class MySurveyViewModel : BaseViewModel() {
 
     private val state = linkedMapOf(
         "전체" to "",
-        "진행중" to "IN_PROGRESS",
-        "수정중" to "PENDING",
-        "종료" to "END"
+        "진행중" to Constants.STATUS_IN_PROGRESS,
+        "수정중" to Constants.STATUS_PENDING,
+        "종료" to Constants.STATUS_END
     )
 
     override fun onClickListener(view: View) {
@@ -72,6 +67,7 @@ class MySurveyViewModel : BaseViewModel() {
                         totalItems.addAll(response.data.survey_list)
 
                         val resultList = filterList(response.data.survey_list)
+                        items.clear()
                         items.addAll(resultList)
                     }
 
@@ -83,19 +79,19 @@ class MySurveyViewModel : BaseViewModel() {
         val resultList = ArrayList<Survey>()
 
         list.filter {
-            STATUS_IN_PROGRESS.equals(it.status, true) && (filterList.equals(STATUS_IN_PROGRESS, true) || filterList.isEmpty())
+            Constants.STATUS_IN_PROGRESS.equals(it.status, true) && (filterList.equals(Constants.STATUS_IN_PROGRESS, true) || filterList.isEmpty())
         }.forEach {
             resultList.add(Survey.Under(it))
         }
 
         list.filter {
-            STATUS_END.equals(it.status, true) && (filterList.equals(STATUS_END, true) || filterList.isEmpty())
+            Constants.STATUS_END.equals(it.status, true) && (filterList.equals(Constants.STATUS_END, true) || filterList.isEmpty())
         }.forEach {
             resultList.add(Survey.End(it))
         }
 
         list.filter {
-            STATUS_PENDING.equals(it.status, true) && (filterList.equals(STATUS_PENDING, true) || filterList.isEmpty())
+            Constants.STATUS_PENDING.equals(it.status, true) && (filterList.equals(Constants.STATUS_PENDING, true) || filterList.isEmpty())
         }.forEach {
             resultList.add(Survey.Incomplete(it))
         }

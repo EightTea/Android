@@ -73,7 +73,7 @@ interface RetrofitService {
      * 내 설문 조사 상태 변경 요청(ex. 설문 종료)
      */
     @Headers("Content-Type: application/json")
-    @GET("survey/{survey_id}")
+    @PUT("survey/{survey_id}")
     fun requestSurveyStateChange(
         @Header("Authorization") accessToken: String,
         @Path("survey_id") surveyId: String,

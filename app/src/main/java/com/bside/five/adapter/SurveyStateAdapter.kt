@@ -9,21 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.R
 import com.bside.five.custom.dialog.QuestionCompleteDialog
 import com.bside.five.custom.dialog.QuestionDeleteAllDialog
+import com.bside.five.custom.listener.OnSuccessListener
 import com.bside.five.databinding.LayoutSurveyEndBinding
 import com.bside.five.databinding.LayoutSurveyIncompleteBinding
 import com.bside.five.databinding.LayoutSurveyUnderBinding
 import com.bside.five.model.Survey
-import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.network.response.MySurveyListResponse
 import com.bside.five.util.ActivityUtil
 import com.bside.five.util.CommonUtil
-import com.bside.five.util.FivePreference
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
-class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SurveyStateAdapter(val listener: OnSuccessListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_UNDER = 1
@@ -47,7 +44,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (viewType) {
             TYPE_UNDER -> {
                 val binding = LayoutSurveyUnderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return UnderViewHolder(binding)
+                return UnderViewHolder(binding, listener)
             }
             TYPE_END -> {
                 val binding = LayoutSurveyEndBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -82,7 +79,9 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         disposable.dispose()
     }
 
-    inner class UnderViewHolder(val binding: LayoutSurveyUnderBinding) : RecyclerView.ViewHolder(binding.root) {
+    class UnderViewHolder(val binding: LayoutSurveyUnderBinding, val listener: OnSuccessListener) :
+        RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyUnderTitle.text = item.title
@@ -98,7 +97,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 surveyUnderComplete.setOnClickListener {
-                    val dialog = QuestionCompleteDialog(it.context, item.survey_id)
+                    val dialog = QuestionCompleteDialog(it.context, item.survey_id, listener)
                     dialog.show()
                 }
 
@@ -109,7 +108,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class EndViewHolder(val binding: LayoutSurveyEndBinding) : RecyclerView.ViewHolder(binding.root) {
+    class EndViewHolder(val binding: LayoutSurveyEndBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyEndTitle.text = item.title
@@ -127,7 +126,7 @@ class SurveyStateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class IncompleteViewHolder(val binding: LayoutSurveyIncompleteBinding) : RecyclerView.ViewHolder(binding.root) {
+    class IncompleteViewHolder(val binding: LayoutSurveyIncompleteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MySurveyListResponse.MySurveyInfo) {
             binding.apply {
                 surveyIncompleteTitle.text = item.title
