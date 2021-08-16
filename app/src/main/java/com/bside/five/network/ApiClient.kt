@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
 
     private const val BASE_APP_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/api/"
-    const val BASE_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/"
+    const val USER_SURVEY_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/survey/"
     private const val TIMEOUT_CONNECT = 15
     private const val TIMEOUT_READ = 15
     private const val TIMEOUT_WRITE = 20

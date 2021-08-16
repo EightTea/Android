@@ -3,7 +3,6 @@ package com.bside.five.adapter
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,15 +16,11 @@ import com.bside.five.databinding.LayoutAnswerQrBtnBinding
 import com.bside.five.databinding.LayoutQuestionLowBinding
 import com.bside.five.model.SurveyResult
 import com.bside.five.network.ApiClient
-import com.bside.five.network.repository.SurveyRepository
 import com.bside.five.network.response.AnswerListResponse
 import com.bside.five.network.response.MySurveyDetailResponse
 import com.bside.five.util.ActivityUtil
 import com.bside.five.util.CommonUtil
-import com.bside.five.util.FivePreference
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
 class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -131,7 +126,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 customerSurveyBtn.setOnClickListener {
-                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    val url = ApiClient.USER_SURVEY_URL + surveyId + "/view"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     root.context.startActivity(i)
@@ -148,7 +143,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 answerEmptySurveyBtn.setOnClickListener {
-                    val url = ApiClient.BASE_URL + surveyId + "/view"
+                    val url = ApiClient.USER_SURVEY_URL + surveyId + "/view"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     root.context.startActivity(i)

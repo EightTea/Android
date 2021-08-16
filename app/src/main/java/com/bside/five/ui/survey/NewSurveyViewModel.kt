@@ -91,10 +91,6 @@ class NewSurveyViewModel : BaseViewModel() {
         }
     }
 
-    fun init(activity: AppCompatActivity) {
-        adapter = ScreenSlidePagerAdapter(activity.supportFragmentManager, activity.lifecycle)
-    }
-
     private fun createPage() {
         addQuestionInfo()
 

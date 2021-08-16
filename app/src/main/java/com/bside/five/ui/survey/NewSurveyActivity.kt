@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.bside.five.R
+import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.custom.dialog.QuestionDeleteDialog
 import com.bside.five.databinding.ActivityNewSurveyBinding
@@ -27,11 +28,7 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         super.onCreate(savedInstanceState)
 
         initToolbar()
-
-        viewModel.init(this)
-        binding.newSurveyPager.adapter = viewModel.adapter
-        binding.newSurveyPager.isUserInputEnabled = false
-
+        initPager()
         subscribe()
         showSnackBarAction(R.string.new_survey_title_guide)
     }
@@ -99,6 +96,12 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.toolbar_add_survey)
         }
+    }
+
+    private fun initPager() {
+        viewModel.adapter = ScreenSlidePagerAdapter(supportFragmentManager, lifecycle)
+        binding.newSurveyPager.adapter = viewModel.adapter
+        binding.newSurveyPager.isUserInputEnabled = false
     }
 
     private fun subscribe() {
