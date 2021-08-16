@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bside.five.R
 import com.bside.five.databinding.DialogDeleteAccoutBinding
@@ -56,7 +55,6 @@ class DeleteAccountDialog(context: Context) : Dialog(context, R.style.DefaultDia
                 Log.e(tag, "연결 끊기 실패", error)
             } else {
                 Log.i(tag, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
-                Log.i(tag, "kch context: $context")
 
                 ActivityUtil.startLoginActivity(
                     context,
@@ -69,8 +67,8 @@ class DeleteAccountDialog(context: Context) : Dialog(context, R.style.DefaultDia
     private fun requestUserDelete(view: View) {
         disposable.add(
             UserRepository().requestUserDelete(
-                FivePreference.getAccessToken(view.context),
-                FivePreference.getUserId(view.context)
+                FivePreference.getAccessToken(),
+                FivePreference.getUserId()
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

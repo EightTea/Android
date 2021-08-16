@@ -2,7 +2,6 @@ package com.bside.five.ui.survey
 
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -156,7 +155,7 @@ class NewSurveyViewModel : BaseViewModel() {
 
         disposables.add(
             SurveyRepository().createSurvey(
-                FivePreference.getAccessToken(view.context),
+                FivePreference.getAccessToken(),
                 surveyTitle,
                 surveyContents,
                 contentsList,

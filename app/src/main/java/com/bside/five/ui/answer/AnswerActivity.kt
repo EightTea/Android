@@ -31,7 +31,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
         initRecyclerView()
 
         if (answerCount != 0) {
-            viewModel.requestAnswerAPI(this)
+            viewModel.requestAnswerAPI()
         }
 
         binding.answerContainer.setTransitionListener(object : MotionLayout.TransitionListener {

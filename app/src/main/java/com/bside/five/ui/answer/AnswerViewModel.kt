@@ -1,7 +1,5 @@
 package com.bside.five.ui.answer
 
-import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import com.bside.five.base.BaseViewModel
@@ -22,16 +20,16 @@ class AnswerViewModel : BaseViewModel() {
 
     override fun onClickListener(view: View) {}
 
-    fun requestAnswerAPI(context: Context) {
+    fun requestAnswerAPI() {
         disposables.add(
-            SurveyRepository().requestSurveyDetail(FivePreference.getAccessToken(context), surveyId)
+            SurveyRepository().requestSurveyDetail(FivePreference.getAccessToken(), surveyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.isSuccess()) {
                         response.data.qrcode_url
 
-                        requestAnswers(response.data.question, context)
+                        requestAnswers(response.data.question)
                     }
                 }, { t: Throwable? ->
                     t?.printStackTrace()
@@ -39,13 +37,13 @@ class AnswerViewModel : BaseViewModel() {
         )
     }
 
-    private fun requestAnswers(questions: ArrayList<MySurveyDetailResponse.Question>, context: Context) {
+    private fun requestAnswers(questions: ArrayList<MySurveyDetailResponse.Question>) {
         val observableArrayList = ArrayList<Single<AnswerListResponse>>()
 
         questions.forEach {
             observableArrayList.add(
                 SurveyRepository().requestSurveyAnswer(
-                    FivePreference.getAccessToken(context),
+                    FivePreference.getAccessToken(),
                     surveyId,
                     it.question_id
                 )

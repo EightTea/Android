@@ -1,6 +1,5 @@
 package com.bside.five.ui.my
 
-import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableArrayList
@@ -57,9 +56,9 @@ class MySurveyViewModel : BaseViewModel() {
         }
     }
 
-    fun requestSurvey(context: Context) {
+    fun requestSurvey() {
         disposables.add(
-            SurveyRepository().requestSurveyList(FivePreference.getAccessToken(context))
+            SurveyRepository().requestSurveyList(FivePreference.getAccessToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->

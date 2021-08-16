@@ -90,11 +90,8 @@ class LoginViewModel(application: Application) : BaseApplicationViewModel(applic
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.isSuccess()) {
-                        FivePreference.setAccessToken(
-                            context,
-                            "Bearer ${response.data.access_token}"
-                        )
-                        FivePreference.setUserId(context, id)
+                        FivePreference.setAccessToken("Bearer ${response.data.access_token}")
+                        FivePreference.setUserId(id)
 
                         activityLive.postValue("")
                     } else {

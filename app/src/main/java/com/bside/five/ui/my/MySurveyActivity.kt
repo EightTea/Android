@@ -23,7 +23,7 @@ class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel
 
         initToolbar()
         initRecycler()
-        viewModel.requestSurvey(this)
+        viewModel.requestSurvey()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -49,7 +49,7 @@ class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel
     private fun initRecycler() {
         adapter = SurveyStateAdapter(object : OnSuccessListener {
             override fun onSuccess() {
-                viewModel.requestSurvey(this@MySurveyActivity)
+                viewModel.requestSurvey()
             }
         })
 

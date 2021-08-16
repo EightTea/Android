@@ -3,7 +3,6 @@ package com.bside.five.custom.dialog
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bside.five.R
@@ -51,7 +50,7 @@ class QuestionCompleteDialog(context: Context, private val surveyId: String, val
     private fun requestSurveyComplete() {
         disposable.add(
             SurveyRepository().requestSurveyStateChange(
-                FivePreference.getAccessToken(context),
+                FivePreference.getAccessToken(),
                 surveyId,
                 Constants.STATUS_END
             )
