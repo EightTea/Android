@@ -146,30 +146,13 @@ class NewSurveyViewModel : BaseViewModel() {
                     imgList.add(it)
                 }
             } else {
-                val emptyFileName = "empty.jpeg"
-                val cacheFile = File(view.context.cacheDir, emptyFileName)
-
-                var os: OutputStream? = null
-                try {
-                    os = BufferedOutputStream(FileOutputStream(cacheFile))
-                    os.write("".toByteArray())
-                    os.close()
-                } finally {
-                    os?.close()
+                getEmptyMultipartBody(view).let {
+                    imgList.add(it)
                 }
-
-                val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), cacheFile)
-                val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", emptyFileName, requestBody)
-                imgList.add(emptyPart)
             }
 
             contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
         }
-
-        // FIXME : 질문 내용과 이미지 인덱스를 맞추기 위해 빈값을 무엇을 넣을지 찾아봐야함
-
-        Log.d(tag, "kch contentsList size : ${contentsList.size}")
-        Log.d(tag, "kch imgList size : ${imgList.size}")
 
         disposables.add(
             SurveyRepository().createSurvey(
@@ -190,6 +173,24 @@ class NewSurveyViewModel : BaseViewModel() {
                     Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
                 }, { t: Throwable? -> t?.printStackTrace() })
         )
+    }
+
+    private fun getEmptyMultipartBody(view: View): MultipartBody.Part {
+        val emptyFileName = "empty.jpeg"
+        val cacheFile = File(view.context.cacheDir, emptyFileName)
+
+        var os: OutputStream? = null
+        try {
+            os = BufferedOutputStream(FileOutputStream(cacheFile))
+            os.write("".toByteArray())
+            os.close()
+        } finally {
+            os?.close()
+        }
+
+        val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), cacheFile)
+        val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", emptyFileName, requestBody)
+        return emptyPart
     }
 
     private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {

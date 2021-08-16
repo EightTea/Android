@@ -84,7 +84,6 @@ class LoginViewModel(application: Application) : BaseApplicationViewModel(applic
      * 회원가입/로그인
      */
     private fun requestJoin(id: String, nickName: String, email: String, gender: Int, year: String) {
-        // FIXME : 가게 이름 삭제한거 확인 ㄱ
         disposables.add(
             UserRepository().requestJoin(id, nickName, email, gender, year)
                 .subscribeOn(Schedulers.io())
