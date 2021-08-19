@@ -12,6 +12,7 @@ object Constants {
     const val EXTRA_SURVEY_ID = "survey_id"
     const val EXTRA_IS_CREATE_QR = "is_create_qr"
     const val EXTRA_ANSWER_COUNT = "answer_count"
+    const val EXTRA_STATUS = "status"
     const val EXTRA_SHOW_SNACK_BAR = "show_snack_bar"
 
     const val STATUS_IN_PROGRESS = "IN_PROGRESS"

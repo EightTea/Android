@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bside.five.R
+import com.bside.five.custom.listener.OnMoreListener
 import com.bside.five.databinding.LayoutAnswerEmptyLowBinding
 import com.bside.five.databinding.LayoutAnswerLowBinding
 import com.bside.five.databinding.LayoutAnswerQrBtnBinding
@@ -23,7 +24,7 @@ import com.bside.five.util.CommonUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlin.collections.ArrayList
 
-class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AnswerAdapter(val listener: OnMoreListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_QUESTION = 1
@@ -59,7 +60,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             TYPE_ANSWER -> {
                 val binding = LayoutAnswerLowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return AnswerViewModel(binding)
+                return AnswerViewModel(binding, listener)
             }
             TYPE_FOOTER -> {
                 val binding = LayoutAnswerQrBtnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -82,8 +83,8 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder) {
             is QuestionViewModel -> holder.bind((items[position] as SurveyResult.QuestionUI).question)
             is AnswerViewModel -> holder.bind((items[position] as SurveyResult.AnswerUI).answer)
-            is HeaderViewHolder -> holder.bind()
-            is FooterViewHolder -> holder.bind()
+            is HeaderViewHolder -> holder.bind(surveyId)
+            is FooterViewHolder -> holder.bind(surveyId)
         }
     }
 
@@ -92,7 +93,7 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         disposable.dispose()
     }
 
-    inner class QuestionViewModel(val binding: LayoutQuestionLowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class QuestionViewModel(val binding: LayoutQuestionLowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MySurveyDetailResponse.Question) {
             binding.apply {
@@ -102,7 +103,10 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class AnswerViewModel(val binding: LayoutAnswerLowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class AnswerViewModel(
+        val binding: LayoutAnswerLowBinding,
+        val listener: OnMoreListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: AnswerListResponse.Answer) {
             binding.apply {
@@ -112,14 +116,15 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 answerLowMoreContainer.isVisible = item.isMore
 
                 answerLowMoreBtn.setOnClickListener {
-                    Toast.makeText(it.context, "answerLowMoreBtn api call", Toast.LENGTH_LONG).show()
+                    answerLowMoreContainer.isVisible = false
+                    listener.onMore(item.questionId, layoutPosition, item.page)
                 }
             }
         }
     }
 
-    inner class FooterViewHolder(val binding: LayoutAnswerQrBtnBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
+    class FooterViewHolder(val binding: LayoutAnswerQrBtnBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(surveyId: String) {
             binding.apply {
                 qrCodeBtn.setOnClickListener {
                     ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
@@ -135,8 +140,8 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class HeaderViewHolder(val binding: LayoutAnswerEmptyLowBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
+    class HeaderViewHolder(val binding: LayoutAnswerEmptyLowBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(surveyId: String) {
             binding.apply {
                 answerEmptyQrCodeBtn.setOnClickListener {
                     ActivityUtil.startQrCodeActivity(it.context as AppCompatActivity, surveyId)
@@ -152,34 +157,6 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    private class AnswerDiff(private val oldItems: List<SurveyResult>, private val newItems: List<SurveyResult>) :
-        DiffUtil.Callback() {
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldItem = oldItems[oldItemPosition]
-            val newItem = newItems[newItemPosition]
-
-            return if (oldItem is SurveyResult.QuestionUI && newItem is SurveyResult.QuestionUI) {
-                oldItem.question.no == newItem.question.no
-            } else if (oldItem is SurveyResult.AnswerUI && newItem is SurveyResult.AnswerUI) {
-                oldItem.answer.answer_no == newItem.answer.answer_no
-            } else {
-                oldItem == newItem
-            }
-        }
-
-        override fun getOldListSize(): Int = oldItems.size
-
-        override fun getNewListSize(): Int = newItems.size
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldItem = oldItems[oldItemPosition]
-            val newItem = newItems[newItemPosition]
-
-            return oldItem == newItem
-        }
-    }
-
     fun replaceAll(list: ArrayList<SurveyResult>) {
         val diff = AnswerDiff(items, list)
         val diffResult = DiffUtil.calculateDiff(diff)
@@ -190,5 +167,37 @@ class AnswerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setSurveyId(id: String) {
         surveyId = id
+    }
+}
+
+private class AnswerDiff(private val oldItems: List<SurveyResult>, private val newItems: List<SurveyResult>) :
+    DiffUtil.Callback() {
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldItems[oldItemPosition]
+        val newItem = newItems[newItemPosition]
+
+        return if (oldItem is SurveyResult.QuestionUI && newItem is SurveyResult.QuestionUI) {
+            oldItem.question.no == newItem.question.no
+        } else if (oldItem is SurveyResult.AnswerUI && newItem is SurveyResult.AnswerUI) {
+            oldItem.answer.answer_id == newItem.answer.answer_id
+        } else {
+            oldItem == newItem
+        }
+    }
+
+    override fun getOldListSize(): Int = oldItems.size
+
+    override fun getNewListSize(): Int = newItems.size
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldItems[oldItemPosition]
+        val newItem = newItems[newItemPosition]
+
+        if (oldItem is SurveyResult.AnswerUI && newItem is SurveyResult.AnswerUI) {
+            return oldItem.answer.isMore == newItem.answer.isMore
+        }
+
+        return oldItem == newItem
     }
 }

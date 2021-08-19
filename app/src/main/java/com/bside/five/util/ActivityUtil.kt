@@ -86,11 +86,18 @@ object ActivityUtil {
         }
     }
 
-    fun startAnswerActivity(activity: Activity, surveyId: String, title: String, count: Int) {
+    fun startAnswerActivity(
+        activity: Activity,
+        surveyId: String,
+        title: String,
+        count: Int,
+        status: String
+    ) {
         Intent(activity, AnswerActivity::class.java).run {
             putExtra(Constants.EXTRA_SURVEY_ID, surveyId)
             putExtra(Constants.EXTRA_TITLE, title)
             putExtra(Constants.EXTRA_ANSWER_COUNT, count)
+            putExtra(Constants.EXTRA_STATUS, status)
             activity.startActivity(this)
         }
     }

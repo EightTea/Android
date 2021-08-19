@@ -1,7 +1,6 @@
 package com.bside.five.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -102,7 +101,13 @@ class SurveyStateAdapter(val listener: OnSuccessListener) : RecyclerView.Adapter
                 }
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id, item.title, item.answer_cnt)
+                    ActivityUtil.startAnswerActivity(
+                        it.context as AppCompatActivity,
+                        item.survey_id,
+                        item.title,
+                        item.answer_cnt,
+                        item.status
+                    )
                 }
             }
         }
@@ -120,7 +125,13 @@ class SurveyStateAdapter(val listener: OnSuccessListener) : RecyclerView.Adapter
                 surveyEndDate.text = dateStr
 
                 root.setOnClickListener {
-                    ActivityUtil.startAnswerActivity(it.context as AppCompatActivity, item.survey_id, item.title, item.answer_cnt)
+                    ActivityUtil.startAnswerActivity(
+                        it.context as AppCompatActivity,
+                        item.survey_id,
+                        item.title,
+                        item.answer_cnt,
+                        item.status
+                    )
                 }
             }
         }

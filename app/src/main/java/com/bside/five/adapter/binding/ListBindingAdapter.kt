@@ -19,10 +19,8 @@ object ListBindingAdapter {
     @BindingAdapter("setAnswerList")
     @JvmStatic
     fun setAnswerList(view: RecyclerView, list: ArrayList<SurveyResult>) {
-        val adapter = view.adapter as? AnswerAdapter ?: AnswerAdapter().apply {
-            view.adapter = this
-        }
+        val adapter = view.adapter as? AnswerAdapter
 
-        adapter.replaceAll(list)
+        adapter?.replaceAll(list)
     }
 }

@@ -73,7 +73,8 @@ interface RetrofitService {
     fun requestSurveyAnswer(
         @Header("Authorization") accessToken: String,
         @Path("survey_id") surveyId: String,
-        @Path("question_id") questionId: String
+        @Path("question_id") questionId: String,
+        @Query("page") page: String
     ): Single<AnswerListResponse>
 
     /**
