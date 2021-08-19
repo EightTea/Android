@@ -27,6 +27,13 @@ interface RetrofitService {
         @Path("id") id: String
     ): Single<BaseResponse>
 
+    @Headers("Content-Type: application/json")
+    @GET("user/{id}")
+    fun requestSelectUser(
+        @Path("id") id: String
+    ): Single<SelectUserResponse>
+
+
     /**
      * 설문 조사 생성
      */

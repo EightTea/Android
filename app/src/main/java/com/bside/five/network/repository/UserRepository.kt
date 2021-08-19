@@ -1,6 +1,7 @@
 package com.bside.five.network.repository
 
 import com.bside.five.network.response.BaseResponse
+import com.bside.five.network.response.SelectUserResponse
 import com.bside.five.network.response.UserResponse
 import io.reactivex.Single
 import java.util.*
@@ -26,5 +27,9 @@ class UserRepository : BaseRepository() {
 
     fun requestUserDelete(accessToken: String, id: String): Single<BaseResponse> {
         return service.requestUserDelete(accessToken, id)
+    }
+
+    fun requestSelectUser(id: String): Single<SelectUserResponse> {
+        return service.requestSelectUser(id)
     }
 }

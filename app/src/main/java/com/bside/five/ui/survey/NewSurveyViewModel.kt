@@ -137,8 +137,14 @@ class NewSurveyViewModel : BaseViewModel() {
 
         for (item in questionInfoList) {
             if (item.imageUri != Uri.EMPTY) {
-                getMultipartBody(view, item.imageUri)?.let {
-                    imgList.add(it)
+                val img = getMultipartBody(view, item.imageUri)
+
+                if (img != null) {
+                    imgList.add(img)
+                } else {
+                    getEmptyMultipartBody(view).let {
+                        imgList.add(it)
+                    }
                 }
             } else {
                 getEmptyMultipartBody(view).let {
