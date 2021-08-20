@@ -25,7 +25,7 @@
     <string name="answer_now_count">현재 답변 %d명</string>
     <string name="survey_state_before">수정중</string>
     <string name="survey_state_ing">진행중</string>
-    <string name="survey_state_end">완료됨</string>
+    <string name="survey_state_end">종료</string>
 
     <string name="add_question">다른 질문 작성하기</string>
     <string name="finish_question">작성완료</string>
