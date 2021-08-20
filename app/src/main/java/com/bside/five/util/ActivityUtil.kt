@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
+import com.bside.five.network.ApiClient
 import com.bside.five.ui.answer.AnswerActivity
 import com.bside.five.ui.gallery.GalleryActivity
 import com.bside.five.ui.login.LoginActivity
@@ -99,6 +100,13 @@ object ActivityUtil {
             putExtra(Constants.EXTRA_ANSWER_COUNT, count)
             putExtra(Constants.EXTRA_STATUS, status)
             activity.startActivity(this)
+        }
+    }
+
+    fun startPrivacyPolicy(context: Context) {
+        val policyUrl = "${ApiClient.BASE_URL}webview/privacy"
+        Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl)).run {
+            context.startActivity(this)
         }
     }
 }

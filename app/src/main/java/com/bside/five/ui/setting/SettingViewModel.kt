@@ -9,6 +9,8 @@ import com.bside.five.BuildConfig
 import com.bside.five.R
 import com.bside.five.base.BaseViewModel
 import com.bside.five.constants.Constants
+import com.bside.five.util.ActivityUtil
+import com.bside.five.util.FivePreference
 
 class SettingViewModel : BaseViewModel() {
 
@@ -17,26 +19,23 @@ class SettingViewModel : BaseViewModel() {
     override fun onClickListener(view: View) {
         when (view.id) {
             R.id.settingSupportBtn -> {
-                Toast.makeText(view.context, "settingSupportBtn", Toast.LENGTH_LONG).show()
+                Toast.makeText(view.context, "준비중입니다.", Toast.LENGTH_LONG).show()
             }
             R.id.settingContactBtn -> {
                 showContactEmail(view.context)
             }
             R.id.settingPrivacyPolicyBtn -> {
-                Toast.makeText(view.context, "settingPrivacyPolicyBtn", Toast.LENGTH_LONG).show()
+                ActivityUtil.startPrivacyPolicy(view.context)
             }
         }
     }
 
     private fun showContactEmail(context: Context) {
-        val nickName = "admin"
         val title = "알고싶어 - "
-        val contents = "Nickname : $nickName \n" +
-                "App Version : ${BuildConfig.VERSION_NAME}\n" +
-                "OS Version : ${Build.VERSION.RELEASE}\n\n"
+        val contents = "App Version : ${BuildConfig.VERSION_NAME}\nOS Version : ${Build.VERSION.RELEASE}\n\n"
 
         Intent(Intent.ACTION_SEND).let {
-            it.putExtra(Intent.EXTRA_EMAIL, Constants.EMAIL_ADDRESS)
+            it.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constants.EMAIL_ADDRESS))
             it.putExtra(Intent.EXTRA_SUBJECT, title)
             it.putExtra(Intent.EXTRA_TEXT, contents)
             it.type = "message/rfc822"

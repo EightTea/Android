@@ -11,6 +11,7 @@ import com.bside.five.R
 import com.bside.five.custom.listener.OnConfirmListener
 import com.bside.five.databinding.DialogPolicyBinding
 import com.bside.five.network.ApiClient
+import com.bside.five.util.ActivityUtil
 
 
 class PolicyDialog(context: Context, val listener: OnConfirmListener) : Dialog(context, R.style.DefaultDialog) {
@@ -25,9 +26,7 @@ class PolicyDialog(context: Context, val listener: OnConfirmListener) : Dialog(c
 
     override fun show() {
         binding.privacyPolicyClickText.setOnClickListener {
-            val policyUrl = "${ApiClient.BASE_URL}webview/privacy"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl))
-            context.startActivity(intent)
+            ActivityUtil.startPrivacyPolicy(context)
         }
         binding.privacyPolicyCheck.setOnClickListener {
             binding.privacyPolicyCheck.isSelected = !binding.privacyPolicyCheck.isSelected
