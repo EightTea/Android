@@ -34,8 +34,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken()}")
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 ActivityUtil.startSettingActivity(this)
                 overridePendingTransition(0, 0)

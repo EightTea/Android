@@ -61,8 +61,8 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         uri = Uri.EMPTY
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_share -> {
                 if (CommonUtil.checkStoragePermission(this)) {
                     val fileName = System.currentTimeMillis().toString() + "_${ImageUtil.TEMP_FILE_NAME}"

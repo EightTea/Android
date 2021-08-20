@@ -25,8 +25,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, SettingViewModel>()
         initToolbar()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 overridePendingTransition(0, 0)

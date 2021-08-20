@@ -33,8 +33,8 @@ class NewSurveyActivity : BaseActivity<ActivityNewSurveyBinding, NewSurveyViewMo
         showSnackBarAction(R.string.new_survey_title_guide)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 overridePendingTransition(0, 0)
