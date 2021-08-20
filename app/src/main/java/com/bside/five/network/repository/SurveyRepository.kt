@@ -30,8 +30,13 @@ class SurveyRepository : BaseRepository() {
         return service.requestSurveyDetail(accessToken, surveyId)
     }
 
-    fun requestSurveyAnswer(accessToken: String, surveyId: String, answer: String): Single<AnswerListResponse> {
-        return service.requestSurveyAnswer(accessToken, surveyId, answer)
+    fun requestSurveyAnswer(
+        accessToken: String,
+        surveyId: String,
+        answer: String,
+        page: String = "0"
+    ): Single<AnswerListResponse> {
+        return service.requestSurveyAnswer(accessToken, surveyId, answer, page)
     }
 
     fun requestSurveyStateChange(accessToken: String, surveyId: String, status: String): Single<BaseResponse> {

@@ -21,10 +21,18 @@ interface RetrofitService {
      * 회원 탈퇴
      */
     @Headers("Content-Type: application/json")
-    @DELETE("/user/{id}")
+    @DELETE("user/{id}")
     fun requestUserDelete(
+        @Header("Authorization") accessToken: String,
         @Path("id") id: String
     ): Single<BaseResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("user/{id}")
+    fun requestSelectUser(
+        @Path("id") id: String
+    ): Single<SelectUserResponse>
+
 
     /**
      * 설문 조사 생성
@@ -65,14 +73,15 @@ interface RetrofitService {
     fun requestSurveyAnswer(
         @Header("Authorization") accessToken: String,
         @Path("survey_id") surveyId: String,
-        @Path("question_id") questionId: String
+        @Path("question_id") questionId: String,
+        @Query("page") page: String
     ): Single<AnswerListResponse>
 
     /**
      * 내 설문 조사 상태 변경 요청(ex. 설문 종료)
      */
     @Headers("Content-Type: application/json")
-    @GET("survey/{survey_id}")
+    @PUT("survey/{survey_id}")
     fun requestSurveyStateChange(
         @Header("Authorization") accessToken: String,
         @Path("survey_id") surveyId: String,

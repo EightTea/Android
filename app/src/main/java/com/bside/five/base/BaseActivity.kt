@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bside.five.R
 import com.bside.five.util.AutoClearedDisposable
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewDataBinding, VM : ViewModel> : AppCompatActivity() {
 
     lateinit var binding: VB
     abstract val layoutResourceId: Int

@@ -1,12 +1,14 @@
 package com.bside.five.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bside.five.constants.Constants
 import com.bside.five.ui.answer.AnswerActivity
 import com.bside.five.ui.gallery.GalleryActivity
+import com.bside.five.ui.login.LoginActivity
 import com.bside.five.ui.main.MainActivity
 import com.bside.five.ui.my.MySurveyActivity
 import com.bside.five.ui.preview.PreviewActivity
@@ -16,6 +18,14 @@ import com.bside.five.ui.setting.SettingActivity
 import com.bside.five.ui.survey.NewSurveyActivity
 
 object ActivityUtil {
+
+    fun startLoginActivity(context: Context, msg: String) {
+        Intent(context, LoginActivity::class.java).run {
+            putExtra(Constants.EXTRA_SHOW_SNACK_BAR, msg)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            context.startActivity(this)
+        }
+    }
 
     fun startMainActivity(activity: Activity) {
         Intent(activity, MainActivity::class.java).run {
@@ -76,11 +86,18 @@ object ActivityUtil {
         }
     }
 
-    fun startAnswerActivity(activity: Activity, surveyId: String, title: String, count: Int) {
+    fun startAnswerActivity(
+        activity: Activity,
+        surveyId: String,
+        title: String,
+        count: Int,
+        status: String
+    ) {
         Intent(activity, AnswerActivity::class.java).run {
             putExtra(Constants.EXTRA_SURVEY_ID, surveyId)
             putExtra(Constants.EXTRA_TITLE, title)
             putExtra(Constants.EXTRA_ANSWER_COUNT, count)
+            putExtra(Constants.EXTRA_STATUS, status)
             activity.startActivity(this)
         }
     }

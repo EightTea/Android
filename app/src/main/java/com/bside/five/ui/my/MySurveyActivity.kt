@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.bside.five.R
+import com.bside.five.adapter.SurveyStateAdapter
 import com.bside.five.base.BaseActivity
+import com.bside.five.custom.listener.OnSuccessListener
 import com.bside.five.databinding.ActivityMySurveyBinding
 
 class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel>() {
+
+    private lateinit var adapter: SurveyStateAdapter
 
     override val layoutResourceId: Int
         get() = R.layout.activity_my_survey
@@ -18,7 +22,8 @@ class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel
         super.onCreate(savedInstanceState)
 
         initToolbar()
-        viewModel.requestSurvey(this)
+        initRecycler()
+        viewModel.requestSurvey()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -41,5 +46,14 @@ class MySurveyActivity : BaseActivity<ActivityMySurveyBinding, MySurveyViewModel
         }
     }
 
+    private fun initRecycler() {
+        adapter = SurveyStateAdapter(object : OnSuccessListener {
+            override fun onSuccess() {
+                viewModel.requestSurvey()
+            }
+        })
+
+        binding.mySurveyRecyclerView.adapter = adapter
+    }
 
 }

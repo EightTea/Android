@@ -8,12 +8,9 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ScrollView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
@@ -28,7 +25,6 @@ import com.bside.five.util.GlideUtil
 import com.bside.five.util.ImageUtil
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import java.util.ArrayList
 
 
 class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
@@ -107,9 +103,8 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
 
     private fun initIntent() {
         intent.let {
-            it.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let {
-                // FIXME : aws 도메인을 받아서 BASE_URL 주소를 바꿔야함
-                qrUrl = ApiClient.BASE_URL + it + "/view"
+            it.getStringExtra(Constants.EXTRA_SURVEY_ID)?.let { surveyId ->
+                qrUrl = ApiClient.USER_SURVEY_URL + surveyId + "/view"
             }
 
             it.getBooleanExtra(Constants.EXTRA_IS_CREATE_QR, false).let { isCreate ->

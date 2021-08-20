@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    const val BASE_URL = "http://3.34.129.205:8080/api/"
+    private const val BASE_APP_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/api/"
+    const val USER_SURVEY_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/survey/"
+    const val BASE_URL = "http://ec2-3-34-137-134.ap-northeast-2.compute.amazonaws.com:8080/"
     private const val TIMEOUT_CONNECT = 15
     private const val TIMEOUT_READ = 15
     private const val TIMEOUT_WRITE = 20
@@ -45,7 +47,7 @@ object ApiClient {
 
     fun getClient(): Retrofit {
         return retrofit ?: Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_APP_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getOkHttpClient())

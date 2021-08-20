@@ -30,7 +30,7 @@ class SettingViewModel : BaseViewModel() {
 
     private fun showContactEmail(context: Context) {
         val nickName = "admin"
-        val title = "(귀쫑끗) "
+        val title = "알고싶어 - "
         val contents = "Nickname : $nickName \n" +
                 "App Version : ${BuildConfig.VERSION_NAME}\n" +
                 "OS Version : ${Build.VERSION.RELEASE}\n\n"

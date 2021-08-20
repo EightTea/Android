@@ -30,7 +30,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         initToolbar()
         showSnackBar(R.string.login_complete_msg)
 
-        Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken(this)}")
+        Log.d(tag, "kch getUserId : ${FivePreference.getUserId()}")
+        Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken()}")
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <!--FIXME : 레이아웃 및 텍스트 사용 위치 수정 필요-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,9 +25,8 @@
             android:id="@+id/scannerGuide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="QR코드를 찍고\n소중한 의견을 작성해주세요"
+            android:text="@string/qr_scanner_guide"
             android:textColor="@color/white"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/scannerBarcodeView"

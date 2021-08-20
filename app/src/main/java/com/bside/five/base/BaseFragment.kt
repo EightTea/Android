@@ -9,12 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.bside.five.util.AutoClearedDisposable
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
+abstract class BaseFragment<VB : ViewDataBinding, VM : ViewModel> : Fragment() {
 
     lateinit var binding: VB
     abstract val layoutResourceId: Int

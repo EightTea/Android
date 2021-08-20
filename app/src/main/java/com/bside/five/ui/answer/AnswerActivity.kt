@@ -8,6 +8,7 @@ import com.bside.five.R
 import com.bside.five.adapter.AnswerAdapter
 import com.bside.five.base.BaseActivity
 import com.bside.five.constants.Constants
+import com.bside.five.custom.listener.OnMoreListener
 import com.bside.five.databinding.ActivityAnswerBinding
 
 class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
@@ -16,6 +17,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
 
     private var title = ""
     private var answerCount = 0
+    private var status = Constants.STATUS_PENDING
 
     override val layoutResourceId: Int
         get() = R.layout.activity_answer
@@ -29,10 +31,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
         initToolbar()
         initView()
         initRecyclerView()
-
-        if (answerCount != 0) {
-            viewModel.requestAnswerAPI(this)
-        }
+        viewModel.requestAnswerAPI()
 
         binding.answerContainer.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
@@ -67,6 +66,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
             viewModel.surveyId = it.getStringExtra(Constants.EXTRA_SURVEY_ID) ?: ""
             title = it.getStringExtra(Constants.EXTRA_TITLE) ?: ""
             answerCount = it.getIntExtra(Constants.EXTRA_ANSWER_COUNT, 0)
+            status = it.getStringExtra(Constants.EXTRA_STATUS) ?: Constants.STATUS_PENDING
         }
     }
 
@@ -80,7 +80,11 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, AnswerViewModel>() {
     }
 
     private fun initRecyclerView() {
-        val adapter = AnswerAdapter()
+        val adapter = AnswerAdapter(object : OnMoreListener {
+            override fun onMore(questionId: String, position: Int, page: Int) {
+                viewModel.requestAnswers(questionId, position, page + 1)
+            }
+        })
         adapter.setSurveyId(viewModel.surveyId)
         binding.answerRecyclerView.adapter = adapter
     }

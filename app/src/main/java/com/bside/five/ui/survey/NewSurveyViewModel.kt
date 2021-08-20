@@ -2,7 +2,6 @@ package com.bside.five.ui.survey
 
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +24,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.Okio
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class NewSurveyViewModel : BaseViewModel() {
@@ -82,14 +85,10 @@ class NewSurveyViewModel : BaseViewModel() {
                 imgPath = Uri.EMPTY
                 clearImageLive.postValue(questionNo - 1)
             }
-            R.id.surveyInfoSampleBtn -> {
+            R.id.newSurveySampleBtn -> {
                 ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
             }
         }
-    }
-
-    fun init(activity: AppCompatActivity) {
-        adapter = ScreenSlidePagerAdapter(activity.supportFragmentManager, activity.lifecycle)
     }
 
     private fun createPage() {
@@ -138,25 +137,27 @@ class NewSurveyViewModel : BaseViewModel() {
 
         for (item in questionInfoList) {
             if (item.imageUri != Uri.EMPTY) {
-                getMultipartBody(view, item.imageUri)?.let {
-                    imgList.add(it)
+                val img = getMultipartBody(view, item.imageUri)
+
+                if (img != null) {
+                    imgList.add(img)
+                } else {
+                    getEmptyMultipartBody(view).let {
+                        imgList.add(it)
+                    }
                 }
             } else {
-                val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", "")
-                imgList.add(emptyPart)
+                getEmptyMultipartBody(view).let {
+                    imgList.add(it)
+                }
             }
 
             contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
         }
 
-        // FIXME : 질문 내용과 이미지 인덱스를 맞추기 위해 빈값을 무엇을 넣을지 찾아봐야함
-
-        Log.d(tag, "kch contentsList size : ${contentsList.size}")
-        Log.d(tag, "kch imgList size : ${imgList.size}")
-
         disposables.add(
             SurveyRepository().createSurvey(
-                FivePreference.getAccessToken(view.context),
+                FivePreference.getAccessToken(),
                 surveyTitle,
                 surveyContents,
                 contentsList,
@@ -173,6 +174,24 @@ class NewSurveyViewModel : BaseViewModel() {
                     Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
                 }, { t: Throwable? -> t?.printStackTrace() })
         )
+    }
+
+    private fun getEmptyMultipartBody(view: View): MultipartBody.Part {
+        val emptyFileName = "empty.jpeg"
+        val cacheFile = File(view.context.cacheDir, emptyFileName)
+
+        var os: OutputStream? = null
+        try {
+            os = BufferedOutputStream(FileOutputStream(cacheFile))
+            os.write("".toByteArray())
+            os.close()
+        } finally {
+            os?.close()
+        }
+
+        val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), cacheFile)
+        val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", emptyFileName, requestBody)
+        return emptyPart
     }
 
     private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {
