@@ -1,18 +1,18 @@
 package com.bside.five.ui.login
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
 import com.bside.five.base.BaseApplicationViewModel
-import com.bside.five.custom.dialog.PolicyDialog
-import com.bside.five.custom.listener.OnConfirmListener
 import com.bside.five.network.repository.UserRepository
 import com.bside.five.util.FivePreference
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.Gender
 import com.kakao.sdk.user.model.User
@@ -25,10 +25,18 @@ class LoginViewModel(application: Application) : BaseApplicationViewModel(applic
     private val context = getApplication<Application>().applicationContext
     var activityLive: MutableLiveData<String> = MutableLiveData()
     var dialogLive: MutableLiveData<User> = MutableLiveData()
+    var loginLive: MutableLiveData<Boolean> = MutableLiveData()
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e(tag, "로그인 실패", error)
+
+            when ((error as? AuthError)?.statusCode) {
+                302 -> {
+                    Log.e(tag, "로그인 not connected to Kakao account")
+                    loginLive.postValue(false)
+                }
+            }
         } else if (token != null) {
             Log.i(tag, "로그인 성공 ${token.accessToken}")
             requestKakaoUserInfo()
@@ -37,6 +45,14 @@ class LoginViewModel(application: Application) : BaseApplicationViewModel(applic
 
     override fun onClickListener(view: View) {
         if (view.id == R.id.kakaoLoginBtn) {
+            loginLive.postValue(UserApiClient.instance.isKakaoTalkLoginAvailable(view.context))
+        }
+    }
+
+    fun loginKakao(context: Context, isKakaoTalkLogin: Boolean) {
+        if (isKakaoTalkLogin) {
+            UserApiClient.instance.loginWithKakaoTalk(context, callback = callback)
+        } else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
         }
     }
