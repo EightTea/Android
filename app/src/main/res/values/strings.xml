@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Five</string>
+    <string name="app_name">알고싶어</string>
 
     <string name="close">닫기</string>
     <string name="no_text">아니요</string>
@@ -66,7 +66,7 @@
     <!--kakao-->
 
     <!--Login-->
-    <string name="welcome_text">귀쫑긋에 오신걸\n환영합니다.</string>
+    <string name="welcome_text">알고싶어에 오신걸\n환영합니다.</string>
     <!--Login-->
 
     <!--Dialog-->

@@ -55,5 +55,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             })
             dialog.show()
         })
+        viewModel.loginLive.observe(this, Observer<Boolean?> { isKakaoTalkLogin ->
+            viewModel.loginKakao(this@LoginActivity, isKakaoTalkLogin ?: false)
+        })
     }
 }
