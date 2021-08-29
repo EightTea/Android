@@ -1,6 +1,7 @@
 package com.bside.five.ui.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -17,7 +18,13 @@ import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
+    companion object {
+        const val DELAY_TIME = 1500
+    }
+
     private val tag = this::class.java.simpleName
+
+    var pressedTime: Long = 0
 
     override val layoutResourceId: Int
         get() = R.layout.activity_main
@@ -32,6 +39,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         Log.d(tag, "kch getUserId : ${FivePreference.getUserId()}")
         Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken()}")
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        showSnackBar(R.string.save_img_complete_msg)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -58,8 +70,19 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         result?.contents?.let {
-            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+            Intent(Intent.ACTION_VIEW, Uri.parse(it)).run {
+                startActivity(this)
+            }
         } ?: super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - pressedTime >= DELAY_TIME) {
+            pressedTime = System.currentTimeMillis()
+            Toast.makeText(this, R.string.back_press_guide_msg, Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun initToolbar() {

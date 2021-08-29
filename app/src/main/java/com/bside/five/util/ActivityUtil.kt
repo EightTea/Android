@@ -30,6 +30,7 @@ object ActivityUtil {
 
     fun startMainActivity(activity: Activity) {
         Intent(activity, MainActivity::class.java).run {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(this)
             activity.overridePendingTransition(0, 0)
         }
