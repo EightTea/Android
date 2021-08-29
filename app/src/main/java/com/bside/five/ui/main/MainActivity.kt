@@ -1,6 +1,7 @@
 package com.bside.five.ui.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -64,7 +65,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         result?.contents?.let {
-            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+            Intent(Intent.ACTION_VIEW, Uri.parse(it)).run {
+                startActivity(this)
+            }
         } ?: super.onActivityResult(requestCode, resultCode, data)
     }
 
