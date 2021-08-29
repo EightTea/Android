@@ -20,6 +20,7 @@ import com.bside.five.constants.Constants
 import com.bside.five.databinding.ActivityQrCodeBinding
 import com.bside.five.extension.showKeyboard
 import com.bside.five.network.ApiClient
+import com.bside.five.util.ActivityUtil
 import com.bside.five.util.CommonUtil
 import com.bside.five.util.GlideUtil
 import com.bside.five.util.ImageUtil
@@ -148,6 +149,7 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
                 saveQrCodeImage(it)
                 viewModel.isDownloadQr.set(false)
                 GlideUtil.loadImage(binding.qrCodeSaveIcon, R.drawable.ic_download_done)
+                ActivityUtil.startMainActivity(this)
             }
         })
     }

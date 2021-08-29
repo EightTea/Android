@@ -41,6 +41,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         Log.d(tag, "kch AccessToken : ${FivePreference.getAccessToken()}")
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        showSnackBar(R.string.save_img_complete_msg)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

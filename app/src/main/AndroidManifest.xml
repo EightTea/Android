@@ -42,6 +42,7 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
+            android:launchMode="singleTop"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
