@@ -17,7 +17,13 @@ import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
+    companion object {
+        const val DELAY_TIME = 1500
+    }
+
     private val tag = this::class.java.simpleName
+
+    var pressedTime: Long = 0
 
     override val layoutResourceId: Int
         get() = R.layout.activity_main
@@ -60,6 +66,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         result?.contents?.let {
             Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
         } ?: super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - pressedTime >= DELAY_TIME) {
+            pressedTime = System.currentTimeMillis()
+            Toast.makeText(this, R.string.back_press_guide_msg, Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun initToolbar() {
