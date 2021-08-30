@@ -106,4 +106,12 @@
     <!--Qr-->
     <string name="qr_scanner_guide">QR코드를 찍고\n소중한 의견을 작성해주세요</string>
     <!--Qr-->
+
+    <!--Setting-->
+    <string name="setting_support">고객센터</string>
+    <string name="setting_contact">문의하기</string>
+    <string name="setting_privacy_policy">개인정처리방침</string>
+    <string name="setting_license">오픈소스 라이선스</string>
+    <string name="setting_version">버전정보 %s</string>
+    <!--Setting-->
 </resources>

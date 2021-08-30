@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.android.gms.oss-licenses-plugin' // open source notices
 }
 
 android {
@@ -80,6 +81,9 @@ dependencies {
 
     // Kakao 로그인
     implementation "com.kakao.sdk:v2-user:2.5.2"
+
+    // open source notices
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 
     testImplementation 'junit:junit:4.+'
 
