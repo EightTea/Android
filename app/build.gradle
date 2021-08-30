@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.android.gms.oss-licenses-plugin' // open source notices
+    id 'com.google.gms.google-services' // Firebase
+    id 'com.google.firebase.crashlytics'    // Apply the Crashlytics Gradle plugin
 }
 
 android {
@@ -84,6 +86,13 @@ dependencies {
 
     // open source notices
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
 
     testImplementation 'junit:junit:4.+'
 
