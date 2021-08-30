@@ -5,16 +5,20 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableField
 import com.bside.five.BuildConfig
 import com.bside.five.R
 import com.bside.five.base.BaseViewModel
 import com.bside.five.constants.Constants
 import com.bside.five.util.ActivityUtil
 import com.bside.five.util.FivePreference
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 class SettingViewModel : BaseViewModel() {
 
     private val tag = this::class.java
+    val version = ObservableField<String>()
 
     override fun onClickListener(view: View) {
         when (view.id) {
@@ -26,6 +30,12 @@ class SettingViewModel : BaseViewModel() {
             }
             R.id.settingPrivacyPolicyBtn -> {
                 ActivityUtil.startPrivacyPolicy(view.context)
+            }
+            R.id.settingVersionBtn -> {
+                Toast.makeText(view.context, BuildConfig.VERSION_CODE.toString(), Toast.LENGTH_LONG).show()
+            }
+            R.id.settingLicenseBtn -> {
+                ContextCompat.startActivity(view.context, Intent(view.context, OssLicensesMenuActivity::class.java), null)
             }
         }
     }

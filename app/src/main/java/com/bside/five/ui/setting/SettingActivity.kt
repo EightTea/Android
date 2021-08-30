@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.bside.five.BuildConfig
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
 import com.bside.five.custom.dialog.MoreBottomSheetDialog
@@ -23,6 +24,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, SettingViewModel>()
         super.onCreate(savedInstanceState)
 
         initToolbar()
+        viewModel.version.set(getString(R.string.setting_version, BuildConfig.VERSION_NAME))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

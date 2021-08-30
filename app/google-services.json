@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "36236458787",
+    "project_id": "wanna-know-e316b",
+    "storage_bucket": "wanna-know-e316b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36236458787:android:38ec0f08321751694c2a96",
+        "android_client_info": {
+          "package_name": "com.bside.five"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36236458787-iknorhh2k5mrlqtspe2jt3eeospikehr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bside.five",
+            "certificate_hash": "eaac55ddd37da4451ce0a85ad28d43a3cf61ffaa"
+          }
+        },
+        {
+          "client_id": "36236458787-4pf9k63eme8pcmu2nfu49dvk64tba2sh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLUMIZGBflPnZYGXBv1Bq3B8o8schU0dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36236458787-4pf9k63eme8pcmu2nfu49dvk64tba2sh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
