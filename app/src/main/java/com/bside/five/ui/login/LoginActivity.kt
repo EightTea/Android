@@ -1,6 +1,8 @@
 package com.bside.five.ui.login
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
@@ -10,12 +12,30 @@ import com.bside.five.custom.listener.OnConfirmListener
 import com.bside.five.databinding.ActivityLoginBinding
 import com.bside.five.util.ActivityUtil
 import com.google.android.material.snackbar.Snackbar
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthError
+import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.Gender
 import com.kakao.sdk.user.model.User
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     private val tag = this::class.java.simpleName
+    private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            Log.e(tag, "로그인 실패", error)
+
+            when ((error as? AuthError)?.statusCode) {
+                302 -> {
+                    // NotSupportError
+                    loginKakao(false)
+                }
+            }
+        } else if (token != null) {
+            Log.i(tag, "로그인 성공")
+            viewModel.requestKakaoUserInfo()
+        }
+    }
 
     override val layoutResourceId: Int
         get() = R.layout.activity_login
@@ -30,16 +50,29 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         }
 
         subscribe()
+
+        binding.kakaoLoginBtn.setOnClickListener {
+            loginKakao(UserApiClient.instance.isKakaoTalkLoginAvailable(this))
+        }
+
         viewModel.checkKakaoLoginAccess()
     }
 
+    private fun loginKakao(isKakaoApp: Boolean) {
+        if (isKakaoApp) {
+            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+        }
+    }
+
     private fun subscribe() {
-        viewModel.activityLive.observe(this, Observer<String?> {
+        viewModel.activityLive.observe(this, Observer<Unit?> {
             ActivityUtil.startMainActivity(this@LoginActivity)
             finish()
         })
 
-        viewModel.dialogLive.observe(this, Observer<User?> { user ->
+        viewModel.policyDialogLive.observe(this, Observer<User?> { user ->
             val dialog = PolicyDialog(this@LoginActivity, object : OnConfirmListener {
                 override fun onConfirm() {
                     user?.let {
@@ -55,8 +88,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             })
             dialog.show()
         })
-        viewModel.loginLive.observe(this, Observer<Boolean?> { isKakaoTalkLogin ->
-            viewModel.loginKakao(this@LoginActivity, isKakaoTalkLogin ?: false)
-        })
+
+        viewModel.toastLive.observe(this,
+            Observer<String?> { t -> Toast.makeText(this@LoginActivity, t, Toast.LENGTH_LONG).show() })
     }
 }
