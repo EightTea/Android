@@ -1,7 +1,6 @@
 package com.bside.five.ui.login
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.base.BaseViewModel
@@ -23,8 +22,6 @@ class LoginViewModel : BaseViewModel() {
     val policyDialogLive: LiveData<User> get() = _policyDialogLive
     private val _toastLive: MutableLiveData<String> = MutableLiveData()
     val toastLive: LiveData<String> get() = _toastLive
-
-    override fun onClickListener(view: View) {}
 
     /**
      * 사용자 정보 요청 (기본)

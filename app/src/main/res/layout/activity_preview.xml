@@ -68,7 +68,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"
-                android:onClick="@{(v) -> viewModel.onClickListener(v)}"
                 app:setImage="@{viewModel.imageLive}"
                 app:isVisible="@{viewModel.imageLive.scheme != null}"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,5 @@
 package com.bside.five.ui.my
 
-import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +19,6 @@ class MySurveyViewModel : BaseViewModel() {
     private val _itemsLive: MutableLiveData<ArrayList<Survey>> = MutableLiveData()
     val itemsLive: LiveData<ArrayList<Survey>> get() = _itemsLive
     var totalItems = ObservableArrayList<MySurveyListResponse.MySurveyInfo>()
-
-    override fun onClickListener(view: View) {}
 
     fun filter(filterType: String) {
         clearItem()

@@ -1,8 +1,6 @@
 package com.bside.five.ui.preview
 
 import android.net.Uri
-import android.view.View
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.base.BaseViewModel
@@ -15,8 +13,6 @@ class PreviewViewModel : BaseViewModel() {
     val contentsLive: LiveData<String> get() = _contentsLive
     private val _imageLive: MutableLiveData<Uri> = MutableLiveData()
     val imageLive: LiveData<Uri> get() = _imageLive
-
-    override fun onClickListener(view: View) {}
 
     fun setNo(no: String) {
         _noLive.value = no

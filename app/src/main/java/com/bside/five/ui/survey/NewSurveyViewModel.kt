@@ -54,8 +54,6 @@ class NewSurveyViewModel : BaseViewModel() {
         _isEnableStartSurveyLive.value = isEnable
     }
 
-    override fun onClickListener(view: View) {}
-
     fun startQuestion() {
         createPage()
         _isSurveyLive.value = false
