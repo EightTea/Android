@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.bside.five.R
 import com.bside.five.base.BaseActivity
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
         initToolbar()
+        listener()
         showSnackBar(R.string.login_complete_msg)
 
         Log.d(tag, "kch getUserId : ${FivePreference.getUserId()}")
@@ -92,6 +94,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
             setHomeAsUpIndicator(R.drawable.ic_nav_menu)
+        }
+    }
+
+    private fun listener() {
+        binding.mainAddSurveyBtn.setOnClickListener {
+            ActivityUtil.startNewSurveyActivity(this)
+        }
+        binding.mainMySurveyBtn.setOnClickListener {
+            ActivityUtil.startMySurveyActivity(this)
         }
     }
 

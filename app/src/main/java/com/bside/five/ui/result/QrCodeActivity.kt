@@ -49,11 +49,8 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         initToolbar()
         initIntent()
         subscribe()
-
+        initView()
         binding.qrCodeTitle.showKeyboard()
-//        binding.qrCodeTitle.requestFocus()
-
-        viewModel.qrDrawable.set(createQrCode(qrUrl).toDrawable(resources))
     }
 
     override fun onResume() {
@@ -116,6 +113,11 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         }
     }
 
+    private fun initView() {
+        val img = createQrCode(qrUrl).toDrawable(resources)
+        GlideUtil.loadImage(binding.qrCodeImg, img)
+    }
+
     private fun createQrCode(url: String): Bitmap {
         val barcodeEncoder = BarcodeEncoder()
         return barcodeEncoder.encodeBitmap(url, BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT)
@@ -147,7 +149,7 @@ class QrCodeActivity : BaseActivity<ActivityQrCodeBinding, QrCodeViewModel>() {
         viewModel.imageSaveLive.observe(this, Observer<String?> { fileName ->
             fileName?.let {
                 saveQrCodeImage(it)
-                viewModel.isDownloadQr.set(false)
+                viewModel.finishDownloadQr()
                 GlideUtil.loadImage(binding.qrCodeSaveIcon, R.drawable.ic_download_done)
                 ActivityUtil.startMainActivity(this)
             }

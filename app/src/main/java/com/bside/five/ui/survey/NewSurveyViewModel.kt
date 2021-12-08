@@ -1,33 +1,19 @@
 package com.bside.five.ui.survey
 
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bside.five.R
 import com.bside.five.adapter.ScreenSlidePagerAdapter
 import com.bside.five.base.BaseViewModel
-import com.bside.five.custom.dialog.CompleteCheckDialog
 import com.bside.five.model.QuestionInfo
 import com.bside.five.model.SurveyFragmentInfo
 import com.bside.five.network.repository.SurveyRepository
-import com.bside.five.util.ActivityUtil
-import com.bside.five.util.CommonUtil
 import com.bside.five.util.FivePreference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okio.BufferedSink
-import okio.Okio
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 
 class NewSurveyViewModel : BaseViewModel() {
@@ -36,13 +22,22 @@ class NewSurveyViewModel : BaseViewModel() {
         const val QUESTION_SIZE_MAX = 10
     }
 
-    private val tag = NewSurveyViewModel::class.java.simpleName
-    var pagePositionLive: MutableLiveData<Int> = MutableLiveData()
-    var contentsSizeLive: MutableLiveData<Int> = MutableLiveData()
-    var clearImageLive: MutableLiveData<Int> = MutableLiveData()
-    var snackbarLive: MutableLiveData<Int> = MutableLiveData()
-    var isSurvey = ObservableField<Boolean>(true)
-    var isEnableStartSurvey = ObservableField<Boolean>(false)
+    private val _pagePositionLive: MutableLiveData<Int> = MutableLiveData()
+    val pagePositionLive: LiveData<Int> get() = _pagePositionLive
+    private val _contentsSizeLive: MutableLiveData<Int> = MutableLiveData()
+    val contentsSizeLive: LiveData<Int> get() = _contentsSizeLive
+    private val _clearImageLive: MutableLiveData<Int> = MutableLiveData()
+    val clearImageLive: LiveData<Int> get() = _clearImageLive
+    private val _snackBarLive: MutableLiveData<Int> = MutableLiveData()
+    val snackBarLive: LiveData<Int> get() = _snackBarLive
+    private val _isEnableStartSurveyLive: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isEnableStartSurveyLive: LiveData<Boolean> get() = _isEnableStartSurveyLive
+    private val _createCompleteLive: MutableLiveData<String> = MutableLiveData()
+    val createCompleteLive: LiveData<String> get() = _createCompleteLive
+    private val _toastLive: MutableLiveData<String> = MutableLiveData()
+    val toastLive: LiveData<String> get() = _toastLive
+    private val _isSurveyLive: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isSurvey: LiveData<Boolean> get() = _isSurveyLive
     var surveyTitle = ""
     var surveyContents = ""
     var questionNo = 1
@@ -51,51 +46,37 @@ class NewSurveyViewModel : BaseViewModel() {
     val questionInfoList = ArrayList<QuestionInfo>()
     lateinit var adapter: ScreenSlidePagerAdapter
 
-    override fun onClickListener(view: View) {
-        when (view.id) {
-            R.id.newSurveyStartBtn -> {
-                createPage()
-                isSurvey.set(false)
-                snackbarLive.postValue(R.string.new_question_title_guide)
-            }
-            R.id.newSurveyAddQuestionBtn -> {
-                if (questionInfoList.size < QUESTION_SIZE_MAX) {
-                    updateQuestionInfo()
-                    createPage()
-                }
-            }
-            R.id.newSurveyFinishQuestionBtn -> {
-                val activity = view.context as AppCompatActivity
-                val dialog = CompleteCheckDialog(view.context, View.OnClickListener {
-                    updateQuestionInfo()
-                    createSurvey(view, activity)
-                })
+    fun setContentsSize(size: Int) {
+        _contentsSizeLive.value = size
+    }
 
-                dialog.show()
-            }
-            R.id.questionImageContainer -> {
-                val activity = view.context as AppCompatActivity
-                val fragment = activity.supportFragmentManager.fragments.last()
+    fun setEnableStartSurvey(isEnable: Boolean) {
+        _isEnableStartSurveyLive.value = isEnable
+    }
 
-                if (CommonUtil.checkStoragePermission(activity)) {
-                    ActivityUtil.startGalleryActivity(activity, fragment)
-                }
-            }
-            R.id.questionImgRemoveBtn -> {
-                imgPath = Uri.EMPTY
-                clearImageLive.postValue(questionNo - 1)
-            }
-            R.id.newSurveySampleBtn -> {
-                ActivityUtil.startSampleActivity(view.context as AppCompatActivity)
-            }
+    fun startQuestion() {
+        createPage()
+        _isSurveyLive.value = false
+        _snackBarLive.value = R.string.new_question_title_guide
+    }
+
+    fun addQuestion() {
+        if (questionInfoList.size < QUESTION_SIZE_MAX) {
+            updateQuestionInfo()
+            createPage()
         }
+    }
+
+    fun removeQuestionImage() {
+        imgPath = Uri.EMPTY
+        _clearImageLive.value = questionNo - 1
     }
 
     private fun createPage() {
         addQuestionInfo()
 
         adapter.addFragment(SurveyFragmentInfo(1, questionNo))
-        pagePositionLive.postValue(adapter.itemCount - 1)
+        _pagePositionLive.value = adapter.itemCount - 1
         questionNo += 1
     }
 
@@ -106,7 +87,7 @@ class NewSurveyViewModel : BaseViewModel() {
 
         val item = adapter.getItem(position)
         adapter.removeFragment(item)
-        pagePositionLive.postValue(adapter.itemCount - 1)
+        _pagePositionLive.value = adapter.itemCount - 1
         questionNo -= 1
     }
 
@@ -115,7 +96,7 @@ class NewSurveyViewModel : BaseViewModel() {
         imgPath = Uri.EMPTY
     }
 
-    private fun updateQuestionInfo() {
+    fun updateQuestionInfo() {
         questionInfoList.last().let {
             it.contents = contents
             it.imageUri = imgPath
@@ -131,30 +112,7 @@ class NewSurveyViewModel : BaseViewModel() {
         questionInfoList.removeAt(position)
     }
 
-    private fun createSurvey(view: View, activity: AppCompatActivity) {
-        val contentsList = ArrayList<MultipartBody.Part>()
-        val imgList = ArrayList<MultipartBody.Part>()
-
-        for (item in questionInfoList) {
-            if (item.imageUri != Uri.EMPTY) {
-                val img = getMultipartBody(view, item.imageUri)
-
-                if (img != null) {
-                    imgList.add(img)
-                } else {
-                    getEmptyMultipartBody(view).let {
-                        imgList.add(it)
-                    }
-                }
-            } else {
-                getEmptyMultipartBody(view).let {
-                    imgList.add(it)
-                }
-            }
-
-            contentsList.add(MultipartBody.Part.createFormData("questionContentList", item.contents))
-        }
-
+    fun createSurvey(contentsList: ArrayList<MultipartBody.Part>, imgList: ArrayList<MultipartBody.Part>) {
         disposables.add(
             SurveyRepository().createSurvey(
                 FivePreference.getAccessToken(),
@@ -167,56 +125,11 @@ class NewSurveyViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.isSuccess()) {
-                        ActivityUtil.startQrCodeActivity(activity, response.data.survey_id, true)
-                        activity.finish()
+                        _createCompleteLive.value = response.data.survey_id
                     }
 
-                    Toast.makeText(view.context, response.msg, Toast.LENGTH_LONG).show()
+                    _toastLive.value = response.msg
                 }, { t: Throwable? -> t?.printStackTrace() })
         )
-    }
-
-    private fun getEmptyMultipartBody(view: View): MultipartBody.Part {
-        val emptyFileName = "empty.jpeg"
-        val cacheFile = File(view.context.cacheDir, emptyFileName)
-
-        var os: OutputStream? = null
-        try {
-            os = BufferedOutputStream(FileOutputStream(cacheFile))
-            os.write("".toByteArray())
-            os.close()
-        } finally {
-            os?.close()
-        }
-
-        val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/jpeg"), cacheFile)
-        val emptyPart: MultipartBody.Part = MultipartBody.Part.createFormData("questionFileList", emptyFileName, requestBody)
-        return emptyPart
-    }
-
-    private fun getMultipartBody(view: View, imageUri: Uri): MultipartBody.Part? {
-        val name = "questionFileList"
-
-        return view.context.contentResolver.query(imageUri, null, null, null, null)?.let {
-            if (it.moveToNext()) {
-                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                val requestBody = object : RequestBody() {
-                    override fun contentType(): MediaType? {
-                        return view.context.contentResolver.getType(imageUri)
-                            ?.let { type -> MediaType.parse(type) }
-                    }
-
-                    override fun writeTo(sink: BufferedSink) {
-                        sink.writeAll(Okio.source(view.context.contentResolver.openInputStream(imageUri)))
-                    }
-                }
-                it.close()
-
-                MultipartBody.Part.createFormData(name, displayName, requestBody)
-            } else {
-                it.close()
-                null
-            }
-        }
     }
 }

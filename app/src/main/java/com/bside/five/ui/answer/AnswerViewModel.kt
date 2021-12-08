@@ -1,6 +1,5 @@
 package com.bside.five.ui.answer
 
-import android.view.View
 import androidx.databinding.ObservableArrayList
 import com.bside.five.base.BaseViewModel
 import com.bside.five.model.SurveyResult
@@ -17,8 +16,6 @@ class AnswerViewModel : BaseViewModel() {
     private val tag = this::class.java.simpleName
     val items = ObservableArrayList<SurveyResult>()
     var surveyId = ""
-
-    override fun onClickListener(view: View) {}
 
     fun requestAnswerAPI() {
         disposables.add(

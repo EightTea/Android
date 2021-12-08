@@ -1,25 +1,28 @@
 package com.bside.five.ui.preview
 
 import android.net.Uri
-import android.view.View
-import androidx.databinding.ObservableField
-import com.bside.five.R
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bside.five.base.BaseViewModel
-import com.bside.five.custom.dialog.DialogPreview
 
 class PreviewViewModel : BaseViewModel() {
 
-    val no = ObservableField<String>("")
-    val contents = ObservableField<String>("")
-    val image = ObservableField<Uri>()
+    private val _noLive: MutableLiveData<String> = MutableLiveData("")
+    val noLive: LiveData<String> get() = _noLive
+    private val _contentsLive: MutableLiveData<String> = MutableLiveData("")
+    val contentsLive: LiveData<String> get() = _contentsLive
+    private val _imageLive: MutableLiveData<Uri> = MutableLiveData()
+    val imageLive: LiveData<Uri> get() = _imageLive
 
-    override fun onClickListener(view: View) {
-        if (view.id == R.id.previewImg) {
-            image.get()?.let {
-                val dialogPreview = DialogPreview(view.context, it)
-                dialogPreview.show()
-            }
-        }
+    fun setNo(no: String) {
+        _noLive.value = no
     }
 
+    fun setContents(contents: String) {
+        _contentsLive.value = contents
+    }
+
+    fun setImage(uri: Uri?) {
+        _imageLive.value = uri
+    }
 }

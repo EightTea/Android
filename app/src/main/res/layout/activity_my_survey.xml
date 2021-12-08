@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{(v) -> viewModel.onClickListener(v)}"
             app:layout_constraintTop_toBottomOf="@+id/mySurveyToolbar"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -53,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
-                android:text="@{viewModel.filterTitle}"
+                android:text="전체"
                 android:textColor="@color/title_text"
                 android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +80,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:setSurveyList="@{viewModel.items}"
+            app:setSurveyList="@{viewModel.itemsLive}"
             app:layout_constraintTop_toBottomOf="@+id/mySurveyCountTv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +161,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:background="@drawable/selector_press_btn_bg"
-                android:onClick="@{(v) -> viewModel.onClickListener(v)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
