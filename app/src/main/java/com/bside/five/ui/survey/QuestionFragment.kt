@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelStoreOwner
@@ -15,6 +16,8 @@ import com.bside.five.base.BaseFragment
 import com.bside.five.constants.Constants
 import com.bside.five.databinding.FragmentQuestionBinding
 import com.bside.five.model.SurveyFragmentInfo
+import com.bside.five.util.ActivityUtil
+import com.bside.five.util.CommonUtil
 import com.bside.five.util.GlideUtil
 
 class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewModel>() {
@@ -50,29 +53,12 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewMode
                 binding.questionImageContainer.isVisible = info.imageUri == Uri.EMPTY
                 binding.questionImageVisibleContainer.isVisible = info.imageUri != Uri.EMPTY
                 GlideUtil.loadImage(binding.questionImg, info.imageUri)
-                viewModel.contentsSizeLive.postValue(info.contents.length)
+                viewModel.setContentsSize(info.contents.length)
             }
         }
 
-        binding.questionContents.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.contents = s?.toString() ?: ""
-                viewModel.contentsSizeLive.postValue(s?.length ?: 0)
-            }
-        })
-
-        viewModel.clearImageLive.observe(viewLifecycleOwner, Observer<Int?> { questionNo ->
-            fragmentInfo?.childId?.let { position ->
-                if (questionNo == viewModel.questionInfoList[position - 1].no) {
-                    binding.questionImageContainer.visibility = View.VISIBLE
-                    binding.questionImageVisibleContainer.visibility = View.GONE
-                }
-            }
-        })
+        listener()
+        subscribe()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,5 +75,37 @@ class QuestionFragment : BaseFragment<FragmentQuestionBinding, NewSurveyViewMode
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun listener() {
+        binding.questionImageContainer.setOnClickListener {
+            val fragment = requireActivity().supportFragmentManager.fragments.last()
+
+            if (CommonUtil.checkStoragePermission(requireActivity() as AppCompatActivity)) {
+                ActivityUtil.startGalleryActivity(requireActivity() as AppCompatActivity, fragment)
+            }
+        }
+
+        binding.questionContents.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.contents = s?.toString() ?: ""
+                viewModel.setContentsSize(s?.length ?: 0)
+            }
+        })
+    }
+
+    private fun subscribe() {
+        viewModel.clearImageLive.observe(viewLifecycleOwner, Observer<Int?> { questionNo ->
+            fragmentInfo?.childId?.let { position ->
+                if (questionNo == viewModel.questionInfoList[position - 1].no) {
+                    binding.questionImageContainer.visibility = View.VISIBLE
+                    binding.questionImageVisibleContainer.visibility = View.GONE
+                }
+            }
+        })
     }
 }

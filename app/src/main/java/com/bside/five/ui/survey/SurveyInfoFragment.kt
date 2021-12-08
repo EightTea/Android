@@ -35,8 +35,8 @@ class SurveyInfoFragment : BaseFragment<FragmentSurveyInfoBinding, NewSurveyView
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.surveyTitle = s?.toString() ?: ""
-                viewModel.isEnableStartSurvey.set((s?.length ?: 0) * viewModel.surveyContents.length != 0)
-                viewModel.contentsSizeLive.postValue((s?.length ?: 0) * viewModel.surveyContents.length)
+                viewModel.setEnableStartSurvey((s?.length ?: 0) * viewModel.surveyContents.length != 0)
+                viewModel.setContentsSize((s?.length ?: 0) * viewModel.surveyContents.length)
             }
         })
 
@@ -47,8 +47,8 @@ class SurveyInfoFragment : BaseFragment<FragmentSurveyInfoBinding, NewSurveyView
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.surveyContents = s?.toString() ?: ""
-                viewModel.isEnableStartSurvey.set((s?.length ?: 0) * viewModel.surveyTitle.length != 0)
-                viewModel.contentsSizeLive.postValue((s?.length ?: 0) * viewModel.surveyTitle.length)
+                viewModel.setEnableStartSurvey((s?.length ?: 0) * viewModel.surveyTitle.length != 0)
+                viewModel.setContentsSize((s?.length ?: 0) * viewModel.surveyTitle.length)
             }
         })
 
