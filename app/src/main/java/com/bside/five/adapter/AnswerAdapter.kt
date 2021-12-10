@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -56,11 +55,11 @@ class AnswerAdapter(val listener: OnMoreListener) : RecyclerView.Adapter<Recycle
         when (viewType) {
             TYPE_QUESTION -> {
                 val binding = LayoutQuestionLowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return QuestionViewModel(binding)
+                return QuestionViewHolder(binding)
             }
             TYPE_ANSWER -> {
                 val binding = LayoutAnswerLowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return AnswerViewModel(binding, listener)
+                return AnswerViewHolder(binding, listener)
             }
             TYPE_FOOTER -> {
                 val binding = LayoutAnswerQrBtnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -81,8 +80,8 @@ class AnswerAdapter(val listener: OnMoreListener) : RecyclerView.Adapter<Recycle
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is QuestionViewModel -> holder.bind((items[position] as SurveyResult.QuestionUI).question)
-            is AnswerViewModel -> holder.bind((items[position] as SurveyResult.AnswerUI).answer)
+            is QuestionViewHolder -> holder.bind((items[position] as SurveyResult.QuestionUI).question)
+            is AnswerViewHolder -> holder.bind((items[position] as SurveyResult.AnswerUI).answer)
             is HeaderViewHolder -> holder.bind(surveyId)
             is FooterViewHolder -> holder.bind(surveyId)
         }
@@ -93,7 +92,7 @@ class AnswerAdapter(val listener: OnMoreListener) : RecyclerView.Adapter<Recycle
         disposable.dispose()
     }
 
-    class QuestionViewModel(val binding: LayoutQuestionLowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class QuestionViewHolder(val binding: LayoutQuestionLowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MySurveyDetailResponse.Question) {
             binding.apply {
@@ -103,7 +102,7 @@ class AnswerAdapter(val listener: OnMoreListener) : RecyclerView.Adapter<Recycle
         }
     }
 
-    class AnswerViewModel(
+    class AnswerViewHolder(
         val binding: LayoutAnswerLowBinding,
         val listener: OnMoreListener
     ) : RecyclerView.ViewHolder(binding.root) {
